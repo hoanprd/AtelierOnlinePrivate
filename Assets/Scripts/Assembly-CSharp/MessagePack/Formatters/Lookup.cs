@@ -8,13 +8,21 @@ namespace MessagePack.Formatters
 	{
 		private readonly Dictionary<TKey, IGrouping<TKey, TElement>> groupings;
 
-		// C# has no syntax for parameterized property 'Item'.
-		public IEnumerable<TElement> get_Item(TKey key)
+        // C# has no syntax for parameterized property 'Item'.
+        /*public IEnumerable<TElement> get_Item(TKey key)
 		{
 			return null;
-		}
+		}*/
 
-		public int Count
+        public IEnumerable<TElement> this[TKey key]
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        public int Count
 		{
 			get
 			{

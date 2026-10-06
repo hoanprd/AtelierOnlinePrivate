@@ -23,7 +23,6 @@ public class BetterList<T>
 	}
 
 	[DebuggerHidden]
-	[DebuggerHidden]
 	[DebuggerStepThrough]
 	public IEnumerator<T> GetEnumerator()
 	{

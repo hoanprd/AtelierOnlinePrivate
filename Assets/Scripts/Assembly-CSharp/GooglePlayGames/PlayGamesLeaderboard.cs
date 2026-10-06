@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
@@ -11,9 +11,10 @@ namespace GooglePlayGames
 
 		private UserScope mUserScope;
 
-		private Range mRange;
+        //private Range mRange;
+        private UnityEngine.SocialPlatforms.Range mRange;
 
-		private TimeScope mTimeScope;
+        private TimeScope mTimeScope;
 
 		private string[] mFilteredUserIds;
 
@@ -60,7 +61,7 @@ namespace GooglePlayGames
 			}
 		}
 
-		public Range range
+        /*public Range range
 		{
 			get
 			{
@@ -69,9 +70,20 @@ namespace GooglePlayGames
 			set
 			{
 			}
-		}
+		}*/
+        public UnityEngine.SocialPlatforms.Range range
+        {
+            get
+            {
+                // Sửa cả dòng default(Range) bên trong:
+                return default(UnityEngine.SocialPlatforms.Range);
+            }
+            set
+            {
+            }
+        }
 
-		public TimeScope timeScope
+        public TimeScope timeScope
 		{
 			get
 			{

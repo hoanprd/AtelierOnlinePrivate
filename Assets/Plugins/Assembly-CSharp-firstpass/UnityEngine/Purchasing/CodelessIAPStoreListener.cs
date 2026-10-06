@@ -99,7 +99,11 @@ namespace UnityEngine.Purchasing
 		{
 		}
 
-		public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
+        public void OnInitializeFailed(InitializationFailureReason error, string message)
+        {
+        }
+
+        public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
 		{
 			return PurchaseProcessingResult.Complete;
 		}

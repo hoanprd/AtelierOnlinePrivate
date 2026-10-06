@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.UI;
@@ -50,7 +50,11 @@ public class IAPDemo : MonoBehaviour, IStoreListener
 	{
 	}
 
-	public void Awake()
+    public void OnInitializeFailed(InitializationFailureReason error, string message)
+    {
+    }
+
+    public void Awake()
 	{
 	}
 

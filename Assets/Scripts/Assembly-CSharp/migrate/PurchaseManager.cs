@@ -88,7 +88,11 @@ namespace migrate
 		{
 		}
 
-		public void OnPurchaseFailed(Product i, PurchaseFailureReason p)
+        public void OnInitializeFailed(InitializationFailureReason error, string message)
+        {
+        }
+
+        public void OnPurchaseFailed(Product i, PurchaseFailureReason p)
 		{
 		}
 
