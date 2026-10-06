@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 315c8845d9ca948d287d548bb00b7e68, type: 3}
+  m_Name: HealDamage_Frozen
+  m_EditorClassIdentifier:
+  isLocal: 1
+  df: 0
+  methodList:
+  - type: 1
+    name:
+    commandList:
+    - Command: 1
+      ArgList: []
+    - Command: 44
+      ArgList:
+      - TgtMem
+    - Command: 71
+      ArgList:
+      - TgtMem
+    - Command: 70
+      ArgList:
+      - TgtMem
+      - 2
+    - Command: 58
+      ArgList: []
+    - Command: 109
+      ArgList:
+      - 0.5
+    - Command: 113
+      ArgList:
+      - 4
+      - 1
+    - Command: 54
+      ArgList:
+      - Effect
+      - 0
+    - Command: 85
+      ArgList:
+      - Effect
+      - TgtMem
+      - 0
+    - Command: 121
+      ArgList: []
+    - Command: 64
+      ArgList:
+      - TgtMem
+      - b_damage
+    - Command: 34
+      ArgList:
+      - TgtMem
+    - Command: 109
+      ArgList:
+      - 1.0
+    - Command: 69
+      ArgList:
+      - TgtMem
+      - 2
+    - Command: 6
+      ArgList: []
+  animationList: []
+  effectList:
+  - {fileID: 1709254077376921, guid: 46be650475eff624eb3fa22ff13124fb, type: 2}
+  SEList: []

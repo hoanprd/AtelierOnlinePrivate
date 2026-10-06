@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: Container_First
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 1
+    strParamList:
+    - 0
+  - eKind: 2
+    strParamList:
+    - コンテナ①
+    - リュックにあるアイテムをコンテナに預けることができます。
+    - "コールを使って\nコンテナの許容量を増やせるぞ！"
+    - tutorial_tex_t38_01
+  - eKind: 2
+    strParamList:
+    - コンテナ②
+    - コンテナからアイテムを引き出すこともできます。
+    - "冒険に必要なアイテムは\nリュックに入れておこう！"
+    - tutorial_tex_t38_02

@@ -1,0 +1,540 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1709254077376921
+GameObject:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - component: {fileID: 4730242686860875}
+  - component: {fileID: 114724804207875695}
+  m_Layer: 0
+  m_Name: 11_Academy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4730242686860875
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
+--- !u!114 &114724804207875695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f7db9a480b403690a4a83220213122, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  material: {fileID: 2100000, guid: a225233577963104db8265a3e66a5839, type: 2}
+  mSprites:
+  - name: academy_go_arrow01
+    x: 964
+    y: 457
+    width: 57
+    height: 55
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 6
+    paddingRight: 6
+    paddingTop: 7
+    paddingBottom: 7
+  - name: academy_go_arrow02
+    x: 773
+    y: 286
+    width: 69
+    height: 59
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 7
+    paddingBottom: 3
+  - name: alter_btn
+    x: 239
+    y: 230
+    width: 132
+    height: 149
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 27
+    paddingRight: 30
+    paddingTop: 18
+    paddingBottom: 22
+  - name: banner_base
+    x: 0
+    y: 254
+    width: 238
+    height: 125
+    borderLeft: 61
+    borderRight: 61
+    borderTop: 65
+    borderBottom: 33
+    paddingLeft: 9
+    paddingRight: 9
+    paddingTop: 9
+    paddingBottom: 11
+  - name: bokasi
+    x: 0
+    y: 11
+    width: 221
+    height: 70
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 5
+    borderBottom: 5
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: btn_base
+    x: 239
+    y: 9
+    width: 98
+    height: 111
+    borderLeft: 18
+    borderRight: 18
+    borderTop: 18
+    borderBottom: 18
+    paddingLeft: 11
+    paddingRight: 11
+    paddingTop: 3
+    paddingBottom: 6
+  - name: btn_maru_00
+    x: 239
+    y: 121
+    width: 108
+    height: 108
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 9
+    paddingRight: 8
+    paddingTop: 9
+    paddingBottom: 8
+  - name: clock_base
+    x: 823
+    y: 381
+    width: 140
+    height: 131
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 26
+    paddingTop: 3
+    paddingBottom: 38
+  - name: clock_hari
+    x: 222
+    y: 30
+    width: 12
+    height: 51
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 4
+    paddingTop: 2
+    paddingBottom: 45
+  - name: common_launcher_base
+    x: 604
+    y: 143
+    width: 75
+    height: 101
+    borderLeft: 18
+    borderRight: 17
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 5
+    paddingTop: 1
+    paddingBottom: 2
+  - name: composite_btn
+    x: 604
+    y: 245
+    width: 94
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 13
+    paddingTop: 15
+    paddingBottom: 5
+  - name: Container_btn
+    x: 372
+    y: 190
+    width: 94
+    height: 109
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 13
+    paddingTop: 6
+    paddingBottom: 5
+  - name: icon_item01_00001
+    x: 174
+    y: 182
+    width: 35
+    height: 34
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 2
+    paddingBottom: 2
+  - name: icon_item01_00002
+    x: 174
+    y: 217
+    width: 35
+    height: 36
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: icon_time_01
+    x: 372
+    y: 8
+    width: 76
+    height: 76
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 6
+    paddingTop: 7
+    paddingBottom: 6
+  - name: icon_time_02
+    x: 467
+    y: 14
+    width: 73
+    height: 73
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 9
+    paddingRight: 7
+    paddingTop: 9
+    paddingBottom: 7
+  - name: icon_time_03
+    x: 699
+    y: 272
+    width: 73
+    height: 73
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 9
+    paddingRight: 7
+    paddingTop: 9
+    paddingBottom: 7
+  - name: item_mark_base
+    x: 604
+    y: 52
+    width: 80
+    height: 90
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Launcher_Academy_Base01
+    x: 0
+    y: 380
+    width: 822
+    height: 132
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 39
+    paddingRight: 139
+    paddingTop: 50
+    paddingBottom: 0
+  - name: Launcher_Academy_Base02_01
+    x: 995
+    y: 426
+    width: 25
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 3
+    paddingBottom: 0
+  - name: Launcher_Academy_Base02_02
+    x: 200
+    y: 122
+    width: 25
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 4
+    paddingBottom: 0
+  - name: Launcher_Academy_Base02_03
+    x: 174
+    y: 122
+    width: 25
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 4
+    paddingBottom: 0
+  - name: Launcher_Academy_Base02_04
+    x: 995
+    y: 396
+    width: 25
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 4
+    paddingBottom: 0
+  - name: Launcher_Academy_Base02_05
+    x: 210
+    y: 224
+    width: 25
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 4
+    paddingBottom: 0
+  - name: Launcher_Academy_Base02_06
+    x: 210
+    y: 187
+    width: 25
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 4
+    paddingBottom: 0
+  - name: Launcher_Academy_Base02_07
+    x: 174
+    y: 93
+    width: 22
+    height: 28
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 5
+    paddingTop: 5
+    paddingBottom: 0
+  - name: Launcher_Academy_Base02_08
+    x: 197
+    y: 93
+    width: 22
+    height: 28
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 2
+    paddingTop: 5
+    paddingBottom: 0
+  - name: Launcher_Academy_Base02_09
+    x: 174
+    y: 152
+    width: 25
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 4
+    paddingBottom: 0
+  - name: Launcher_Academy_Base02_10
+    x: 200
+    y: 152
+    width: 25
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 4
+    paddingBottom: 0
+  - name: Launcher_Academy_Base07
+    x: 964
+    y: 406
+    width: 30
+    height: 50
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Launcher_base
+    x: 372
+    y: 346
+    width: 347
+    height: 33
+    borderLeft: 122
+    borderRight: 122
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 2
+    paddingTop: 6
+    paddingBottom: 0
+  - name: Light2
+    x: 0
+    y: 82
+    width: 173
+    height: 171
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: name_base
+    x: 372
+    y: 300
+    width: 231
+    height: 45
+    borderLeft: 58
+    borderRight: 45
+    borderTop: 13
+    borderBottom: 13
+    paddingLeft: 27
+    paddingRight: 26
+    paddingTop: 13
+    paddingBottom: 11
+  - name: party_btn
+    x: 372
+    y: 85
+    width: 94
+    height: 104
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 13
+    paddingTop: 11
+    paddingBottom: 5
+  - name: player_state_obj01
+    x: 604
+    y: 4
+    width: 66
+    height: 47
+    borderLeft: 45
+    borderRight: 7
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: ruck_btn
+    x: 467
+    y: 88
+    width: 94
+    height: 101
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 13
+    paddingTop: 14
+    paddingBottom: 5
+  - name: Test
+    x: 467
+    y: 199
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  mPixelSize: 1
+  mReplacement: {fileID: 0}
+  mCoordinates: 0
+  sprites: []
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1709254077376921}
+  m_IsPrefabParent: 1

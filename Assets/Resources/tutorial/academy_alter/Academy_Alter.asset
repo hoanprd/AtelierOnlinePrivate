@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: Academy_Alter
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 3
+    strParamList:
+    - Launcher_On_Out_Btn
+  - eKind: 3
+    strParamList:
+    - Launcher_Menu_Btn_03
+  - eKind: 0
+    strParamList:
+    - t_0103
+  - eKind: 3
+    strParamList:
+    - ItemSelect_Btn
+  - eKind: 0
+    strParamList:
+    - t_0104
+  - eKind: 22
+    strParamList:
+    - 1
+    - MaterialSelect_Bar_Pos01
+  - eKind: 0
+    strParamList:
+    - t_0105
+  - eKind: 22
+    strParamList:
+    - 0
+    - MaterialSelect_Bar_Pos01
+  - eKind: 22
+    strParamList:
+    - 1
+    - MaterialSelect_Bar_Pos02
+  - eKind: 0
+    strParamList:
+    - t_0106
+  - eKind: 22
+    strParamList:
+    - 0
+    - MaterialSelect_Bar_Pos02
+  - eKind: 0
+    strParamList:
+    - t_0107
+  - eKind: 3
+    strParamList:
+    - Alter_Start_Btn_Box
+  - eKind: 0
+    strParamList:
+    - t_0108

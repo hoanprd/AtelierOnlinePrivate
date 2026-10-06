@@ -1,0 +1,172 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 315c8845d9ca948d287d548bb00b7e68, type: 3}
+  m_Name: NormalAttack_08
+  m_EditorClassIdentifier:
+  isLocal: 1
+  df: 0
+  methodList:
+  - type: 4
+    name: NormalAttack_LongRange
+    commandList:
+    - Command: 59
+      ArgList:
+      - NormalAttack_LongRange
+  - type: 2
+    name: Shot
+    commandList:
+    - Command: 2
+      ArgList:
+      - Shot
+    - Command: 64
+      ArgList:
+      - ActMem
+      - b_attack01
+    - Command: 34
+      ArgList:
+      - ActMem
+    - Command: 109
+      ArgList:
+      - 0.6
+    - Command: 48
+      ArgList:
+      - Voice
+    - Command: 54
+      ArgList:
+      - EffMag
+      - 0
+    - Command: 85
+      ArgList:
+      - EffMag
+      - ActMem
+      - D_weapon
+      - 0
+    - Command: 85
+      ArgList:
+      - EffMag
+      - TgtPos
+      - '@HIT'
+      - 0.2
+    - Command: 95
+      ArgList:
+      - 0
+    - Command: 87
+      ArgList:
+      - EffMag
+    - Command: 79
+      ArgList:
+      - EffMag
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: Attack
+    commandList:
+    - Command: 2
+      ArgList:
+      - Attack
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - damage
+      - 1000
+    - Command: 54
+      ArgList:
+      - EffHit
+      - 1
+    - Command: 90
+      ArgList:
+      - EffHit
+      - EffMag
+      - 0
+    - Command: 95
+      ArgList:
+      - 1
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: AttackCritical
+    commandList:
+    - Command: 2
+      ArgList:
+      - AttackCritical
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - damage
+      - 1000
+    - Command: 54
+      ArgList:
+      - EffHit
+      - 2
+    - Command: 90
+      ArgList:
+      - EffHit
+      - EffMag
+      - 0
+    - Command: 95
+      ArgList:
+      - 2
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: HitEffectCover
+    commandList:
+    - Command: 2
+      ArgList:
+      - HitEffectCover
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - damage
+      - 1000
+    - Command: 54
+      ArgList:
+      - EffHit
+      - 3
+    - Command: 90
+      ArgList:
+      - EffHit
+      - TgtMem
+      - 0
+    - Command: 92
+      ArgList:
+      - EffHit
+      - ActMem
+      - 0
+    - Command: 95
+      ArgList:
+      - 3
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: NormalFace
+    commandList:
+    - Command: 2
+      ArgList:
+      - NormalFace
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - normal
+      - 1000
+    - Command: 6
+      ArgList: []
+  animationList: []
+  effectList:
+  - {fileID: 1709254077376921, guid: 7542d7eadb5df474b98a465196ca4bcf, type: 2}
+  - {fileID: 1709254077376921, guid: c2a5f1ff45ffbdb41bf44e546893e642, type: 2}
+  - {fileID: 1709254077376921, guid: c2a5f1ff45ffbdb41bf44e546893e642, type: 2}
+  - {fileID: 1709254077376921, guid: c2a5f1ff45ffbdb41bf44e546893e642, type: 2}
+  SEList:
+  - {fileID: 8300000, guid: ca5b5b1395aa6d04692a926b9fa366ce, type: 3}
+  - {fileID: 8300000, guid: 18dafaab5347e0440b857a0eae4e3681, type: 3}
+  - {fileID: 8300000, guid: ea0e509d8068084499704277d37fee25, type: 3}
+  - {fileID: 8300000, guid: 15f892a6a7fc61941863bf8060c5fa18, type: 3}

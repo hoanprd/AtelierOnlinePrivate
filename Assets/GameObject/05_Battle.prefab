@@ -1,0 +1,878 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1709254077376921
+GameObject:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - component: {fileID: 4730242686860875}
+  - component: {fileID: 114724804207875695}
+  m_Layer: 0
+  m_Name: 05_Battle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4730242686860875
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
+--- !u!114 &114724804207875695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f7db9a480b403690a4a83220213122, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  material: {fileID: 2100000, guid: c2b041d9184a8034fa0c8153b4efa679, type: 2}
+  mSprites:
+  - name: 00_blazearts_back
+    x: 513
+    y: 896
+    width: 439
+    height: 128
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 36
+    paddingRight: 37
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 01_blazearts_b
+    x: 177
+    y: 516
+    width: 112
+    height: 122
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 9
+    paddingTop: 4
+    paddingBottom: 2
+  - name: 01_blazearts_b_s
+    x: 177
+    y: 393
+    width: 112
+    height: 122
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 9
+    paddingTop: 4
+    paddingBottom: 2
+  - name: 02_blazearts_l
+    x: 393
+    y: 424
+    width: 98
+    height: 111
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 17
+    paddingTop: 9
+    paddingBottom: 8
+  - name: 02_blazearts_l_s
+    x: 393
+    y: 312
+    width: 98
+    height: 111
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 17
+    paddingTop: 9
+    paddingBottom: 8
+  - name: 03_blazearts_a
+    x: 177
+    y: 15
+    width: 102
+    height: 125
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 18
+    paddingRight: 8
+    paddingTop: 0
+    paddingBottom: 3
+  - name: 03_blazearts_a_s
+    x: 290
+    y: 513
+    width: 102
+    height: 125
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 18
+    paddingRight: 8
+    paddingTop: 0
+    paddingBottom: 3
+  - name: 04_blazearts_z
+    x: 177
+    y: 267
+    width: 105
+    height: 125
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 7
+    paddingTop: 2
+    paddingBottom: 1
+  - name: 04_blazearts_z_s
+    x: 177
+    y: 141
+    width: 105
+    height: 125
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 7
+    paddingTop: 2
+    paddingBottom: 1
+  - name: 05_blazearts_e
+    x: 492
+    y: 321
+    width: 96
+    height: 108
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 17
+    paddingTop: 13
+    paddingBottom: 7
+  - name: 05_blazearts_e_s
+    x: 492
+    y: 212
+    width: 96
+    height: 108
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 17
+    paddingTop: 13
+    paddingBottom: 7
+  - name: 06_blazearts_a
+    x: 0
+    y: 205
+    width: 111
+    height: 127
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 10
+    paddingRight: 7
+    paddingTop: 0
+    paddingBottom: 1
+  - name: 06_blazearts_a_s
+    x: 0
+    y: 77
+    width: 111
+    height: 127
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 10
+    paddingRight: 7
+    paddingTop: 0
+    paddingBottom: 1
+  - name: 07_blazearts_r
+    x: 393
+    y: 90
+    width: 98
+    height: 110
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 17
+    paddingTop: 13
+    paddingBottom: 5
+  - name: 07_blazearts_r_s
+    x: 393
+    y: 201
+    width: 98
+    height: 110
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 17
+    paddingTop: 13
+    paddingBottom: 5
+  - name: 08_blazearts_t
+    x: 596
+    y: 437
+    width: 86
+    height: 98
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 27
+    paddingTop: 18
+    paddingBottom: 12
+  - name: 08_blazearts_t_s
+    x: 929
+    y: 540
+    width: 86
+    height: 98
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 27
+    paddingTop: 18
+    paddingBottom: 12
+  - name: 09_blazearts_s
+    x: 290
+    y: 391
+    width: 100
+    height: 121
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 21
+    paddingTop: 1
+    paddingBottom: 6
+  - name: 09_blazearts_s_s
+    x: 290
+    y: 269
+    width: 100
+    height: 121
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 21
+    paddingTop: 1
+    paddingBottom: 6
+  - name: 10_blazearts_ex
+    x: 290
+    y: 144
+    width: 91
+    height: 124
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 12
+    paddingRight: 25
+    paddingTop: 0
+    paddingBottom: 4
+  - name: 10_blazearts_ex_s
+    x: 290
+    y: 19
+    width: 91
+    height: 124
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 12
+    paddingRight: 25
+    paddingTop: 0
+    paddingBottom: 4
+  - name: action_turn_chara_base
+    x: 963
+    y: 783
+    width: 50
+    height: 50
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 3
+    paddingTop: 3
+    paddingBottom: 2
+  - name: action_turn_chara_base_fram
+    x: 857
+    y: 652
+    width: 50
+    height: 50
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 3
+    paddingTop: 3
+    paddingBottom: 2
+  - name: action_turn_chara_base_light
+    x: 908
+    y: 654
+    width: 48
+    height: 48
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: brazearts_back
+    x: 0
+    y: 768
+    width: 512
+    height: 256
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: brazearts_line_under
+    x: 0
+    y: 703
+    width: 512
+    height: 64
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: brazearts_line_up
+    x: 0
+    y: 639
+    width: 512
+    height: 63
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 1
+    paddingBottom: 0
+  - name: btn_icon_2speed
+    x: 995
+    y: 646
+    width: 19
+    height: 26
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 17
+    paddingRight: 18
+    paddingTop: 14
+    paddingBottom: 14
+  - name: btn_icon_escape
+    x: 977
+    y: 724
+    width: 44
+    height: 43
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 12
+    paddingRight: 8
+    paddingTop: 10
+    paddingBottom: 11
+  - name: btn_icon_stop
+    x: 765
+    y: 707
+    width: 25
+    height: 23
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 14
+    paddingTop: 16
+    paddingBottom: 15
+  - name: btn_maru_L
+    x: 683
+    y: 467
+    width: 67
+    height: 68
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 3
+    paddingTop: 4
+    paddingBottom: 3
+  - name: btn_skill_base00
+    x: 764
+    y: 782
+    width: 198
+    height: 113
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 13
+    paddingTop: 9
+    paddingBottom: 4
+  - name: btn_skill_base01
+    x: 623
+    y: 542
+    width: 110
+    height: 96
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 7
+    paddingBottom: 8
+  - name: btn_skill_base03
+    x: 830
+    y: 551
+    width: 98
+    height: 87
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 4
+    paddingTop: 11
+    paddingBottom: 8
+  - name: btn_skill_base04
+    x: 393
+    y: 13
+    width: 75
+    height: 76
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 5
+    paddingTop: 5
+    paddingBottom: 3
+  - name: btn_skill_ON
+    x: 393
+    y: 536
+    width: 115
+    height: 102
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 4
+    paddingTop: 3
+    paddingBottom: 4
+  - name: btn_skill_ON2
+    x: 509
+    y: 538
+    width: 113
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 5
+    paddingTop: 4
+    paddingBottom: 5
+  - name: chain_gauge
+    x: 0
+    y: 462
+    width: 176
+    height: 176
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: chara_base
+    x: 0
+    y: 2
+    width: 82
+    height: 74
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 2
+    paddingTop: 1
+    paddingBottom: 2
+  - name: chara_gage_hp_00
+    x: 513
+    y: 773
+    width: 40
+    height: 17
+    borderLeft: 12
+    borderRight: 12
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 2
+  - name: chara_gage_hp_01
+    x: 554
+    y: 781
+    width: 30
+    height: 9
+    borderLeft: 4
+    borderRight: 4
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 6
+    paddingRight: 6
+    paddingTop: 5
+    paddingBottom: 6
+  - name: circle_base
+    x: 963
+    y: 834
+    width: 61
+    height: 61
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 4
+    paddingTop: 6
+    paddingBottom: 3
+  - name: enemy_mark
+    x: 995
+    y: 673
+    width: 27
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 11
+    paddingRight: 12
+    paddingTop: 11
+    paddingBottom: 10
+  - name: enemy_mark_02
+    x: 691
+    y: 704
+    width: 36
+    height: 26
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 7
+    paddingTop: 13
+    paddingBottom: 11
+  - name: enemy_name_base_01
+    x: 513
+    y: 662
+    width: 197
+    height: 40
+    borderLeft: 8
+    borderRight: 137
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 6
+    paddingTop: 9
+    paddingBottom: 16
+  - name: enemy_name_base_02
+    x: 799
+    y: 721
+    width: 177
+    height: 46
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 7
+    borderBottom: 6
+    paddingLeft: 9
+    paddingRight: 1
+    paddingTop: 10
+    paddingBottom: 11
+  - name: fairy_mark_01
+    x: 728
+    y: 706
+    width: 36
+    height: 24
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 6
+    paddingRight: 6
+    paddingTop: 5
+    paddingBottom: 3
+  - name: fairy_mark_02
+    x: 644
+    y: 707
+    width: 46
+    height: 23
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 8
+    paddingBottom: 1
+  - name: item_base
+    x: 957
+    y: 654
+    width: 37
+    height: 48
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 6
+    paddingTop: 1
+    paddingBottom: 1
+  - name: material_btn_base01
+    x: 734
+    y: 537
+    width: 95
+    height: 101
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: reaction_chara_name_base
+    x: 786
+    y: 658
+    width: 70
+    height: 44
+    borderLeft: 20
+    borderRight: 20
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 3
+    paddingTop: 6
+    paddingBottom: 0
+  - name: skill_gauge_00
+    x: 492
+    y: 430
+    width: 103
+    height: 105
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 8
+    borderBottom: 5
+    paddingLeft: 0
+    paddingRight: 1
+    paddingTop: 0
+    paddingBottom: 0
+  - name: skill_name_base
+    x: 513
+    y: 731
+    width: 285
+    height: 36
+    borderLeft: 20
+    borderRight: 64
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 8
+    paddingTop: 7
+    paddingBottom: 8
+  - name: skill_name_base_nomal
+    x: 83
+    y: 0
+    width: 77
+    height: 76
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 2
+  - name: skill_reserved_mark
+    x: 129
+    y: 381
+    width: 37
+    height: 38
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 2
+    paddingTop: 1
+    paddingBottom: 1
+  - name: target_cursor_enemy
+    x: 129
+    y: 420
+    width: 37
+    height: 41
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 7
+    paddingTop: 15
+    paddingBottom: 6
+  - name: target_cursor_enemy1
+    x: 585
+    y: 777
+    width: 13
+    height: 13
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 3
+    paddingTop: 3
+    paddingBottom: 3
+  - name: Target_select_base
+    x: 711
+    y: 659
+    width: 74
+    height: 43
+    borderLeft: 33
+    borderRight: 33
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 1
+    paddingBottom: 0
+  - name: Target_select_base02
+    x: 953
+    y: 955
+    width: 69
+    height: 69
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 1
+    paddingBottom: 0
+  - name: txt_dir_base
+    x: 513
+    y: 791
+    width: 250
+    height: 104
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 3
+    paddingTop: 2
+    paddingBottom: 0
+  - name: txt_dir_base2
+    x: 513
+    y: 703
+    width: 130
+    height: 27
+    borderLeft: 48
+    borderRight: 48
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 3
+    paddingTop: 4
+    paddingBottom: 6
+  - name: txt_dir_base2_1
+    x: 953
+    y: 896
+    width: 58
+    height: 58
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 19
+    paddingTop: 17
+    paddingBottom: 18
+  - name: zone_base
+    x: 0
+    y: 333
+    width: 128
+    height: 128
+    borderLeft: 50
+    borderRight: 50
+    borderTop: 50
+    borderBottom: 50
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  mPixelSize: 1
+  mReplacement: {fileID: 0}
+  mCoordinates: 0
+  sprites: []
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1709254077376921}
+  m_IsPrefabParent: 1

@@ -1,0 +1,23 @@
+public enum ECategory
+{
+	eNONE = 0,
+	eMATERIAL = 11,
+	eRECOVERY = 12,
+	eBOMB = 13,
+	eSUPPORT = 14,
+	eTOOL = 15,
+	eFOOD = 16,
+	eUNIQUE = 17,
+	eWEAPON = 20,
+	eSHIELD = 21,
+	eHELM = 31,
+	eARMOR = 32,
+	eACCESSORY = 40,
+	eGROW_CHARA = 50,
+	eGROW_WEAPON = 51,
+	eGROW_ARMOR = 52,
+	eGROW_ACCESSORY = 53,
+	eGROW_STONE = 54,
+	eGROW_OTHER = 55,
+	eGROW_BLAZE_ARTS = 56
+}

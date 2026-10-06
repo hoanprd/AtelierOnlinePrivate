@@ -1,0 +1,16 @@
+using System.Collections.Generic;
+
+namespace MessagePack.Formatters
+{
+	public sealed class GenericCollectionFormatter<TElement, TCollection> : CollectionFormatterBase<TElement, TCollection> where TCollection : ICollection<TElement>, new()
+	{
+		protected override TCollection Create(int count)
+		{
+			return default(TCollection);
+		}
+
+		protected override void Add(TCollection collection, int index, TElement value)
+		{
+		}
+	}
+}

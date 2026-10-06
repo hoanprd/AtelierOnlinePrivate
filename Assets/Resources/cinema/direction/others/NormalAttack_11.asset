@@ -1,0 +1,177 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 315c8845d9ca948d287d548bb00b7e68, type: 3}
+  m_Name: NormalAttack_11
+  m_EditorClassIdentifier:
+  isLocal: 1
+  df: 0
+  methodList:
+  - type: 1
+    name:
+    commandList:
+    - Command: 1
+      ArgList: []
+    - Command: 42
+      ArgList:
+      - LoopCount
+    - Command: 5
+      ArgList:
+      - TgtIdx
+      - LoopCount
+    - Command: 9
+      ArgList:
+      - ActMem
+    - Command: 44
+      ArgList:
+      - TgtMem
+      - TgtIdx
+    - Command: 71
+      ArgList:
+      - ActMem
+    - Command: 71
+      ArgList:
+      - TgtMem
+      - 1
+    - Command: 70
+      ArgList:
+      - ActMem
+      - 1
+    - Command: 70
+      ArgList:
+      - TgtMem
+      - 2
+    - Command: 37
+      ArgList:
+      - TgtMem
+    - Command: 82
+      ArgList:
+      - ActMem
+      - TgtMem
+      - 0.2
+    - Command: 82
+      ArgList:
+      - TgtMem
+      - ActMem
+      - 0.2
+    - Command: 109
+      ArgList:
+      - 0.2
+    - Command: 58
+      ArgList: []
+    - Command: 64
+      ArgList:
+      - ActMem
+      - b_attack01
+    - Command: 109
+      ArgList:
+      - 0.8
+    - Command: 72
+      ArgList:
+      - TgtPos
+    - Command: 85
+      ArgList:
+      - TgtPos
+      - TgtMem
+      - 0
+    - Command: 92
+      ArgList:
+      - TgtPos
+      - TgtMem
+      - 0
+    - Command: 62
+      ArgList:
+      - TgtPos
+      - '@HIT'
+      - 0
+      - 0.5
+      - 0.5
+    - Command: 54
+      ArgList:
+      - EffMag
+      - 0
+    - Command: 90
+      ArgList:
+      - EffMag
+      - ActMem
+      - D_weapon
+      - 0
+    - Command: 85
+      ArgList:
+      - EffMag
+      - TgtPos
+      - '@HIT'
+      - 0.05
+    - Command: 95
+      ArgList:
+      - 0
+    - Command: 87
+      ArgList:
+      - EffMag
+    - Command: 54
+      ArgList:
+      - EffHit
+      - 1
+    - Command: 90
+      ArgList:
+      - EffHit
+      - EffMag
+      - 0
+    - Command: 79
+      ArgList:
+      - EffMag
+    - Command: 15
+      ArgList: []
+    - Command: 21
+      ArgList:
+      - TgtIdx
+    - Command: 64
+      ArgList:
+      - TgtMem
+      - b_damage
+    - Command: 101
+      ArgList:
+      - 0.5
+    - Command: 109
+      ArgList:
+      - 0.3
+    - Command: 101
+      ArgList:
+      - 1.0
+    - Command: 35
+      ArgList:
+      - TgtMem
+    - Command: 33
+      ArgList:
+      - TgtMem
+    - Command: 69
+      ArgList:
+      - TgtMem
+      - 2
+    - Command: 65
+      ArgList:
+      - ActMem
+    - Command: 33
+      ArgList:
+      - ActMem
+    - Command: 69
+      ArgList:
+      - ActMem
+      - 1
+    - Command: 6
+      ArgList: []
+    - Command: 6
+      ArgList: []
+  animationList: []
+  effectList:
+  - {fileID: 1709254077376921, guid: 7542d7eadb5df474b98a465196ca4bcf, type: 2}
+  - {fileID: 1709254077376921, guid: c2a5f1ff45ffbdb41bf44e546893e642, type: 2}
+  SEList:
+  - {fileID: 8300000, guid: 18dafaab5347e0440b857a0eae4e3681, type: 3}

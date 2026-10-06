@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: Training_First
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 1
+    strParamList:
+    - 0
+  - eKind: 2
+    strParamList:
+    - キャラの成長/育成
+    - "【育成】を行うことで、キャラクターのLvを上げることができます。\n育成にはEXPポーションが必要です。"
+    - "お気に入りのキャラを\n育成しよう！"
+    - tutorial_tex_t15_01
+  - eKind: 2
+    strParamList:
+    - キャラの成長/強化
+    - "指定された料理を全てそろえてごちそうすると、\nキャラクターステータスを【強化】することができます。"
+    - "ごちそうして\nもっとステータスアップ！"
+    - tutorial_tex_t15_02
+  - eKind: 2
+    strParamList:
+    - キャラの成長/限界突破
+    - "【限界突破】するとLv上限が上がり、【強化】回数が増えます。\n限界突破にはキャラごとの限界キャンディが必要です。"
+    - "ランクアップして\nもっと育てよう！"
+    - tutorial_tex_t15_03

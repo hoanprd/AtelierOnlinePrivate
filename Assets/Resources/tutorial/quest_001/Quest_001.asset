@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: Quest_001
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 44
+    strParamList:
+    - 1
+    - クエストの進め方
+  - eKind: 43
+    strParamList:
+    - 1
+  - eKind: 0
+    strParamList:
+    - QuestADV_010
+  - eKind: 1
+    strParamList:
+    - 0
+  - eKind: 2
+    strParamList:
+    - クエストボード
+    - "依頼や授業の課題など、様々なクエストが掲載されています。\n達成できそうなクエストにはどんどん挑戦しましょう。"
+    - "クエストを達成して\n報酬をもらおう！"
+    - tutorial_tex_t12_01
+  - eKind: 0
+    strParamList:
+    - QuestADV_020
+  - eKind: 40
+    strParamList:
+    - Quest_Btn
+    - 2
+  - eKind: 3
+    strParamList:
+    - Quest_Btn
+    - 1
+  - eKind: 0
+    strParamList:
+    - QuestADV_030
+  - eKind: 3
+    strParamList:
+    - QuestType_Tab_1_Btn_04
+    - 1
+  - eKind: 0
+    strParamList:
+    - QuestADV_040
+  - eKind: 3
+    strParamList:
+    - Quest_Orders_Btn
+    - 1
+  - eKind: 0
+    strParamList:
+    - QuestADV_050
+  - eKind: 43
+    strParamList:
+    - 0
+  - eKind: 3
+    strParamList:
+    - Back_Btn
+    - 1
+  - eKind: 30
+    strParamList:
+    - 

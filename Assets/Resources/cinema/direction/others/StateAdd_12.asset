@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 315c8845d9ca948d287d548bb00b7e68, type: 3}
+  m_Name: StateAdd_12
+  m_EditorClassIdentifier:
+  isLocal: 1
+  df: 0
+  methodList:
+  - type: 1
+    name:
+    commandList:
+    - Command: 1
+      ArgList:
+      - Member
+      - Target
+    - Command: 42
+      ArgList:
+      - LoopCount
+    - Command: 5
+      ArgList:
+      - TgtIdx
+      - LoopCount
+    - Command: 44
+      ArgList:
+      - TgtMem
+      - TgtIdx
+    - Command: 71
+      ArgList:
+      - TgtMem
+    - Command: 70
+      ArgList:
+      - TgtMem
+      - 2
+    - Command: 6
+      ArgList: []
+    - Command: 109
+      ArgList:
+      - 0.4
+    - Command: 113
+      ArgList:
+      - 2
+      - 0
+    - Command: 5
+      ArgList:
+      - TgtIdx
+      - LoopCount
+    - Command: 44
+      ArgList:
+      - TgtMem
+      - TgtIdx
+    - Command: 95
+      ArgList:
+      - 0
+    - Command: 54
+      ArgList:
+      - Effect
+      - 0
+    - Command: 85
+      ArgList:
+      - Effect
+      - TgtMem
+      - 0
+    - Command: 97
+      ArgList:
+      - TgtMem
+    - Command: 6
+      ArgList: []
+    - Command: 58
+      ArgList: []
+    - Command: 109
+      ArgList:
+      - 2.0
+    - Command: 5
+      ArgList:
+      - TgtIdx
+      - LoopCount
+    - Command: 44
+      ArgList:
+      - TgtMem
+      - TgtIdx
+    - Command: 69
+      ArgList:
+      - TgtMem
+      - 2
+    - Command: 6
+      ArgList: []
+    - Command: 6
+      ArgList: []
+  animationList: []
+  effectList:
+  - {fileID: 1709254077376921, guid: c9d7efd5d71b06744ab470088c8022df, type: 2}
+  SEList:
+  - {fileID: 8300000, guid: 1a3dec256d3102f4dae24fed3a84d259, type: 3}

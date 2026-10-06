@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: sample
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 0
+    strParamList:
+    - tutorial_0001
+  - eKind: 3
+    strParamList:
+    - ボタン1
+    - 
+    - 
+  - eKind: 1
+    strParamList:
+    - 5
+    - 基本操作
+    - 
+  - eKind: 2
+    strParamList:
+    - tutorial_00001
+    - "行きたい方向へスライドすると、バーチャルパッドが表示されて\nキャラクターが動きます。"
+  - eKind: 2
+    strParamList:
+    - tutorial_00002
+    - "または、移動したい箇所をタップするだけでも\nキャラクターが動きます。"
+  - eKind: 2
+    strParamList:
+    - tutorial_00003
+    - 操作方法は、[メニュー]＞[その他]＞[移動方法]で設定変更できます。

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Oregano
+  m_Controller: {fileID: 9100000, guid: 43cf53bc36006b948a665ef35369a218, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: a56918f749a1ca84c82d7a8bf0e3fb36, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: fa3010e00f6297d4c82ff34fe78077ce, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5ba093484e2516f4790543d42c904a88, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: add036dc1de0b4349ad9f5f916bff290, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5281b05894975454581cc11be2885795, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9b593a96ce4ba2d4d807d1ac806d3d04, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 3d145ff541a0d534e9f6eeab55d649c5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c53261f4b5442e64eaf33580ac8b6c2b, type: 2}

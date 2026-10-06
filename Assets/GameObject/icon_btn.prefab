@@ -1,0 +1,514 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1709254077376921
+GameObject:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - component: {fileID: 4730242686860875}
+  - component: {fileID: 114724804207875695}
+  m_Layer: 0
+  m_Name: icon_btn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4730242686860875
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
+--- !u!114 &114724804207875695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f7db9a480b403690a4a83220213122, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  material: {fileID: 2100000, guid: 9e10ba146a5a9764091c0568bc571b6f, type: 2}
+  mSprites:
+  - name: btn_icon_back
+    x: 86
+    y: 144
+    width: 42
+    height: 33
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 11
+    paddingRight: 11
+    paddingTop: 16
+    paddingBottom: 15
+  - name: btn_icon_list
+    x: 33
+    y: 55
+    width: 31
+    height: 20
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 17
+    paddingRight: 16
+    paddingTop: 21
+    paddingBottom: 23
+  - name: btn_icon_menu01
+    x: 130
+    y: 107
+    width: 34
+    height: 39
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 15
+    paddingTop: 12
+    paddingBottom: 13
+  - name: btn_icon_menu02
+    x: 0
+    y: 97
+    width: 42
+    height: 31
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 11
+    paddingRight: 11
+    paddingTop: 17
+    paddingBottom: 16
+  - name: btn_icon_menu03
+    x: 187
+    y: 214
+    width: 36
+    height: 42
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 12
+    paddingTop: 8
+    paddingBottom: 14
+  - name: btn_icon_menu03_1
+    x: 166
+    y: 73
+    width: 35
+    height: 35
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 14
+    paddingTop: 12
+    paddingBottom: 17
+  - name: btn_icon_menu06
+    x: 140
+    y: 222
+    width: 45
+    height: 34
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 11
+    paddingRight: 8
+    paddingTop: 12
+    paddingBottom: 18
+  - name: btn_icon_menu07
+    x: 0
+    y: 137
+    width: 33
+    height: 41
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 15
+    paddingTop: 9
+    paddingBottom: 14
+  - name: btn_icon_menu08
+    x: 0
+    y: 65
+    width: 31
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 17
+    paddingRight: 16
+    paddingTop: 16
+    paddingBottom: 18
+  - name: btn_icon_menu09
+    x: 201
+    y: 33
+    width: 35
+    height: 31
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 14
+    paddingTop: 14
+    paddingBottom: 19
+  - name: btn_icon_menu10
+    x: 222
+    y: 177
+    width: 29
+    height: 35
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 18
+    paddingRight: 17
+    paddingTop: 12
+    paddingBottom: 17
+  - name: btn_icon_menu12
+    x: 180
+    y: 177
+    width: 40
+    height: 35
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 12
+    paddingRight: 12
+    paddingTop: 13
+    paddingBottom: 16
+  - name: btn_icon_menu13
+    x: 38
+    y: 171
+    width: 46
+    height: 31
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 10
+    paddingRight: 8
+    paddingTop: 12
+    paddingBottom: 21
+  - name: btn_icon_menu14
+    x: 107
+    y: 69
+    width: 32
+    height: 36
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 16
+    paddingTop: 10
+    paddingBottom: 18
+  - name: btn_icon_menu15
+    x: 107
+    y: 109
+    width: 12
+    height: 33
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 26
+    paddingRight: 26
+    paddingTop: 15
+    paddingBottom: 16
+  - name: btn_icon_menu16
+    x: 180
+    y: 142
+    width: 41
+    height: 33
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 12
+    paddingRight: 11
+    paddingTop: 17
+    paddingBottom: 14
+  - name: btn_icon_menu17
+    x: 44
+    y: 77
+    width: 40
+    height: 24
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 12
+    paddingRight: 12
+    paddingTop: 19
+    paddingBottom: 21
+  - name: btn_icon_menu18
+    x: 39
+    y: 204
+    width: 51
+    height: 52
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 8
+    paddingRight: 5
+    paddingTop: 5
+    paddingBottom: 7
+  - name: btn_icon_menu22
+    x: 0
+    y: 180
+    width: 36
+    height: 42
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 12
+    paddingTop: 8
+    paddingBottom: 14
+  - name: btn_icon_menu23
+    x: 211
+    y: 104
+    width: 35
+    height: 36
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 17
+    paddingRight: 12
+    paddingTop: 11
+    paddingBottom: 17
+  - name: btn_icon_menu24
+    x: 92
+    y: 218
+    width: 46
+    height: 38
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 14
+    paddingRight: 4
+    paddingTop: 14
+    paddingBottom: 12
+  - name: btn_icon_menu25
+    x: 225
+    y: 229
+    width: 26
+    height: 27
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 20
+    paddingRight: 18
+    paddingTop: 17
+    paddingBottom: 20
+  - name: btn_icon_menu26
+    x: 141
+    y: 39
+    width: 35
+    height: 32
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 13
+    paddingTop: 15
+    paddingBottom: 17
+  - name: btn_icon_menu27
+    x: 71
+    y: 103
+    width: 34
+    height: 39
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 15
+    paddingTop: 12
+    paddingBottom: 13
+  - name: btn_icon_menu28
+    x: 35
+    y: 130
+    width: 34
+    height: 39
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 15
+    paddingTop: 12
+    paddingBottom: 13
+  - name: btn_icon_menu30
+    x: 0
+    y: 224
+    width: 37
+    height: 32
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 14
+    paddingRight: 13
+    paddingTop: 13
+    paddingBottom: 19
+  - name: btn_icon_mission
+    x: 166
+    y: 110
+    width: 43
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 14
+    paddingRight: 7
+    paddingTop: 16
+    paddingBottom: 18
+  - name: btn_icon_pick_up1
+    x: 140
+    y: 181
+    width: 38
+    height: 39
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 14
+    paddingRight: 12
+    paddingTop: 13
+    paddingBottom: 12
+  - name: btn_icon_pick_up2
+    x: 92
+    y: 179
+    width: 39
+    height: 37
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 14
+    paddingRight: 11
+    paddingTop: 14
+    paddingBottom: 13
+  - name: btn_icon_questtype01
+    x: 201
+    y: 2
+    width: 35
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 14
+    paddingTop: 17
+    paddingBottom: 18
+  - name: btn_icon_questtype02
+    x: 203
+    y: 66
+    width: 34
+    height: 36
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 15
+    paddingTop: 14
+    paddingBottom: 14
+  - name: btn_icon_ranking
+    x: 133
+    y: 148
+    width: 45
+    height: 31
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 10
+    paddingRight: 9
+    paddingTop: 14
+    paddingBottom: 19
+  - name: btn_icon_stamp
+    x: 223
+    y: 142
+    width: 30
+    height: 33
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 17
+    paddingRight: 17
+    paddingTop: 13
+    paddingBottom: 18
+  - name: btn_icon_talk1
+    x: 66
+    y: 69
+    width: 33
+    height: 6
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 15
+    paddingTop: 29
+    paddingBottom: 29
+  - name: icon_item_category_2001
+    x: 178
+    y: 18
+    width: 21
+    height: 53
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 22
+    paddingRight: 21
+    paddingTop: 6
+    paddingBottom: 5
+  mPixelSize: 1
+  mReplacement: {fileID: 0}
+  mCoordinates: 0
+  sprites: []
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1709254077376921}
+  m_IsPrefabParent: 1

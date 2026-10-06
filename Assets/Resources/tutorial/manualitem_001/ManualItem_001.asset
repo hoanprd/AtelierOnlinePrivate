@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: ManualItem_001
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 0
+    strParamList:
+    - ManualItemADV_005
+  - eKind: 44
+    strParamList:
+    - 1
+    - 戦闘用アイテム設定の方法
+  - eKind: 43
+    strParamList:
+    - 1
+  - eKind: 3
+    strParamList:
+    - Launcher_On_Out_Btn
+    - 1
+  - eKind: 3
+    strParamList:
+    - Launcher_Menu_Btn_03
+    - 1
+  - eKind: 0
+    strParamList:
+    - ManualItemADV_020
+  - eKind: 3
+    strParamList:
+    - ItemSet_Btn
+    - 1
+  - eKind: 0
+    strParamList:
+    - ManualItemADV_025
+  - eKind: 3
+    strParamList:
+    - ManualItem_Btn
+    - 1
+  - eKind: 0
+    strParamList:
+    - ManualItemADV_030
+  - eKind: 3
+    strParamList:
+    - Puniball_Btn
+    - 1
+  - eKind: 0
+    strParamList:
+    - ManualItemADV_040
+  - eKind: 3
+    strParamList:
+    - Material_Decision_Btn
+    - 1
+  - eKind: 3
+    strParamList:
+    - Back_Btn
+    - 1
+  - eKind: 43
+    strParamList:
+    - 0
+  - eKind: 3
+    strParamList:
+    - 03Wid_Back_Btn
+  - eKind: 30
+    strParamList: []
+  - eKind: 1
+    strParamList:
+    - 0
+  - eKind: 2
+    strParamList:
+    - 戦闘用アイテム装備
+    - パーティ編成で戦闘中のアイテムを設定！
+    - "時には自分で\nアイテムを使おう!!"
+    - tutorial_tex_t30_01
+  - eKind: 0
+    strParamList:
+    - ManualItemADV_050

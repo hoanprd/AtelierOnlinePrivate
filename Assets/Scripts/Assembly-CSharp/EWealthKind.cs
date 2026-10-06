@@ -1,0 +1,15 @@
+public enum EWealthKind
+{
+	eCALL = 1,
+	eETHER = 2,
+	eTICKET = 3,
+	eSPOON = 4,
+	eEXCEED_PLAYER = 6,
+	eEXCEED_03 = 7,
+	eEXCEED_04 = 8,
+	eEXCEED_05 = 9,
+	eEXCEED_06 = 10,
+	eREVIVETICKET = 11,
+	eLIMITFLOOD = 86,
+	eCONTRIBUTION = 9999
+}

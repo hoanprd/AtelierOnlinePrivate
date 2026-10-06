@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: Academy_Container
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 0
+    strParamList:
+    - tutorial_0202
+  - eKind: 1
+    strParamList:
+    - 0
+  - eKind: 2
+    strParamList:
+    - アカデミー / コンテナ
+    - "採取した素材は、アカデミーに戻ると自動的にコンテナに入ります。\n探索に持っていくには、リュックに移しかえましょう。"
+    - "持っていきたいアイテムは、\nコンテナから取り出そう！"
+    - tutorial_tex_t17_01

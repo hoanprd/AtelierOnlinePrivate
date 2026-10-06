@@ -1,0 +1,371 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1709254077376921
+GameObject:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - component: {fileID: 4730242686860875}
+  - component: {fileID: 114724804207875695}
+  m_Layer: 0
+  m_Name: 04_Field_Launcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4730242686860875
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
+--- !u!114 &114724804207875695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f7db9a480b403690a4a83220213122, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  material: {fileID: 2100000, guid: 48e550b8a5dc22d41982072bdfc7db92, type: 2}
+  mSprites:
+  - name: alter_btn
+    x: 868
+    y: 875
+    width: 132
+    height: 149
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 27
+    paddingRight: 30
+    paddingTop: 18
+    paddingBottom: 22
+  - name: btn_icon_auto_pick_up_off
+    x: 941
+    y: 820
+    width: 57
+    height: 53
+    borderLeft: 28
+    borderRight: 28
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 5
+    paddingBottom: 2
+  - name: btn_icon_auto_pick_up_on
+    x: 941
+    y: 765
+    width: 57
+    height: 53
+    borderLeft: 28
+    borderRight: 28
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 5
+    paddingBottom: 2
+  - name: btn_icon_auto_pick_up_overwrap
+    x: 955
+    y: 719
+    width: 44
+    height: 44
+    borderLeft: 22
+    borderRight: 22
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 8
+    paddingRight: 8
+    paddingTop: 8
+    paddingBottom: 8
+  - name: composite_btn
+    x: 774
+    y: 667
+    width: 94
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 13
+    paddingTop: 15
+    paddingBottom: 5
+  - name: icon_auto_pick_up
+    x: 774
+    y: 771
+    width: 36
+    height: 34
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 5
+    paddingBottom: 1
+  - name: Launcher_Field_Base00
+    x: 905
+    y: 715
+    width: 48
+    height: 48
+    borderLeft: 4
+    borderRight: 2
+    borderTop: 8
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 4
+    paddingBottom: 1
+  - name: Launcher_Field_Base01
+    x: 0
+    y: 879
+    width: 447
+    height: 145
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 174
+    borderBottom: 1
+    paddingLeft: 0
+    paddingRight: 39
+    paddingTop: 37
+    paddingBottom: 0
+  - name: Launcher_Field_Base02
+    x: 449
+    y: 887
+    width: 417
+    height: 137
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 131
+    borderBottom: 3
+    paddingLeft: 3
+    paddingRight: 4
+    paddingTop: 5
+    paddingBottom: 1
+  - name: Launcher_Field_Base03
+    x: 449
+    y: 728
+    width: 227
+    height: 157
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 67
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Launcher_Field_Base04
+    x: 678
+    y: 807
+    width: 165
+    height: 78
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Launcher_Field_Base05
+    x: 870
+    y: 694
+    width: 33
+    height: 73
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 62
+    borderBottom: 2
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 5
+    paddingBottom: 0
+  - name: Launcher_Field_Base07_01
+    x: 932
+    y: 655
+    width: 25
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 3
+    paddingBottom: 0
+  - name: Launcher_Field_Base07_02
+    x: 870
+    y: 662
+    width: 25
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 3
+    paddingBottom: 0
+  - name: Launcher_Field_Base07_03
+    x: 905
+    y: 683
+    width: 25
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 3
+    paddingBottom: 0
+  - name: Launcher_Field_Base07_04
+    x: 897
+    y: 651
+    width: 25
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 3
+    paddingBottom: 0
+  - name: Launcher_Field_Base07_05
+    x: 959
+    y: 655
+    width: 25
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 3
+    paddingBottom: 0
+  - name: Launcher_Field_Base07_06
+    x: 812
+    y: 775
+    width: 25
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 3
+    paddingBottom: 0
+  - name: Launcher_Field_Base07_07
+    x: 1000
+    y: 844
+    width: 22
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 5
+    paddingTop: 4
+    paddingBottom: 0
+  - name: Launcher_Field_Base07_08
+    x: 1000
+    y: 813
+    width: 22
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 2
+    paddingTop: 4
+    paddingBottom: 0
+  - name: Launcher_Field_Base07_09
+    x: 955
+    y: 687
+    width: 25
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 3
+    paddingBottom: 0
+  - name: Launcher_Field_Base07_10
+    x: 982
+    y: 687
+    width: 25
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 0
+    paddingTop: 3
+    paddingBottom: 0
+  - name: party_btn
+    x: 845
+    y: 769
+    width: 94
+    height: 104
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 13
+    paddingTop: 11
+    paddingBottom: 5
+  - name: ruck_btn
+    x: 678
+    y: 704
+    width: 94
+    height: 101
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 13
+    paddingRight: 13
+    paddingTop: 14
+    paddingBottom: 5
+  mPixelSize: 1
+  mReplacement: {fileID: 0}
+  mCoordinates: 0
+  sprites: []
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1709254077376921}
+  m_IsPrefabParent: 1

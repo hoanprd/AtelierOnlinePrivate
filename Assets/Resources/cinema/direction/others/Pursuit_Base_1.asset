@@ -1,0 +1,667 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 315c8845d9ca948d287d548bb00b7e68, type: 3}
+  m_Name: Pursuit_Base_1
+  m_EditorClassIdentifier:
+  isLocal: 1
+  df: 0
+  methodList:
+  - type: 4
+    name: Pursuit_00_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_00_2
+  - type: 4
+    name: Pursuit_01_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_01_2
+  - type: 4
+    name: Pursuit_02_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_02_2
+  - type: 4
+    name: Pursuit_03_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_03_2
+  - type: 4
+    name: Pursuit_04_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_04_2
+  - type: 4
+    name: Pursuit_05_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_05_2
+  - type: 4
+    name: Pursuit_06_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_06_2
+  - type: 4
+    name: Pursuit_07_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_07_2
+  - type: 4
+    name: Pursuit_08_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_08_2
+  - type: 4
+    name: Pursuit_09_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_09_2
+  - type: 4
+    name: Pursuit_10_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_10_2
+  - type: 4
+    name: Pursuit_11_2
+    commandList:
+    - Command: 59
+      ArgList:
+      - Pursuit_11_2
+  - type: 1
+    name:
+    commandList:
+    - Command: 1
+      ArgList: []
+    - Command: 9
+      ArgList:
+      - ActMem0
+      - 0
+    - Command: 9
+      ArgList:
+      - ActMem1
+      - 1
+    - Command: 44
+      ArgList:
+      - TgtMem
+    - Command: 71
+      ArgList:
+      - ActMem0
+    - Command: 71
+      ArgList:
+      - ActMem1
+    - Command: 71
+      ArgList:
+      - TgtMem
+    - Command: 70
+      ArgList:
+      - ActMem0
+      - 1
+    - Command: 70
+      ArgList:
+      - ActMem1
+      - 1
+    - Command: 70
+      ArgList:
+      - TgtMem
+      - 1
+    - Command: 52
+      ArgList: []
+    - Command: 30
+      ArgList: []
+    - Command: 25
+      ArgList: []
+    - Command: 26
+      ArgList:
+      - ActMem0
+    - Command: 26
+      ArgList:
+      - ActMem1
+    - Command: 26
+      ArgList:
+      - TgtMem
+    - Command: 31
+      ArgList:
+      - ActMem0
+    - Command: 31
+      ArgList:
+      - ActMem1
+    - Command: 31
+      ArgList:
+      - TgtMem
+    - Command: 16
+      ArgList: []
+    - Command: 75
+      ArgList:
+      - ActMem0
+      - chara_shadow(Clone)
+    - Command: 75
+      ArgList:
+      - ActMem1
+      - chara_shadow(Clone)
+    - Command: 37
+      ArgList:
+      - TgtMem
+    - Command: 82
+      ArgList:
+      - ActMem0
+      - TgtMem
+      - 0
+    - Command: 82
+      ArgList:
+      - ActMem1
+      - TgtMem
+      - 0
+    - Command: 82
+      ArgList:
+      - TgtMem
+      - ActMem0
+      - 0
+    - Command: 10
+      ArgList:
+      - WeaponKind
+      - 1
+    - Command: 13
+      ArgList:
+      - 45
+    - Command: 68
+      ArgList:
+      - Camera
+      - ActMem0
+      - D_camera_pos
+      - D_camera_targ
+    - Command: 94
+      ArgList: []
+    - Command: 113
+      ArgList:
+      - 6
+      - 0
+      - 0
+    - Command: 48
+      ArgList:
+      - Attack_0
+    - Command: 109
+      ArgList:
+      - 0.7
+    - Command: 68
+      ArgList:
+      - Camera
+      - ActMem1
+      - D_camera_pos
+      - D_camera_targ
+    - Command: 113
+      ArgList:
+      - 7
+      - 0
+      - 1
+    - Command: 48
+      ArgList:
+      - Attack_1
+    - Command: 35
+      ArgList:
+      - TgtMem
+    - Command: 34
+      ArgList:
+      - ActMem0
+    - Command: 77
+      ArgList:
+      - ActMem0
+      - chara_shadow(Clone)
+    - Command: 77
+      ArgList:
+      - ActMem1
+      - chara_shadow(Clone)
+    - Command: 91
+      ArgList:
+      - Camera
+    - Command: 93
+      ArgList:
+      - Camera
+    - Command: 17
+      ArgList: []
+    - Command: 53
+      ArgList: []
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - normal
+      - 1000
+    - Command: 69
+      ArgList:
+      - ActMem0
+      - 1
+    - Command: 69
+      ArgList:
+      - ActMem1
+      - 1
+    - Command: 69
+      ArgList:
+      - TgtMem
+      - 1
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: ResultDamage0
+    commandList:
+    - Command: 2
+      ArgList:
+      - ResultDamage0
+    - Command: 23
+      ArgList:
+      - Result0
+      - 0
+    - Command: 4
+      ArgList:
+      - Result0
+      - ==
+      - 0
+    - Command: 48
+      ArgList:
+      - HitEffect_0
+    - Command: 15
+      ArgList: []
+    - Command: 64
+      ArgList:
+      - TgtMem
+      - b_damage
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - damage
+      - 1000
+    - Command: 34
+      ArgList:
+      - TgtMem
+    - Command: 97
+      ArgList:
+      - TgtMem
+      - 0
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - Result0
+      - ==
+      - 1
+    - Command: 48
+      ArgList:
+      - HitEffect_0
+    - Command: 15
+      ArgList: []
+    - Command: 64
+      ArgList:
+      - TgtMem
+      - b_damage
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - damage
+      - 1000
+    - Command: 34
+      ArgList:
+      - TgtMem
+    - Command: 97
+      ArgList:
+      - TgtMem
+      - 0
+    - Command: 6
+      ArgList: []
+    - Command: 21
+      ArgList: []
+    - Command: 97
+      ArgList:
+      - TgtMem
+      - 0
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: ResultDamage1
+    commandList:
+    - Command: 2
+      ArgList:
+      - ResultDamage1
+    - Command: 23
+      ArgList:
+      - Result1
+      - 1
+    - Command: 4
+      ArgList:
+      - Result1
+      - ==
+      - 0
+    - Command: 48
+      ArgList:
+      - HitEffect_1
+    - Command: 15
+      ArgList: []
+    - Command: 64
+      ArgList:
+      - TgtMem
+      - b_damage
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - damage
+      - 1000
+    - Command: 34
+      ArgList:
+      - TgtMem
+    - Command: 97
+      ArgList:
+      - TgtMem
+      - 1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - Result1
+      - ==
+      - 1
+    - Command: 48
+      ArgList:
+      - HitEffect_1
+    - Command: 15
+      ArgList: []
+    - Command: 64
+      ArgList:
+      - TgtMem
+      - b_damage
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - damage
+      - 1000
+    - Command: 34
+      ArgList:
+      - TgtMem
+    - Command: 97
+      ArgList:
+      - TgtMem
+      - 1
+    - Command: 6
+      ArgList: []
+    - Command: 22
+      ArgList: []
+    - Command: 97
+      ArgList:
+      - TgtMem
+      - 1
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: Attack_1
+    commandList:
+    - Command: 2
+      ArgList:
+      - Attack_1
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 0
+    - Command: 48
+      ArgList:
+      - Attack_00_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 1
+    - Command: 48
+      ArgList:
+      - Attack_01_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 2
+    - Command: 48
+      ArgList:
+      - Attack_02_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 3
+    - Command: 48
+      ArgList:
+      - Attack_03_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 4
+    - Command: 48
+      ArgList:
+      - Attack_04_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 5
+    - Command: 48
+      ArgList:
+      - Attack_05_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 6
+    - Command: 48
+      ArgList:
+      - Attack_06_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 7
+    - Command: 48
+      ArgList:
+      - Attack_07_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 8
+    - Command: 48
+      ArgList:
+      - Attack_08_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 9
+    - Command: 48
+      ArgList:
+      - Attack_09_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 10
+    - Command: 48
+      ArgList:
+      - Attack_10_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 11
+    - Command: 48
+      ArgList:
+      - Attack_11_1
+    - Command: 6
+      ArgList: []
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: HitEffect_1
+    commandList:
+    - Command: 2
+      ArgList:
+      - HitEffect_1
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 0
+    - Command: 48
+      ArgList:
+      - HitEffect_00_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 1
+    - Command: 48
+      ArgList:
+      - HitEffect_01_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 2
+    - Command: 48
+      ArgList:
+      - HitEffect_02_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 3
+    - Command: 48
+      ArgList:
+      - HitEffect_03_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 4
+    - Command: 48
+      ArgList:
+      - HitEffect_04_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 5
+    - Command: 48
+      ArgList:
+      - HitEffect_05_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 6
+    - Command: 48
+      ArgList:
+      - HitEffect_06_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 7
+    - Command: 48
+      ArgList:
+      - HitEffect_07_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 8
+    - Command: 48
+      ArgList:
+      - HitEffect_08_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 9
+    - Command: 48
+      ArgList:
+      - HitEffect_09_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 10
+    - Command: 48
+      ArgList:
+      - HitEffect_10_1
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - WeaponKind
+      - ==
+      - 11
+    - Command: 48
+      ArgList:
+      - HitEffect_11_1
+    - Command: 6
+      ArgList: []
+    - Command: 6
+      ArgList: []
+  animationList: []
+  effectList: []
+  SEList: []

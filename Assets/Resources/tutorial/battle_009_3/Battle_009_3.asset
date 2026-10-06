@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: Battle_009_3
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 1
+    strParamList:
+    - 0
+  - eKind: 2
+    strParamList:
+    - 戦い方を変えたい時には
+    - "作戦変更で、キャラクターに指示を出そう！\n時には逃げることも大切！"
+    - 作戦も大事!!
+    - tutorial_tex_t06_03
+  - eKind: 2
+    strParamList:
+    - 色々な詳細情報
+    - 他にも色々な情報を知れるよ
+    - 情報収集も重要!!
+    - tutorial_tex_t06_04

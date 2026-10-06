@@ -1,0 +1,16 @@
+namespace MessagePack.Formatters
+{
+	public sealed class RankingTopRewardDataFormatter : IMessagePackFormatter<RankingTopRewardData>, IMessagePackFormatter
+	{
+		public int Serialize(ref byte[] bytes, int offset, RankingTopRewardData value, IFormatterResolver formatterResolver)
+		{
+			return 0;
+		}
+
+		public RankingTopRewardData Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
+		{
+			readSize = default(int);
+			return null;
+		}
+	}
+}

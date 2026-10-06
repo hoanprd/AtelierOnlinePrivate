@@ -1,0 +1,74 @@
+{
+    "API": {
+        "CTG": [
+            {
+                "NO": 1,
+                "NAME": "ノーマルガチャ",
+                "LIST": [
+                    {
+                        "DF": 10000,
+                        "CATEG": 1,
+                        "ICON": 1,
+                        "IMG": "banner_shop_event_S_00004",
+                        "NAME": "チュートリアルガチャ",
+                        "DESC": "チュートリアルガチャ",
+                        "BNR": {
+                            "IMG": "banner_gacha_event_tutorial",
+                            "URL": ""
+                        },
+                        "BNR_L": {
+                            "IMG": "banner_gacha_event_tutorial",
+                            "URL": ""
+                        },
+                        "MRK": {
+                            "SALE": 0,
+                            "EVE": 0
+                        },
+                        "PRD": {
+                            "STA": "",
+                            "END": ""
+                        },
+                        "LMT": {
+                            "NUM": 0,
+                            "NUM_1": 0,
+                            "NUM_10": 0,
+                            "NUM_P": 0,
+                            "NOD_1": 0,
+                            "NOD_10": 0,
+                            "NOD_P": 0,
+                            "CNT": 0,
+                            "CNT_1": 0,
+                            "CNT_10": 0,
+                            "CNT_P": 0,
+                            "COD_1": 0,
+                            "COD_10": 0,
+                            "COD_P": 0
+                        },
+                        "PRC": [
+                            {
+                                "DF": 1,
+                                "CNT_1": 0,
+                                "CNT_10": 0,
+                                "CNT_P": 10
+                            }
+                        ],
+                        "SELL": [
+                            {
+                                "SELLID": 1,
+                                "SELLGRPID": 1,
+                                "WTHDF": 1,
+                                "PAYONLY": 0,
+                                "WTHCNT": 0,
+                                "LOTCNT": 1,
+                                "WL_LMT": 0,
+                                "WL_CNT": 0,
+                                "DAY_LMT": 0,
+                                "DAY_CNT": 0
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: Battle_008_2
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 0
+    strParamList:
+    - MQ_01_075
+  - eKind: 1
+    strParamList:
+    - 0
+  - eKind: 2
+    strParamList:
+    - スキル発動
+    - "スキルゲージを溜めると\nスキルを利用することができます。"
+    - "スキルは\n強力なものがいっぱい!!"
+    - tutorial_tex_t06_01
+  - eKind: 3
+    strParamList:
+    - Skill_Btn014

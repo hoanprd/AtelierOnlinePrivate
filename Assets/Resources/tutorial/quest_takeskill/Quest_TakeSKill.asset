@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: Quest_TakeSKill
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 1
+    strParamList:
+    - 0
+  - eKind: 2
+    strParamList:
+    - 特性継承①
+    - "調合・錬金に特性付きの素材を使うと、\n特性がひとつ、完成品に継承されることがあります。"
+    - どの特性が着くかは運次第！？
+    - tutorial_tex_t28_01
+  - eKind: 2
+    strParamList:
+    - 特性継承②
+    - "特性付きの素材を【自由枠】に入れることで\n引き継がせる特性を指定することができます。"
+    - "ココに入れると…\n狙った特性が確実につけられる！"
+    - tutorial_tex_t28_02
+  - eKind: 2
+    strParamList:
+    - 特性継承③
+    - 同じ特性を重ねると、高レベルの特性を付与できます。
+    - "高レベル特性は\n効果もすごい！"
+    - tutorial_tex_t28_03

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a3c1ad090b385e3b3b36c1464e6016, type: 3}
+  m_Name: Field_Pickup2
+  m_EditorClassIdentifier:
+  clsDataList:
+  - eKind: 10
+    strParamList: []
+  - eKind: 15
+    strParamList: []
+  - eKind: 1
+    strParamList:
+    - 0
+  - eKind: 2
+    strParamList:
+    - 採取①
+    - "採取可能なオブジェクトに近づくと、\n手のひらマークの【採取】アイコンが表示されます。"
+    - 
+    - tutorial_tex_t03_01
+  - eKind: 2
+    strParamList:
+    - 採取②
+    - "素材は 採取アイコンか、\n画面右下の【採取】をタップして採取できます。"
+    - 
+    - tutorial_tex_t03_02
+  - eKind: 2
+    strParamList:
+    - 採取③
+    - 採取はいろいろな場所で可能です。
+    - "気になる所を見つけたら\nどんどん調べよう！"
+    - tutorial_tex_t03_03
+  - eKind: 3
+    strParamList:
+    - Btn01_Action
+  - eKind: 5
+    strParamList:
+    - 3
+  - eKind: 0
+    strParamList:
+    - tutorial_0107

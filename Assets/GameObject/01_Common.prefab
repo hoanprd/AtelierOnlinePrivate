@@ -1,0 +1,1164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1709254077376921
+GameObject:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_Component:
+  - component: {fileID: 4730242686860875}
+  - component: {fileID: 114724804207875695}
+  m_Layer: 0
+  m_Name: 01_Common
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4730242686860875
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
+--- !u!114 &114724804207875695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709254077376921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f7db9a480b403690a4a83220213122, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  material: {fileID: 2100000, guid: d6c8e794e3677b746b61c9486dd2e402, type: 2}
+  mSprites:
+  - name: area_name_base2
+    x: 87
+    y: 99
+    width: 13
+    height: 3
+    borderLeft: 4
+    borderRight: 5
+    borderTop: 1
+    borderBottom: 1
+    paddingLeft: 2
+    paddingRight: 0
+    paddingTop: 2
+    paddingBottom: 2
+  - name: arrow_S
+    x: 486
+    y: 215
+    width: 26
+    height: 33
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 1
+  - name: attention_mark
+    x: 92
+    y: 202
+    width: 8
+    height: 23
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: batch_maru
+    x: 364
+    y: 4
+    width: 28
+    height: 29
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 1
+    paddingBottom: 2
+  - name: batch_sikaku
+    x: 399
+    y: 58
+    width: 26
+    height: 27
+    borderLeft: 5
+    borderRight: 5
+    borderTop: 5
+    borderBottom: 5
+    paddingLeft: 3
+    paddingRight: 3
+    paddingTop: 2
+    paddingBottom: 3
+  - name: btn_back02
+    x: 278
+    y: 314
+    width: 91
+    height: 58
+    borderLeft: 73
+    borderRight: 9
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 3
+    paddingTop: 1
+    paddingBottom: 1
+  - name: btn_chat
+    x: 364
+    y: 34
+    width: 31
+    height: 28
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 5
+    paddingTop: 7
+    paddingBottom: 5
+  - name: btn_icon_list
+    x: 426
+    y: 93
+    width: 31
+    height: 20
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 17
+    paddingRight: 16
+    paddingTop: 21
+    paddingBottom: 23
+  - name: btn_icon_menu08
+    x: 462
+    y: 179
+    width: 31
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 17
+    paddingRight: 16
+    paddingTop: 16
+    paddingBottom: 18
+  - name: btn_icon_menu08_w
+    x: 429
+    y: 178
+    width: 32
+    height: 31
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 16
+    paddingRight: 16
+    paddingTop: 16
+    paddingBottom: 17
+  - name: btn_icon_questtype02
+    x: 456
+    y: 138
+    width: 34
+    height: 36
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 15
+    paddingRight: 15
+    paddingTop: 14
+    paddingBottom: 14
+  - name: btn_maru
+    x: 254
+    y: 197
+    width: 50
+    height: 51
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 1
+    paddingTop: 2
+    paddingBottom: 1
+  - name: btn_maru_00
+    x: 188
+    y: 178
+    width: 60
+    height: 60
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: btn_maru_L
+    x: 101
+    y: 57
+    width: 67
+    height: 68
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 3
+    paddingTop: 4
+    paddingBottom: 3
+  - name: btn_maru02
+    x: 188
+    y: 3
+    width: 50
+    height: 51
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 1
+    paddingTop: 2
+    paddingBottom: 1
+  - name: btn_nomal_M00
+    x: 188
+    y: 297
+    width: 89
+    height: 75
+    borderLeft: 39
+    borderRight: 39
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 2
+    paddingBottom: 3
+  - name: btn_nomal_M01
+    x: 101
+    y: 1
+    width: 69
+    height: 55
+    borderLeft: 28
+    borderRight: 28
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 11
+    paddingRight: 12
+    paddingTop: 10
+    paddingBottom: 15
+  - name: btn_nomal_S00
+    x: 0
+    y: 134
+    width: 91
+    height: 91
+    borderLeft: 22
+    borderRight: 22
+    borderTop: 22
+    borderBottom: 22
+    paddingLeft: 4
+    paddingRight: 4
+    paddingTop: 3
+    paddingBottom: 5
+  - name: btn_nomal_S01
+    x: 370
+    y: 303
+    width: 66
+    height: 69
+    borderLeft: 22
+    borderRight: 22
+    borderTop: 22
+    borderBottom: 22
+    paddingLeft: 16
+    paddingRight: 17
+    paddingTop: 14
+    paddingBottom: 16
+  - name: btn_nomal_S02
+    x: 435
+    y: 437
+    width: 75
+    height: 75
+    borderLeft: 13
+    borderRight: 15
+    borderTop: 14
+    borderBottom: 16
+    paddingLeft: 12
+    paddingRight: 12
+    paddingTop: 12
+    paddingBottom: 12
+  - name: btn_nomal01_01
+    x: 101
+    y: 284
+    width: 86
+    height: 88
+    borderLeft: 20
+    borderRight: 20
+    borderTop: 20
+    borderBottom: 22
+    paddingLeft: 3
+    paddingRight: 4
+    paddingTop: 3
+    paddingBottom: 6
+  - name: btn_nomal01_03
+    x: 0
+    y: 45
+    width: 86
+    height: 88
+    borderLeft: 22
+    borderRight: 22
+    borderTop: 22
+    borderBottom: 22
+    paddingLeft: 3
+    paddingRight: 4
+    paddingTop: 3
+    paddingBottom: 6
+  - name: btn_nomal02_01_S
+    x: 0
+    y: 6
+    width: 67
+    height: 38
+    borderLeft: 10
+    borderRight: 10
+    borderTop: 10
+    borderBottom: 10
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: btn_nomal02_01_S_L
+    x: 441
+    y: 210
+    width: 44
+    height: 38
+    borderLeft: 28
+    borderRight: 10
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 25
+    paddingTop: 1
+    paddingBottom: 1
+  - name: btn_nomal02_02_S
+    x: 399
+    y: 381
+    width: 67
+    height: 38
+    borderLeft: 10
+    borderRight: 10
+    borderTop: 10
+    borderBottom: 10
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: btn_nomal02_03_S
+    x: 321
+    y: 258
+    width: 67
+    height: 38
+    borderLeft: 10
+    borderRight: 10
+    borderTop: 10
+    borderBottom: 10
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: btn_nomal02_04_S
+    x: 389
+    y: 258
+    width: 67
+    height: 38
+    borderLeft: 10
+    borderRight: 10
+    borderTop: 10
+    borderBottom: 10
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: btn_spe
+    x: 290
+    y: 420
+    width: 144
+    height: 92
+    borderLeft: 58
+    borderRight: 58
+    borderTop: 45
+    borderBottom: 45
+    paddingLeft: 0
+    paddingRight: 1
+    paddingTop: 2
+    paddingBottom: 6
+  - name: btn_spe2
+    x: 145
+    y: 420
+    width: 144
+    height: 92
+    borderLeft: 58
+    borderRight: 58
+    borderTop: 45
+    borderBottom: 45
+    paddingLeft: 0
+    paddingRight: 1
+    paddingTop: 2
+    paddingBottom: 6
+  - name: btn_spe3
+    x: 0
+    y: 420
+    width: 144
+    height: 92
+    borderLeft: 58
+    borderRight: 58
+    borderTop: 45
+    borderBottom: 45
+    paddingLeft: 0
+    paddingRight: 1
+    paddingTop: 2
+    paddingBottom: 6
+  - name: btn_top
+    x: 305
+    y: 210
+    width: 67
+    height: 38
+    borderLeft: 16
+    borderRight: 13
+    borderTop: 14
+    borderBottom: 15
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: btn_top_base
+    x: 467
+    y: 379
+    width: 42
+    height: 40
+    borderLeft: 23
+    borderRight: 23
+    borderTop: 23
+    borderBottom: 23
+    paddingLeft: 1
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 3
+  - name: btn_top2
+    x: 373
+    y: 210
+    width: 67
+    height: 38
+    borderLeft: 10
+    borderRight: 10
+    borderTop: 10
+    borderBottom: 10
+    paddingLeft: 2
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: change_mark
+    x: 344
+    y: 137
+    width: 39
+    height: 37
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 6
+    paddingBottom: 4
+  - name: chara_gage_hp_00
+    x: 433
+    y: 119
+    width: 40
+    height: 17
+    borderLeft: 12
+    borderRight: 12
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 2
+  - name: chara_gage_hp_01
+    x: 278
+    y: 304
+    width: 30
+    height: 9
+    borderLeft: 4
+    borderRight: 4
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 6
+    paddingRight: 6
+    paddingTop: 5
+    paddingBottom: 6
+  - name: chat_base
+    x: 344
+    y: 61
+    width: 19
+    height: 75
+    borderLeft: 10
+    borderRight: 3
+    borderTop: 11
+    borderBottom: 11
+    paddingLeft: 2
+    paddingRight: 3
+    paddingTop: 2
+    paddingBottom: 2
+  - name: check_mark
+    x: 344
+    y: 175
+    width: 47
+    height: 34
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: circle_base
+    x: 437
+    y: 311
+    width: 61
+    height: 61
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 4
+    paddingTop: 6
+    paddingBottom: 3
+  - name: common_launcher_obj03
+    x: 254
+    y: 249
+    width: 66
+    height: 47
+    borderLeft: 46
+    borderRight: 9
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: contribution_mark
+    x: 364
+    y: 63
+    width: 28
+    height: 33
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 6
+    paddingRight: 6
+    paddingTop: 3
+    paddingBottom: 4
+  - name: event_base
+    x: 282
+    y: 377
+    width: 116
+    height: 42
+    borderLeft: 37
+    borderRight: 37
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 0
+    paddingTop: 2
+    paddingBottom: 1
+  - name: here_mark00
+    x: 188
+    y: 55
+    width: 45
+    height: 66
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 6
+    paddingRight: 7
+    paddingTop: 7
+    paddingBottom: 5
+  - name: here_mark01
+    x: 234
+    y: 82
+    width: 18
+    height: 18
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 3
+    paddingTop: 3
+    paddingBottom: 3
+  - name: here_mark02
+    x: 0
+    y: 319
+    width: 100
+    height: 100
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: here_mark03
+    x: 426
+    y: 71
+    width: 24
+    height: 21
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 1
+    paddingBottom: 0
+  - name: host_mark
+    x: 466
+    y: 422
+    width: 23
+    height: 14
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: hukidasi_wid
+    x: 101
+    y: 126
+    width: 75
+    height: 75
+    borderLeft: 18
+    borderRight: 18
+    borderTop: 18
+    borderBottom: 18
+    paddingLeft: 12
+    paddingRight: 12
+    paddingTop: 12
+    paddingBottom: 12
+  - name: hukidasi00
+    x: 491
+    y: 147
+    width: 20
+    height: 27
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: hukidasi01
+    x: 169
+    y: 97
+    width: 15
+    height: 28
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 5
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: hukidasi02
+    x: 169
+    y: 73
+    width: 15
+    height: 23
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: info_mark
+    x: 171
+    y: 34
+    width: 15
+    height: 22
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 5
+    paddingTop: 2
+    paddingBottom: 1
+  - name: Limit_Break_Mark_01
+    x: 384
+    y: 139
+    width: 35
+    height: 35
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: Limit_Break_Mark_02
+    x: 420
+    y: 139
+    width: 35
+    height: 35
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: Limit_Break_Mark_03
+    x: 399
+    y: 86
+    width: 26
+    height: 27
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 1
+  - name: Limit_Break_Mark_Light
+    x: 392
+    y: 175
+    width: 36
+    height: 34
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 0
+    paddingTop: 1
+    paddingBottom: 2
+  - name: lineup_mark
+    x: 305
+    y: 160
+    width: 38
+    height: 49
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 6
+    paddingRight: 6
+    paddingTop: 0
+    paddingBottom: 1
+  - name: Lock_mark
+    x: 364
+    y: 97
+    width: 34
+    height: 39
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: loding_mark
+    x: 305
+    y: 33
+    width: 38
+    height: 37
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 9
+    paddingRight: 9
+    paddingTop: 9
+    paddingBottom: 9
+  - name: New_Txt_01
+    x: 399
+    y: 32
+    width: 23
+    height: 25
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 2
+    paddingTop: 1
+    paddingBottom: 2
+  - name: New_Txt_02
+    x: 234
+    y: 101
+    width: 19
+    height: 20
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 5
+    paddingTop: 6
+    paddingBottom: 2
+  - name: New_Txt_03
+    x: 399
+    y: 10
+    width: 25
+    height: 21
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 1
+    paddingTop: 5
+    paddingBottom: 2
+  - name: on_cursor_common
+    x: 399
+    y: 114
+    width: 33
+    height: 22
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 2
+    paddingTop: 5
+    paddingBottom: 3
+  - name: quest_bar_base02_2
+    x: 254
+    y: 10
+    width: 50
+    height: 37
+    borderLeft: 23
+    borderRight: 23
+    borderTop: 28
+    borderBottom: 5
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 3
+  - name: sale_base_00
+    x: 474
+    y: 114
+    width: 29
+    height: 22
+    borderLeft: 10
+    borderRight: 10
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 4
+    paddingRight: 4
+    paddingTop: 4
+    paddingBottom: 4
+  - name: scale_mark
+    x: 234
+    y: 63
+    width: 16
+    height: 18
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 1
+    paddingBottom: 1
+  - name: scr_controller_base
+    x: 305
+    y: 111
+    width: 32
+    height: 48
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 14
+    borderBottom: 14
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: scrbar
+    x: 87
+    y: 103
+    width: 9
+    height: 30
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 5
+    borderBottom: 5
+    paddingLeft: 6
+    paddingRight: 5
+    paddingTop: 6
+    paddingBottom: 6
+  - name: sex_mark_01
+    x: 305
+    y: 71
+    width: 38
+    height: 39
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 1
+  - name: sex_mark_02
+    x: 68
+    y: 4
+    width: 29
+    height: 40
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 7
+    paddingRight: 6
+    paddingTop: 1
+    paddingBottom: 1
+  - name: skill_base
+    x: 188
+    y: 122
+    width: 60
+    height: 55
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 4
+    paddingBottom: 1
+  - name: status_arrow
+    x: 171
+    y: 14
+    width: 16
+    height: 19
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: Tab_Fram
+    x: 490
+    y: 423
+    width: 20
+    height: 13
+    borderLeft: 5
+    borderRight: 5
+    borderTop: 5
+    borderBottom: 3
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 1
+    paddingBottom: 1
+  - name: Treasure_mark
+    x: 435
+    y: 420
+    width: 30
+    height: 16
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: triangle
+    x: 188
+    y: 239
+    width: 65
+    height: 57
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: white_tile
+    x: 254
+    y: 48
+    width: 46
+    height: 46
+    borderLeft: 5
+    borderRight: 5
+    borderTop: 5
+    borderBottom: 5
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 2
+    paddingBottom: 2
+  - name: white_tile_kadonasi
+    x: 305
+    y: 0
+    width: 32
+    height: 32
+    borderLeft: 5
+    borderRight: 5
+    borderTop: 5
+    borderBottom: 5
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: white_triangle
+    x: 0
+    y: 226
+    width: 92
+    height: 92
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 5
+    paddingRight: 3
+    paddingTop: 5
+    paddingBottom: 3
+  - name: wid_bar
+    x: 457
+    y: 249
+    width: 47
+    height: 47
+    borderLeft: 8
+    borderRight: 8
+    borderTop: 6
+    borderBottom: 8
+    paddingLeft: 0
+    paddingRight: 3
+    paddingTop: 1
+    paddingBottom: 2
+  - name: wid_base_sen00
+    x: 254
+    y: 148
+    width: 49
+    height: 48
+    borderLeft: 11
+    borderRight: 11
+    borderTop: 11
+    borderBottom: 11
+    paddingLeft: 4
+    paddingRight: 4
+    paddingTop: 4
+    paddingBottom: 4
+  - name: wid_inshadow
+    x: 451
+    y: 71
+    width: 21
+    height: 21
+    borderLeft: 7
+    borderRight: 7
+    borderTop: 7
+    borderBottom: 7
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 1
+    paddingBottom: 1
+  - name: wid_obj_02
+    x: 254
+    y: 95
+    width: 42
+    height: 52
+    borderLeft: 18
+    borderRight: 18
+    borderTop: 25
+    borderBottom: 25
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 2
+    paddingBottom: 2
+  - name: wid_obj_03
+    x: 0
+    y: 0
+    width: 26
+    height: 5
+    borderLeft: 6
+    borderRight: 6
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 1
+    paddingRight: 1
+    paddingTop: 4
+    paddingBottom: 4
+  - name: wid_obj_04
+    x: 101
+    y: 373
+    width: 180
+    height: 46
+    borderLeft: 80
+    borderRight: 80
+    borderTop: 18
+    borderBottom: 18
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: wid_obj_05
+    x: 101
+    y: 202
+    width: 82
+    height: 81
+    borderLeft: 34
+    borderRight: 34
+    borderTop: 38
+    borderBottom: 38
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  mPixelSize: 1
+  mReplacement: {fileID: 0}
+  mCoordinates: 0
+  sprites: []
+--- !u!1001 &100100000
+Prefab:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1709254077376921}
+  m_IsPrefabParent: 1

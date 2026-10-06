@@ -1,0 +1,25 @@
+public enum EItemDF
+{
+	eHealingSalve = 10490001,
+	eFlam = 10790001,
+	eMFlam = 10790002,
+	eGFlam = 10790003,
+	eAsgar = 10420001,
+	eMAsgar = 10420002,
+	eGAsgar = 10420003,
+	eLacheln = 10430001,
+	eMLacheln = 10430002,
+	eGLacheln = 10430003,
+	eDonorStone = 10480001,
+	eMDonorStone = 10480002,
+	eGDonorStone = 10480003,
+	ePickel = 10440001,
+	ePickelF = 10440002,
+	eFishRod = 10460001,
+	eFishRodF = 10460002,
+	eGloveF = 10470001,
+	eFairyPowder = 10510001,
+	eWoodMace = 20090001,
+	ePuniBall = 10350001,
+	eUNI = 10200001
+}

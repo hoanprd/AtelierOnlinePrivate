@@ -1,0 +1,482 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 315c8845d9ca948d287d548bb00b7e68, type: 3}
+  m_Name: Pursuit
+  m_EditorClassIdentifier:
+  isLocal: 1
+  df: 0
+  methodList:
+  - type: 1
+    name:
+    commandList:
+    - Command: 1
+      ArgList: []
+    - Command: 9
+      ArgList:
+      - ActMem0
+      - 0
+    - Command: 9
+      ArgList:
+      - ActMem1
+      - 1
+    - Command: 44
+      ArgList:
+      - TgtMem
+    - Command: 71
+      ArgList:
+      - ActMem0
+    - Command: 71
+      ArgList:
+      - ActMem1
+    - Command: 71
+      ArgList:
+      - TgtMem
+    - Command: 70
+      ArgList:
+      - ActMem0
+      - 1
+    - Command: 70
+      ArgList:
+      - ActMem1
+      - 1
+    - Command: 70
+      ArgList:
+      - TgtMem
+      - 1
+    - Command: 52
+      ArgList: []
+    - Command: 30
+      ArgList: []
+    - Command: 25
+      ArgList: []
+    - Command: 26
+      ArgList:
+      - ActMem0
+    - Command: 26
+      ArgList:
+      - ActMem1
+    - Command: 26
+      ArgList:
+      - TgtMem
+    - Command: 31
+      ArgList:
+      - ActMem0
+    - Command: 31
+      ArgList:
+      - ActMem1
+    - Command: 31
+      ArgList:
+      - TgtMem
+    - Command: 16
+      ArgList: []
+    - Command: 75
+      ArgList:
+      - ActMem0
+      - chara_shadow(Clone)
+    - Command: 75
+      ArgList:
+      - ActMem1
+      - chara_shadow(Clone)
+    - Command: 37
+      ArgList:
+      - TgtMem
+    - Command: 82
+      ArgList:
+      - ActMem0
+      - TgtMem
+      - 0.2
+    - Command: 82
+      ArgList:
+      - ActMem1
+      - TgtMem
+      - 0.2
+    - Command: 82
+      ArgList:
+      - TgtMem
+      - ActMem0
+      - 0.2
+    - Command: 85
+      ArgList:
+      - Camera
+      - 2.7
+      - 1.2
+      - 3.0
+      - 0
+    - Command: 82
+      ArgList:
+      - Camera
+      - TgtMem
+      - 0
+    - Command: 13
+      ArgList:
+      - 65
+    - Command: 109
+      ArgList:
+      - 0.2
+    - Command: 72
+      ArgList:
+      - ActPos
+    - Command: 85
+      ArgList:
+      - ActPos
+      - ActMem0
+      - 0
+    - Command: 92
+      ArgList:
+      - ActPos
+      - ActMem0
+      - 0
+    - Command: 72
+      ArgList:
+      - TgtPos
+    - Command: 85
+      ArgList:
+      - TgtPos
+      - TgtMem
+      - 0
+    - Command: 92
+      ArgList:
+      - TgtPos
+      - TgtMem
+      - 0
+    - Command: 62
+      ArgList:
+      - ActPos
+      - '@NAA'
+      - 0
+      - 0
+      - 0
+    - Command: 62
+      ArgList:
+      - TgtPos
+      - '@HIT0'
+      - 0
+      - 0
+      - 1
+    - Command: 62
+      ArgList:
+      - TgtPos
+      - '@HIT1'
+      - 0
+      - 0.5
+      - 0.5
+    - Command: 94
+      ArgList: []
+    - Command: 100
+      ArgList:
+      - Shot0
+    - Command: 109
+      ArgList:
+      - 0.7
+    - Command: 100
+      ArgList:
+      - Shot1
+    - Command: 109
+      ArgList:
+      - 0.5
+    - Command: 35
+      ArgList:
+      - TgtMem
+    - Command: 109
+      ArgList:
+      - 2
+    - Command: 35
+      ArgList:
+      - TgtMem
+    - Command: 97
+      ArgList:
+      - TgtMem
+    - Command: 85
+      ArgList:
+      - ActMem0
+      - ActPos
+      - '@NAA'
+      - 0
+    - Command: 34
+      ArgList:
+      - ActMem0
+    - Command: 77
+      ArgList:
+      - ActMem0
+      - chara_shadow(Clone)
+    - Command: 77
+      ArgList:
+      - ActMem1
+      - chara_shadow(Clone)
+    - Command: 91
+      ArgList:
+      - Camera
+    - Command: 93
+      ArgList:
+      - Camera
+    - Command: 17
+      ArgList: []
+    - Command: 53
+      ArgList: []
+    - Command: 69
+      ArgList:
+      - ActMem0
+      - 1
+    - Command: 69
+      ArgList:
+      - ActMem1
+      - 1
+    - Command: 69
+      ArgList:
+      - TgtMem
+      - 1
+    - Command: 6
+      ArgList: []
+  - type: 3
+    name: Shot0
+    commandList:
+    - Command: 3
+      ArgList:
+      - Shot0
+    - Command: 85
+      ArgList:
+      - ActMem0
+      - TgtPos
+      - '@HIT0'
+      - 0.3
+    - Command: 64
+      ArgList:
+      - ActMem0
+      - b_attack02
+    - Command: 109
+      ArgList:
+      - 0.5
+    - Command: 48
+      ArgList:
+      - ResultDamage0
+    - Command: 65
+      ArgList:
+      - ActMem0
+      - b_attack02
+    - Command: 6
+      ArgList: []
+  - type: 3
+    name: Shot1
+    commandList:
+    - Command: 3
+      ArgList:
+      - Shot1
+    - Command: 64
+      ArgList:
+      - ActMem1
+      - b_attack01
+    - Command: 34
+      ArgList:
+      - ActMem1
+    - Command: 109
+      ArgList:
+      - 0.6
+    - Command: 54
+      ArgList:
+      - EffMag
+      - 0
+    - Command: 85
+      ArgList:
+      - EffMag
+      - ActMem1
+      - D_weapon
+      - 0
+    - Command: 85
+      ArgList:
+      - EffMag
+      - TgtPos
+      - '@HIT1'
+      - 0.3
+    - Command: 95
+      ArgList:
+      - 0
+    - Command: 87
+      ArgList:
+      - EffMag
+    - Command: 48
+      ArgList:
+      - ResultDamage1
+    - Command: 79
+      ArgList:
+      - EffMag
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: ResultDamage0
+    commandList:
+    - Command: 2
+      ArgList:
+      - ResultDamage0
+    - Command: 23
+      ArgList:
+      - Result0
+      - 0
+    - Command: 4
+      ArgList:
+      - Result0
+      - ==
+      - 0
+    - Command: 48
+      ArgList:
+      - Attack0
+    - Command: 15
+      ArgList: []
+    - Command: 64
+      ArgList:
+      - TgtMem
+      - b_damage
+    - Command: 34
+      ArgList:
+      - TgtMem
+    - Command: 97
+      ArgList:
+      - TgtMem
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - Result0
+      - ==
+      - 1
+    - Command: 48
+      ArgList:
+      - Attack0
+    - Command: 15
+      ArgList: []
+    - Command: 64
+      ArgList:
+      - TgtMem
+      - b_damage
+    - Command: 34
+      ArgList:
+      - TgtMem
+    - Command: 97
+      ArgList:
+      - TgtMem
+    - Command: 6
+      ArgList: []
+    - Command: 21
+      ArgList: []
+    - Command: 97
+      ArgList:
+      - TgtMem
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: Attack0
+    commandList:
+    - Command: 2
+      ArgList:
+      - Attack0
+    - Command: 54
+      ArgList:
+      - EffHit
+      - 1
+    - Command: 90
+      ArgList:
+      - EffHit
+      - TgtMem
+      - 0
+    - Command: 95
+      ArgList:
+      - 1
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: ResultDamage1
+    commandList:
+    - Command: 2
+      ArgList:
+      - ResultDamage1
+    - Command: 23
+      ArgList:
+      - Result1
+      - 1
+    - Command: 4
+      ArgList:
+      - Result1
+      - ==
+      - 0
+    - Command: 48
+      ArgList:
+      - Attack1
+    - Command: 15
+      ArgList: []
+    - Command: 64
+      ArgList:
+      - TgtMem
+      - b_damage
+    - Command: 34
+      ArgList:
+      - TgtMem
+    - Command: 97
+      ArgList:
+      - TgtMem
+    - Command: 6
+      ArgList: []
+    - Command: 4
+      ArgList:
+      - Result1
+      - ==
+      - 1
+    - Command: 48
+      ArgList:
+      - Attack1
+    - Command: 15
+      ArgList: []
+    - Command: 64
+      ArgList:
+      - TgtMem
+      - b_damage
+    - Command: 34
+      ArgList:
+      - TgtMem
+    - Command: 97
+      ArgList:
+      - TgtMem
+    - Command: 6
+      ArgList: []
+    - Command: 22
+      ArgList: []
+    - Command: 97
+      ArgList:
+      - TgtMem
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: Attack1
+    commandList:
+    - Command: 2
+      ArgList:
+      - Attack1
+    - Command: 54
+      ArgList:
+      - EffHit
+      - 2
+    - Command: 90
+      ArgList:
+      - EffHit
+      - TgtMem
+      - 0
+    - Command: 95
+      ArgList:
+      - 2
+    - Command: 6
+      ArgList: []
+  animationList: []
+  effectList:
+  - {fileID: 1709254077376921, guid: 7542d7eadb5df474b98a465196ca4bcf, type: 2}
+  - {fileID: 1709254077376921, guid: f6a22888660c5c9459d118c139d738ea, type: 2}
+  - {fileID: 1709254077376921, guid: c2a5f1ff45ffbdb41bf44e546893e642, type: 2}
+  SEList:
+  - {fileID: 8300000, guid: ca5b5b1395aa6d04692a926b9fa366ce, type: 3}
+  - {fileID: 8300000, guid: 80611143f04d40f4380dc91e3de4aad7, type: 3}
+  - {fileID: 8300000, guid: 07bbee78101235d4ca2df8c14d7a5b16, type: 3}

@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 315c8845d9ca948d287d548bb00b7e68, type: 3}
+  m_Name: NormalAttack_06
+  m_EditorClassIdentifier:
+  isLocal: 1
+  df: 0
+  methodList:
+  - type: 4
+    name: NormalAttack_ShortRange
+    commandList:
+    - Command: 59
+      ArgList:
+      - NormalAttack_ShortRange
+  - type: 2
+    name: HitEffect
+    commandList:
+    - Command: 2
+      ArgList:
+      - HitEffect
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - damage
+      - 1000
+    - Command: 54
+      ArgList:
+      - EffHit
+      - 0
+    - Command: 90
+      ArgList:
+      - EffHit
+      - TgtMem
+      - 0
+    - Command: 92
+      ArgList:
+      - EffHit
+      - ActMem
+      - 0
+    - Command: 95
+      ArgList:
+      - 0
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: HitEffectCritical
+    commandList:
+    - Command: 2
+      ArgList:
+      - HitEffectCritical
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - damage
+      - 1000
+    - Command: 54
+      ArgList:
+      - EffHit
+      - 1
+    - Command: 90
+      ArgList:
+      - EffHit
+      - TgtMem
+      - 0
+    - Command: 92
+      ArgList:
+      - EffHit
+      - ActMem
+      - 0
+    - Command: 95
+      ArgList:
+      - 1
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: HitEffectCover
+    commandList:
+    - Command: 2
+      ArgList:
+      - HitEffectCover
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - damage
+      - 1000
+    - Command: 54
+      ArgList:
+      - EffHit
+      - 2
+    - Command: 90
+      ArgList:
+      - EffHit
+      - TgtMem
+      - 0
+    - Command: 92
+      ArgList:
+      - EffHit
+      - ActMem
+      - 0
+    - Command: 95
+      ArgList:
+      - 2
+    - Command: 6
+      ArgList: []
+  - type: 2
+    name: NormalFace
+    commandList:
+    - Command: 2
+      ArgList:
+      - NormalFace
+    - Command: 28
+      ArgList:
+      - TgtMem
+      - normal
+      - 1000
+    - Command: 6
+      ArgList: []
+  animationList: []
+  effectList:
+  - {fileID: 1709254077376921, guid: f6a22888660c5c9459d118c139d738ea, type: 2}
+  - {fileID: 1709254077376921, guid: f6a22888660c5c9459d118c139d738ea, type: 2}
+  - {fileID: 1709254077376921, guid: f6a22888660c5c9459d118c139d738ea, type: 2}
+  SEList:
+  - {fileID: 8300000, guid: 80611143f04d40f4380dc91e3de4aad7, type: 3}
+  - {fileID: 8300000, guid: cdfade9a3c68380458c27cf55ea805ec, type: 3}
+  - {fileID: 8300000, guid: 15f892a6a7fc61941863bf8060c5fa18, type: 3}
