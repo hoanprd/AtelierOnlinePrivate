@@ -2,31 +2,40 @@ using UnityEngine;
 
 public class UIBackground : MonoBehaviour
 {
-	public int m_iDepth;
+    public int m_iDepth;
+    private UIWidget m_sWidget;
+    private UIPanel m_sPanel;
+    private bool m_bQuitting;
 
-	private UIWidget m_sWidget;
+    public void SetEnable(bool sw)
+    {
+        enabled = sw;
+    }
 
-	private UIPanel m_sPanel;
+    private void Awake()
+    {
+        m_sWidget = GetComponent<UIWidget>();
+        m_sPanel = GetComponent<UIPanel>();
+    }
 
-	private bool m_bQuitting;
+    private void OnEnable()
+    {
+        if (UIBackgroundManager.Instance != null)
+        {
+            UIBackgroundManager.Instance.Add(this);
+        }
+    }
 
-	public void SetEnable(bool sw)
-	{
-	}
+    private void OnDisable()
+    {
+        if (!m_bQuitting && UIBackgroundManager.Instance != null)
+        {
+            UIBackgroundManager.Instance.Remove(this);
+        }
+    }
 
-	private void Awake()
-	{
-	}
-
-	private void OnEnable()
-	{
-	}
-
-	private void OnDisable()
-	{
-	}
-
-	private void OnApplicationQuit()
-	{
-	}
+    private void OnApplicationQuit()
+    {
+        m_bQuitting = true;
+    }
 }
