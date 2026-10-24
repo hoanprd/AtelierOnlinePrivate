@@ -1,69 +1,95 @@
 using System;
 using UnityEngine;
 
+[AddComponentMenu("NGUI/Tween/Tween Rotation")]
 public class TweenRotation : UITweener
 {
-	public Vector3 from;
+    public Vector3 from;
 
-	public Vector3 to;
+    public Vector3 to;
 
-	public bool quaternionLerp;
+    public bool quaternionLerp;
 
-	private Transform mTrans;
+    private Transform mTrans;
 
-	public Transform cachedTransform
-	{
-		get
-		{
-			return null;
-		}
-	}
+    public Transform cachedTransform
+    {
+        get
+        {
+            if (mTrans == null) mTrans = transform;
+            return mTrans;
+        }
+    }
 
-	[Obsolete]
-	public Quaternion rotation
-	{
-		get
-		{
-			return default(Quaternion);
-		}
-		set
-		{
-		}
-	}
+    [Obsolete("Use 'value' instead")]
+    public Quaternion rotation
+    {
+        get
+        {
+            return value;
+        }
+        set
+        {
+            this.value = value;
+        }
+    }
 
-	public Quaternion value
-	{
-		get
-		{
-			return default(Quaternion);
-		}
-		set
-		{
-		}
-	}
+    public Quaternion value
+    {
+        get
+        {
+            return cachedTransform.localRotation;
+        }
+        set
+        {
+            cachedTransform.localRotation = value;
+        }
+    }
 
-	protected override void OnUpdate(float factor, bool isFinished)
-	{
-	}
+    protected override void OnUpdate(float factor, bool isFinished)
+    {
+        if (!quaternionLerp)
+        {
+            Vector3 eul = Vector3.Lerp(from, to, factor);
+            cachedTransform.localEulerAngles = eul;
+        }
+        else
+        {
+            cachedTransform.localRotation = Quaternion.Slerp(Quaternion.Euler(from), Quaternion.Euler(to), factor);
+        }
+    }
 
-	public static TweenRotation Begin(GameObject go, float duration, Quaternion rot)
-	{
-		return null;
-	}
+    public static TweenRotation Begin(GameObject go, float duration, Quaternion rot)
+    {
+        TweenRotation comp = UITweener.Begin<TweenRotation>(go, duration);
+        comp.from = comp.value.eulerAngles;
+        comp.to = rot.eulerAngles;
 
-	public override void SetStartToCurrentValue()
-	{
-	}
+        if (duration <= 0f)
+        {
+            comp.Sample(1f, true);
+            comp.enabled = false;
+        }
+        return comp;
+    }
 
-	public override void SetEndToCurrentValue()
-	{
-	}
+    public override void SetStartToCurrentValue()
+    {
+        from = cachedTransform.localEulerAngles;
+    }
 
-	private void SetCurrentValueToStart()
-	{
-	}
+    public override void SetEndToCurrentValue()
+    {
+        to = cachedTransform.localEulerAngles;
+    }
 
-	private void SetCurrentValueToEnd()
-	{
-	}
+    private void SetCurrentValueToStart()
+    {
+        cachedTransform.localEulerAngles = from;
+    }
+
+    private void SetCurrentValueToEnd()
+    {
+        cachedTransform.localEulerAngles = to;
+    }
 }

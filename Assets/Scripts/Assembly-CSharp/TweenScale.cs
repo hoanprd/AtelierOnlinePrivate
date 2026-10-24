@@ -1,71 +1,102 @@
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
+[AddComponentMenu("NGUI/Tween/Tween Scale")]
 public class TweenScale : UITweener
 {
-	public Vector3 from;
+    public Vector3 from = Vector3.one;
+    public Vector3 to = Vector3.one;
+    public bool updateTable;
 
-	public Vector3 to;
+    private Transform mTrans;
+    private UITable mTable;
 
-	public bool updateTable;
+    public Transform cachedTransform
+    {
+        get
+        {
+            if (mTrans == null)
+            {
+                mTrans = transform;
+            }
+            return mTrans;
+        }
+    }
 
-	private Transform mTrans;
+    public Vector3 value
+    {
+        get
+        {
+            return cachedTransform.localScale;
+        }
+        set
+        {
+            cachedTransform.localScale = value;
+        }
+    }
 
-	private UITable mTable;
+    [System.Obsolete("Use 'value' instead")]
+    public Vector3 scale
+    {
+        get
+        {
+            return this.value;
+        }
+        set
+        {
+            this.value = value;
+        }
+    }
 
-	public Transform cachedTransform
-	{
-		get
-		{
-			return null;
-		}
-	}
+    protected override void OnUpdate(float factor, bool isFinished)
+    {
+        value = Vector3.Lerp(from, to, factor);
 
-	public Vector3 value
-	{
-		get
-		{
-			return default(Vector3);
-		}
-		set
-		{
-		}
-	}
+        if (updateTable)
+        {
+            if (mTable == null)
+            {
+                mTable = NGUITools.FindInParents<UITable>(gameObject);
+                if (mTable == null)
+                {
+                    updateTable = false;
+                    return;
+                }
+            }
+            mTable.repositionNow = true;
+        }
+    }
 
-	[Obsolete]
-	public Vector3 scale
-	{
-		get
-		{
-			return default(Vector3);
-		}
-		set
-		{
-		}
-	}
+    public static TweenScale Begin(GameObject go, float duration, Vector3 scale)
+    {
+        TweenScale comp = UITweener.Begin<TweenScale>(go, duration);
+        comp.from = comp.value;
+        comp.to = scale;
 
-	protected override void OnUpdate(float factor, bool isFinished)
-	{
-	}
+        if (duration <= 0f)
+        {
+            comp.Sample(1f, true); // Sửa thành chữ S hoa ở đây
+            comp.enabled = false;
+        }
+        return comp;
+    }
 
-	public static TweenScale Begin(GameObject go, float duration, Vector3 scale)
-	{
-		return null;
-	}
+    public override void SetStartToCurrentValue()
+    {
+        from = value;
+    }
 
-	public override void SetStartToCurrentValue()
-	{
-	}
+    public override void SetEndToCurrentValue()
+    {
+        to = value;
+    }
 
-	public override void SetEndToCurrentValue()
-	{
-	}
+    private void SetCurrentValueToStart()
+    {
+        value = from;
+    }
 
-	private void SetCurrentValueToStart()
-	{
-	}
-
-	private void SetCurrentValueToEnd()
-	{
-	}
+    private void SetCurrentValueToEnd()
+    {
+        value = to;
+    }
 }

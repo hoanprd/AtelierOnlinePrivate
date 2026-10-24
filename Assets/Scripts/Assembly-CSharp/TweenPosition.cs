@@ -1,81 +1,142 @@
 using System;
 using UnityEngine;
 
+[AddComponentMenu("NGUI/Tween/Tween Position")]
 public class TweenPosition : UITweener
 {
-	public Vector3 from;
+    public Vector3 from;
 
-	public Vector3 to;
+    public Vector3 to;
 
-	[HideInInspector]
-	public bool worldSpace;
+    [HideInInspector]
+    public bool worldSpace;
 
-	private Transform mTrans;
+    private Transform mTrans;
 
-	private UIRect mRect;
+    private UIRect mRect;
 
-	public Transform cachedTransform
-	{
-		get
-		{
-			return null;
-		}
-	}
+    public Transform cachedTransform
+    {
+        get
+        {
+            if (mTrans == null)
+            {
+                mTrans = transform;
+            }
+            return mTrans;
+        }
+    }
 
-	[Obsolete]
-	public Vector3 position
-	{
-		get
-		{
-			return default(Vector3);
-		}
-		set
-		{
-		}
-	}
+    [Obsolete("Use 'value' instead")]
+    public Vector3 position
+    {
+        get
+        {
+            return value;
+        }
+        set
+        {
+            this.value = value;
+        }
+    }
 
-	public Vector3 value
-	{
-		get
-		{
-			return default(Vector3);
-		}
-		set
-		{
-		}
-	}
+    public Vector3 value
+    {
+        get
+        {
+            if (mRect == null)
+            {
+                mRect = GetComponent<UIRect>();
+            }
 
-	private void Awake()
-	{
-	}
+            if (mRect != null && !worldSpace)
+            {
+                return mRect.cachedTransform.localPosition;
+            }
+            return worldSpace ? cachedTransform.position : cachedTransform.localPosition;
+        }
+        set
+        {
+            if (mRect == null)
+            {
+                mRect = GetComponent<UIRect>();
+            }
 
-	protected override void OnUpdate(float factor, bool isFinished)
-	{
-	}
+            if (mRect != null && !worldSpace)
+            {
+                mRect.cachedTransform.localPosition = value;
+            }
+            else
+            {
+                if (worldSpace)
+                {
+                    cachedTransform.position = value;
+                }
+                else
+                {
+                    cachedTransform.localPosition = value;
+                }
+            }
+        }
+    }
 
-	public static TweenPosition Begin(GameObject go, float duration, Vector3 pos)
-	{
-		return null;
-	}
+    private void Awake()
+    {
+        mRect = GetComponent<UIRect>();
+    }
 
-	public static TweenPosition Begin(GameObject go, float duration, Vector3 pos, bool worldSpace)
-	{
-		return null;
-	}
+    protected override void OnUpdate(float factor, bool isFinished)
+    {
+        value = Vector3.Lerp(from, to, factor);
+    }
 
-	public override void SetStartToCurrentValue()
-	{
-	}
+    public static TweenPosition Begin(GameObject go, float duration, Vector3 pos)
+    {
+        TweenPosition comp = UITweener.Begin<TweenPosition>(go, duration);
+        comp.from = comp.value;
+        comp.to = pos;
+        comp.worldSpace = false;
 
-	public override void SetEndToCurrentValue()
-	{
-	}
+        if (duration <= 0f)
+        {
+            comp.Sample(1f, true);
+            comp.enabled = false;
+        }
+        return comp;
+    }
 
-	private void SetCurrentValueToStart()
-	{
-	}
+    public static TweenPosition Begin(GameObject go, float duration, Vector3 pos, bool worldSpace)
+    {
+        TweenPosition comp = UITweener.Begin<TweenPosition>(go, duration);
+        comp.from = comp.value;
+        comp.to = pos;
+        comp.worldSpace = worldSpace;
 
-	private void SetCurrentValueToEnd()
-	{
-	}
+        if (duration <= 0f)
+        {
+            comp.Sample(1f, true);
+            comp.enabled = false;
+        }
+        return comp;
+    }
+
+    public override void SetStartToCurrentValue()
+    {
+        from = value;
+    }
+
+    public override void SetEndToCurrentValue()
+    {
+        to = value;
+    }
+
+    private void SetCurrentValueToStart()
+    {
+        value = from;
+    }
+
+    private void SetCurrentValueToEnd()
+    {
+        value = to;
+    }
 }
