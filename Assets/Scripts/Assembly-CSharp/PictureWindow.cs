@@ -1,35 +1,79 @@
 using UnityEngine;
 
-public class PictureWindow : MonoBehaviour
+namespace ADV
 {
-	[SerializeField]
-	private UITexture m_txPicture;
+    public class PictureWindow : MonoBehaviour
+    {
+        [SerializeField]
+        private UITexture m_txPicture;
 
-	[SerializeField]
-	private UITweenReset m_sAnim;
+        [SerializeField]
+        private UITweenReset m_sAnim;
 
-	public void Init()
-	{
-	}
+        public void Init()
+        {
+            if (gameObject != null)
+            {
+                gameObject.SetActive(false);
+            }
+        }
 
-	public void Init(string path)
-	{
-	}
+        public void Init(string path)
+        {
+            if (gameObject != null)
+            {
+                gameObject.SetActive(true);
+            }
 
-	public void Out()
-	{
-	}
+            if (m_txPicture != null)
+            {
+                UIAssetBundleTexture.Regist(path, m_txPicture, true);
+            }
 
-	public void SetFinish()
-	{
-	}
+            if (m_sAnim != null)
+            {
+                m_sAnim.ResetOnFinish();
+                m_sAnim.ResetTweenForward();
+            }
+        }
 
-	private void OnCloseEnd()
-	{
-	}
+        public void Out()
+        {
+            if (m_sAnim != null)
+            {
+                EventDelegate ed = new EventDelegate(this, "OnCloseEnd");
+                m_sAnim.SetOnFinish(ed);
+                m_sAnim.ResetTweenReverse();
+            }
+            else
+            {
+                OnCloseEnd();
+            }
+        }
 
-	public bool IsAnimEnd()
-	{
-		return false;
-	}
+        public void SetFinish()
+        {
+            if (m_sAnim != null)
+            {
+                m_sAnim.SetFinish(true);
+            }
+        }
+
+        private void OnCloseEnd()
+        {
+            if (gameObject != null)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
+        public bool IsAnimEnd()
+        {
+            if (m_sAnim != null)
+            {
+                return m_sAnim.IsAnimEnd;
+            }
+            return true;
+        }
+    }
 }

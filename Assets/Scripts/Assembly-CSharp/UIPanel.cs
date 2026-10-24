@@ -568,7 +568,8 @@ public class UIPanel : UIRect
 
     private void FindParent()
     {
-        Transform p = cachedTransform.parent;
+        if (transform == null) return;
+        Transform p = transform.parent;
         mParentPanel = null;
         while (p != null)
         {
@@ -619,14 +620,15 @@ public class UIPanel : UIRect
     }
 
     private void UpdateTransformMatrix()
-    {
-        int frame = Time.frameCount;
-        if (mMatrixFrame != frame)
-        {
-            mMatrixFrame = frame;
-            worldToLocal = cachedTransform.worldToLocalMatrix;
-        }
-    }
+	{
+		if (transform == null) return;
+		int frame = Time.frameCount;
+		if (mMatrixFrame != frame)
+		{
+			mMatrixFrame = frame;
+			worldToLocal = transform.worldToLocalMatrix;
+		}
+	}
 
     protected override void OnAnchor()
     {
@@ -634,6 +636,7 @@ public class UIPanel : UIRect
 
     private void LateUpdate()
     {
+        if (this == null || transform == null) return;
         if (mRebuild)
         {
             mRebuild = false;

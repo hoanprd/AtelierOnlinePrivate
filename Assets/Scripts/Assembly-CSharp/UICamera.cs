@@ -1,767 +1,570 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
+[RequireComponent(typeof(Camera))]
+[AddComponentMenu("NGUI/UI/Camera")]
 public class UICamera : MonoBehaviour
 {
-	[DoNotObfuscateNGUI]
-	public enum ControlScheme
-	{
-		Mouse = 0,
-		Touch = 1,
-		Controller = 2
-	}
+    [DoNotObfuscateNGUI]
+    public enum ControlScheme
+    {
+        Mouse = 0,
+        Touch = 1,
+        Controller = 2
+    }
 
-	[DoNotObfuscateNGUI]
-	public enum ClickNotification
-	{
-		None = 0,
-		Always = 1,
-		BasedOnDelta = 2
-	}
+    [DoNotObfuscateNGUI]
+    public enum ClickNotification
+    {
+        None = 0,
+        Always = 1,
+        BasedOnDelta = 2
+    }
 
-	public class MouseOrTouch
-	{
-		public KeyCode key;
+    public class MouseOrTouch
+    {
+        public KeyCode key = KeyCode.Mouse0;
 
-		public Vector2 pos;
+        public Vector2 pos;
 
-		public Vector2 lastPos;
+        public Vector2 lastPos;
 
-		public Vector2 delta;
+        public Vector2 delta;
 
-		public Vector2 totalDelta;
+        public Vector2 totalDelta;
 
-		public Camera pressedCam;
+        public Camera pressedCam;
 
-		public GameObject last;
+        public GameObject last;
 
-		public GameObject current;
+        public GameObject current;
 
-		public GameObject pressed;
+        public GameObject pressed;
 
-		public GameObject dragged;
+        public GameObject dragged;
 
-		public float pressTime;
+        public float pressTime;
 
-		public float clickTime;
+        public float clickTime;
 
-		public ClickNotification clickNotification;
+        public ClickNotification clickNotification = ClickNotification.Always;
 
-		public bool touchBegan;
+        public bool touchBegan = true;
 
-		public bool pressStarted;
+        public bool pressStarted;
 
-		public bool dragStarted;
+        public bool dragStarted;
 
-		public int ignoreDelta;
+        public int ignoreDelta;
 
-		public float deltaTime
-		{
-			get
-			{
-				return 0f;
-			}
-		}
+        public float deltaTime
+        {
+            get
+            {
+                return Time.realtimeSinceStartup - pressTime;
+            }
+        }
 
-		public bool isOverUI
-		{
-			get
-			{
-				return false;
-			}
-		}
-	}
+        public bool isOverUI
+        {
+            get
+            {
+                return current != null && IsPartOfUI(current);
+            }
+        }
+    }
 
-	[DoNotObfuscateNGUI]
-	public enum EventType
-	{
-		World_3D = 0,
-		UI_3D = 1,
-		World_2D = 2,
-		UI_2D = 3
-	}
+    [DoNotObfuscateNGUI]
+    public enum EventType
+    {
+        World_3D = 0,
+        UI_3D = 1,
+        World_2D = 2,
+        UI_2D = 3
+    }
 
-	public delegate bool GetKeyStateFunc(KeyCode key);
+    public delegate bool GetKeyStateFunc(KeyCode key);
 
-	public delegate float GetAxisFunc(string name);
+    public delegate float GetAxisFunc(string name);
 
-	public delegate bool GetAnyKeyFunc();
+    public delegate bool GetAnyKeyFunc();
 
-	public delegate MouseOrTouch GetMouseDelegate(int button);
+    public delegate MouseOrTouch GetMouseDelegate(int button);
 
-	public delegate MouseOrTouch GetTouchDelegate(int id, bool createIfMissing);
+    public delegate MouseOrTouch GetTouchDelegate(int id, bool createIfMissing);
 
-	public delegate void RemoveTouchDelegate(int id);
+    public delegate void RemoveTouchDelegate(int id);
 
-	public delegate void OnScreenResize();
+    public delegate void OnScreenResize();
 
-	[DoNotObfuscateNGUI]
-	public enum ProcessEventsIn
-	{
-		Update = 0,
-		LateUpdate = 1
-	}
+    [DoNotObfuscateNGUI]
+    public enum ProcessEventsIn
+    {
+        Update = 0,
+        LateUpdate = 1
+    }
 
-	public delegate void OnCustomInput();
+    public delegate void OnCustomInput();
 
-	public delegate void OnSchemeChange();
+    public delegate void OnSchemeChange();
 
-	public delegate void MoveDelegate(Vector2 delta);
+    public delegate void MoveDelegate(Vector2 delta);
 
-	public delegate void VoidDelegate(GameObject go);
+    public delegate void VoidDelegate(GameObject go);
 
-	public delegate void BoolDelegate(GameObject go, bool state);
+    public delegate void BoolDelegate(GameObject go, bool state);
 
-	public delegate void FloatDelegate(GameObject go, float delta);
+    public delegate void FloatDelegate(GameObject go, float delta);
 
-	public delegate void VectorDelegate(GameObject go, Vector2 delta);
+    public delegate void VectorDelegate(GameObject go, Vector2 delta);
 
-	public delegate void ObjectDelegate(GameObject go, GameObject obj);
+    public delegate void ObjectDelegate(GameObject go, GameObject obj);
 
-	public delegate void KeyCodeDelegate(GameObject go, KeyCode key);
+    public delegate void KeyCodeDelegate(GameObject go, KeyCode key);
 
-	private struct DepthEntry
-	{
-		public int depth;
+    private struct DepthEntry
+    {
+        public int depth;
 
-		public RaycastHit hit;
+        public RaycastHit hit;
 
-		public Vector3 point;
+        public Vector3 point;
 
-		public GameObject go;
-	}
+        public GameObject go;
+    }
 
-	public class Touch
-	{
-		public int fingerId;
+    public class Touch
+    {
+        public int fingerId;
 
-		public TouchPhase phase;
+        public TouchPhase phase;
 
-		public Vector2 position;
+        public Vector2 position;
 
-		public int tapCount;
-	}
+        public int tapCount;
+    }
 
-	public delegate int GetTouchCountCallback();
+    public delegate int GetTouchCountCallback();
 
-	public delegate Touch GetTouchCallback(int index);
+    public delegate Touch GetTouchCallback(int index);
 
-	public static BetterList<UICamera> list;
+    public static BetterList<UICamera> list = new BetterList<UICamera>();
 
-	public static GetKeyStateFunc GetKeyDown;
+    public static GetKeyStateFunc GetKeyDown = Input.GetKeyDown;
 
-	public static GetKeyStateFunc GetKeyUp;
+    public static GetKeyStateFunc GetKeyUp = Input.GetKeyUp;
 
-	public static GetKeyStateFunc GetKey;
+    public static GetKeyStateFunc GetKey = Input.GetKey;
 
-	public static GetAxisFunc GetAxis;
+    public static GetAxisFunc GetAxis = Input.GetAxis;
 
-	public static GetAnyKeyFunc GetAnyKeyDown;
+    public static GetAnyKeyFunc GetAnyKeyDown = () => Input.anyKeyDown;
 
-	public static GetMouseDelegate GetMouse;
+    public static GetMouseDelegate GetMouse = GetMouseDelegateImpl;
 
-	public static GetTouchDelegate GetTouch;
+    public static GetTouchDelegate GetTouch = GetTouchDelegateImpl;
 
-	public static RemoveTouchDelegate RemoveTouch;
+    public static RemoveTouchDelegate RemoveTouch;
 
-	public static OnScreenResize onScreenResize;
+    public static OnScreenResize onScreenResize;
 
-	public EventType eventType;
+    public EventType eventType = EventType.UI_3D;
 
-	public bool eventsGoToColliders;
+    public bool eventsGoToColliders = false;
 
-	public LayerMask eventReceiverMask;
+    public LayerMask eventReceiverMask = -1;
 
-	public ProcessEventsIn processEventsIn;
+    public ProcessEventsIn processEventsIn = ProcessEventsIn.Update;
 
-	public bool debug;
+    public bool debug = false;
 
-	public bool useMouse;
+    public bool useMouse = true;
 
-	public bool useTouch;
+    public bool useTouch = true;
 
-	public bool allowMultiTouch;
+    public bool allowMultiTouch = true;
 
-	public bool useKeyboard;
+    public bool useKeyboard = true;
 
-	public bool useController;
+    public bool useController = true;
 
-	public bool stickyTooltip;
+    public bool stickyTooltip = true;
 
-	public float tooltipDelay;
+    public float tooltipDelay = 1f;
 
-	public bool longPressTooltip;
+    public bool longPressTooltip = false;
 
-	public float mouseDragThreshold;
+    public float mouseDragThreshold = 4f;
 
-	public float mouseClickThreshold;
+    public float mouseClickThreshold = 10f;
 
-	public float touchDragThreshold;
+    public float touchDragThreshold = 40f;
 
-	public float touchClickThreshold;
+    public float touchClickThreshold = 40f;
 
-	public float rangeDistance;
+    public float rangeDistance = -1f;
 
-	public string horizontalAxisName;
+    public string horizontalAxisName = "Horizontal";
 
-	public string verticalAxisName;
+    public string verticalAxisName = "Vertical";
 
-	public string horizontalPanAxisName;
+    public string horizontalPanAxisName = "";
 
-	public string verticalPanAxisName;
+    public string verticalPanAxisName = "";
 
-	public string scrollAxisName;
+    public string scrollAxisName = "Mouse ScrollWheel";
 
-	public bool commandClick;
+    public bool commandClick = true;
 
-	public KeyCode submitKey0;
+    public KeyCode submitKey0 = KeyCode.Return;
 
-	public KeyCode submitKey1;
+    public KeyCode submitKey1 = KeyCode.JoystickButton0;
 
-	public KeyCode cancelKey0;
+    public KeyCode cancelKey0 = KeyCode.Escape;
 
-	public KeyCode cancelKey1;
+    public KeyCode cancelKey1 = KeyCode.JoystickButton1;
 
-	public bool autoHideCursor;
+    public bool autoHideCursor = true;
 
-	public static OnCustomInput onCustomInput;
+    public static OnCustomInput onCustomInput;
 
-	public static bool showTooltips;
+    public static bool showTooltips = true;
 
-	public static bool ignoreAllEvents;
+    public static bool ignoreAllEvents = false;
 
-	public static bool ignoreControllerInput;
+    public static bool ignoreControllerInput = false;
 
-	private static bool mDisableController;
+    private static bool mDisableController = false;
 
-	private static Vector2 mLastPos;
+    private static Vector2 mLastPos = Vector2.zero;
 
-	public static Vector3 lastWorldPosition;
+    public static Vector3 lastWorldPosition = Vector3.zero;
 
-	public static Ray lastWorldRay;
+    public static Ray lastWorldRay;
 
-	public static RaycastHit lastHit;
+    public static RaycastHit lastHit;
 
-	public static UICamera current;
+    public static UICamera current;
 
-	public static Camera currentCamera;
+    public static Camera currentCamera;
 
-	public static OnSchemeChange onSchemeChange;
+    public static OnSchemeChange onSchemeChange;
 
-	private static ControlScheme mLastScheme;
+    private static ControlScheme mLastScheme = ControlScheme.Mouse;
 
-	public static int currentTouchID;
+    public static int currentTouchID = -10;
 
-	private static KeyCode mCurrentKey;
+    private static KeyCode mCurrentKey = KeyCode.None;
 
-	public static MouseOrTouch currentTouch;
+    public static MouseOrTouch currentTouch;
 
-	private static bool mInputFocus;
+    private static bool mInputFocus = false;
 
-	private static GameObject mGenericHandler;
+    private static GameObject mGenericHandler;
 
-	public static GameObject fallThrough;
+    public static GameObject fallThrough;
 
-	public static VoidDelegate onClick;
+    public static VoidDelegate onClick;
 
-	public static VoidDelegate onDoubleClick;
+    public static VoidDelegate onDoubleClick;
 
-	public static BoolDelegate onHover;
+    public static BoolDelegate onHover;
 
-	public static BoolDelegate onPress;
+    public static BoolDelegate onPress;
 
-	public static BoolDelegate onSelect;
+    public static BoolDelegate onSelect;
 
-	public static FloatDelegate onScroll;
+    public static FloatDelegate onScroll;
 
-	public static VectorDelegate onDrag;
+    public static VectorDelegate onDrag;
 
-	public static VoidDelegate onDragStart;
+    public static VoidDelegate onDragStart;
 
-	public static ObjectDelegate onDragOver;
+    public static ObjectDelegate onDragOver;
 
-	public static ObjectDelegate onDragOut;
+    public static ObjectDelegate onDragOut;
 
-	public static VoidDelegate onDragEnd;
+    public static VoidDelegate onDragEnd;
 
-	public static ObjectDelegate onDrop;
+    public static ObjectDelegate onDrop;
 
-	public static KeyCodeDelegate onKey;
+    public static KeyCodeDelegate onKey;
 
-	public static KeyCodeDelegate onNavigate;
+    public static KeyCodeDelegate onNavigate;
 
-	public static VectorDelegate onPan;
+    public static VectorDelegate onPan;
 
-	public static BoolDelegate onTooltip;
+    public static BoolDelegate onTooltip;
 
-	public static MoveDelegate onMouseMove;
+    public static MoveDelegate onMouseMove;
 
-	private static MouseOrTouch[] mMouse;
+    private static MouseOrTouch[] mMouse = new MouseOrTouch[]
+    {
+        new MouseOrTouch() { key = KeyCode.Mouse0 },
+        new MouseOrTouch() { key = KeyCode.Mouse1 },
+        new MouseOrTouch() { key = KeyCode.Mouse2 }
+    };
 
-	public static MouseOrTouch controller;
+    public static MouseOrTouch controller = new MouseOrTouch();
 
-	public static List<MouseOrTouch> activeTouches;
+    public static List<MouseOrTouch> activeTouches = new List<MouseOrTouch>();
 
-	private static List<int> mTouchIDs;
+    private static List<int> mTouchIDs = new List<int>();
 
-	private static int mWidth;
+    private static int mWidth = 0;
 
-	private static int mHeight;
+    private static int mHeight = 0;
 
-	private static GameObject mTooltip;
+    private static GameObject mTooltip;
 
-	private Camera mCam;
+    private Camera mCam;
 
-	private static float mTooltipTime;
+    private static float mTooltipTime = 0f;
 
-	private float mNextRaycast;
+    private float mNextRaycast = 0f;
 
-	public static bool isDragging;
+    public static bool isDragging = false;
 
-	private static int mLastInteractionCheck;
+    private static GameObject mHover;
 
-	private static bool mLastInteractionResult;
+    private static GameObject mSelected;
 
-	private static int mLastFocusCheck;
+    private static DepthEntry mHit;
 
-	private static bool mLastFocusResult;
+    private static BetterList<DepthEntry> mHits = new BetterList<DepthEntry>();
 
-	private static int mLastOverCheck;
+    public Camera cachedCamera
+    {
+        get
+        {
+            if (mCam == null) mCam = GetComponent<Camera>();
+            return mCam;
+        }
+    }
 
-	private static bool mLastOverResult;
+    public static UICamera eventHandler
+    {
+        get
+        {
+            if (list == null || list.size == 0) return null;
+            return list.buffer[0];
+        }
+    }
 
-	private static GameObject mRayHitObject;
+    public static Ray currentRay
+    {
+        get
+        {
+            if (currentCamera == null) return lastWorldRay;
+            Vector2 pos = (currentTouch != null) ? currentTouch.pos : mLastPos;
+            return currentCamera.ScreenPointToRay(pos);
+        }
+    }
 
-	private static GameObject mHover;
+    public static GameObject hoveredObject
+    {
+        get { return mHover; }
+        set { mHover = value; }
+    }
 
-	private static GameObject mSelected;
+    public static GameObject selectedObject
+    {
+        get { return mSelected; }
+        set { mSelected = value; }
+    }
 
-	private static DepthEntry mHit;
+    public static bool isOverUI
+    {
+        get { return mHover != null && IsPartOfUI(mHover); }
+    }
 
-	private static BetterList<DepthEntry> mHits;
+    public static bool IsPartOfUI(GameObject go)
+    {
+        return go != null && go.GetComponentInParent<UIPanel>() != null;
+    }
 
-	private static RaycastHit[] mRayHits;
+    public static bool IsPressed(GameObject go)
+    {
+        for (int i = 0; i < 3; i++)
+            if (mMouse[i].pressed == go) return true;
+        for (int i = 0; i < activeTouches.Count; i++)
+            if (activeTouches[i].pressed == go) return true;
+        return false;
+    }
 
-	private static Collider2D[] mOverlap;
+    public static int CountInputSources()
+    {
+        int count = 0;
+        if (mMouse[0].pressed != null) count++;
+        if (activeTouches.Count > 0) count += activeTouches.Count;
+        return count;
+    }
 
-	private static Plane m2DPlane;
+    private static MouseOrTouch GetMouseDelegateImpl(int button)
+    {
+        if (button >= 0 && button < mMouse.Length) return mMouse[button];
+        return mMouse[0];
+    }
 
-	private static float mNextEvent;
+    private static MouseOrTouch GetTouchDelegateImpl(int id, bool createIfMissing)
+    {
+        return mMouse[0];
+    }
 
-	private static int mNotifying;
+    private void Awake()
+    {
+        mCam = GetComponent<Camera>();
+    }
 
-	private static bool mUsingTouchEvents;
+    private void OnEnable()
+    {
+        list.Add(this);
+        list.Sort(CompareFunc);
+    }
 
-	public static GetTouchCountCallback GetInputTouchCount;
+    private void OnDisable()
+    {
+        list.Remove(this);
+    }
 
-	public static GetTouchCallback GetInputTouch;
+    private static int CompareFunc(UICamera a, UICamera b)
+    {
+        if (a.cachedCamera.depth < b.cachedCamera.depth) return 1;
+        if (a.cachedCamera.depth > b.cachedCamera.depth) return -1;
+        return 0;
+    }
 
-	[Obsolete]
-	public bool stickyPress
-	{
-		get
-		{
-			return false;
-		}
-	}
+    private void Start()
+    {
+    }
 
-	public static bool disableController
-	{
-		get
-		{
-			return false;
-		}
-		set
-		{
-		}
-	}
+    private void Update()
+    {
+        if (processEventsIn == ProcessEventsIn.Update) ProcessEvents();
+    }
 
-	[Obsolete]
-	public static Vector2 lastTouchPosition
-	{
-		get
-		{
-			return default(Vector2);
-		}
-		set
-		{
-		}
-	}
+    private void LateUpdate()
+    {
+        if (processEventsIn == ProcessEventsIn.LateUpdate) ProcessEvents();
+    }
 
-	public static Vector2 lastEventPosition
-	{
-		get
-		{
-			return default(Vector2);
-		}
-		set
-		{
-		}
-	}
+    private void ProcessEvents()
+    {
+        if (ignoreAllEvents) return;
+        if (list.size == 0 || list.buffer[0] != this) return;
 
-	public static UICamera first
-	{
-		get
-		{
-			return null;
-		}
-	}
+        if (useMouse) ProcessMouse();
+        if (useTouch) ProcessTouches();
+        ProcessOthers();
+    }
 
-	public static ControlScheme currentScheme
-	{
-		get
-		{
-			return ControlScheme.Mouse;
-		}
-		set
-		{
-		}
-	}
+    public void ProcessMouse()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mMouse[0].pos = mousePos;
+        mMouse[0].delta = mousePos - (Vector3)mMouse[0].lastPos;
+        mMouse[0].lastPos = mousePos;
+        mLastPos = mousePos;
 
-	public static KeyCode currentKey
-	{
-		get
-		{
-			return KeyCode.None;
-		}
-		set
-		{
-		}
-	}
+        bool pressed = Input.GetMouseButtonDown(0);
+        bool released = Input.GetMouseButtonUp(0);
+        bool held = Input.GetMouseButton(0);
 
-	public static Ray currentRay
-	{
-		get
-		{
-			return default(Ray);
-		}
-	}
+        currentTouch = mMouse[0];
+        currentTouchID = -1;
+        currentCamera = cachedCamera;
 
-	public static bool inputHasFocus
-	{
-		get
-		{
-			return false;
-		}
-	}
+        if (pressed || released || mMouse[0].pos != mMouse[0].lastPos)
+        {
+            Raycast(currentTouch);
+        }
 
-	[Obsolete]
-	public static GameObject genericEventHandler
-	{
-		get
-		{
-			return null;
-		}
-		set
-		{
-		}
-	}
+        if (pressed)
+        {
+            currentTouch.pressStarted = true;
+            currentTouch.pressed = currentTouch.current;
+            currentTouch.pressTime = Time.realtimeSinceStartup;
+            if (onPress != null && currentTouch.pressed != null)
+            {
+                onPress(currentTouch.pressed, true);
+            }
+        }
+        else if (released)
+        {
+            if (currentTouch.pressed != null)
+            {
+                if (onPress != null) onPress(currentTouch.pressed, false);
+                if (onClick != null && currentTouch.pressed == currentTouch.current) onClick(currentTouch.pressed);
+            }
+            currentTouch.pressed = null;
+            currentTouch.dragged = null;
+        }
+        else if (held && currentTouch.pressed != null)
+        {
+            if (currentTouch.delta.sqrMagnitude > mouseDragThreshold * mouseDragThreshold)
+            {
+                currentTouch.dragged = currentTouch.pressed;
+                if (onDrag != null && currentTouch.dragged != null)
+                {
+                    onDrag(currentTouch.dragged, currentTouch.delta);
+                }
+            }
+        }
 
-	public static MouseOrTouch mouse0
-	{
-		get
-		{
-			return null;
-		}
-	}
+        float scroll = Input.GetAxis(scrollAxisName);
+        if (scroll != 0f && currentTouch.current != null)
+        {
+            if (onScroll != null) onScroll(currentTouch.current, scroll);
+        }
+    }
 
-	public static MouseOrTouch mouse1
-	{
-		get
-		{
-			return null;
-		}
-	}
+    public void ProcessTouches()
+    {
+    }
 
-	public static MouseOrTouch mouse2
-	{
-		get
-		{
-			return null;
-		}
-	}
+    public void ProcessOthers()
+    {
+    }
 
-	private bool handlesEvents
-	{
-		get
-		{
-			return false;
-		}
-	}
+    public static void Raycast(MouseOrTouch touch)
+    {
+        if (eventHandler == null || eventHandler.cachedCamera == null) return;
+        currentCamera = eventHandler.cachedCamera;
+        lastWorldRay = currentCamera.ScreenPointToRay(touch.pos);
+        RaycastHit hit;
+        if (Physics.Raycast(lastWorldRay, out hit, eventHandler.rangeDistance > 0f ? eventHandler.rangeDistance : 1000f, eventHandler.eventReceiverMask))
+        {
+            lastHit = hit;
+            lastWorldPosition = hit.point;
+            touch.current = hit.collider.gameObject;
+        }
+        else
+        {
+            touch.current = fallThrough;
+        }
+    }
 
-	public Camera cachedCamera
-	{
-		get
-		{
-			return null;
-		}
-	}
+    public static bool Raycast(Vector3 inPos)
+    {
+        if (eventHandler == null || eventHandler.cachedCamera == null) return false;
+        currentCamera = eventHandler.cachedCamera;
+        Ray ray = currentCamera.ScreenPointToRay(inPos);
+        RaycastHit hit;
+        return Physics.Raycast(ray, out hit, 1000f, eventHandler.eventReceiverMask);
+    }
 
-	public static GameObject tooltipObject
-	{
-		get
-		{
-			return null;
-		}
-		set
-		{
-		}
-	}
+    public static void Notify(GameObject go, string funcName, object obj)
+    {
+        if (go != null && go.activeInHierarchy)
+        {
+            go.SendMessage(funcName, obj, SendMessageOptions.DontRequireReceiver);
+        }
+    }
 
-	public static bool isOverUI
-	{
-		get
-		{
-			return false;
-		}
-	}
-
-	public static bool uiHasFocus
-	{
-		get
-		{
-			return false;
-		}
-	}
-
-	public static bool interactingWithUI
-	{
-		get
-		{
-			return false;
-		}
-	}
-
-	public static GameObject hoveredObject
-	{
-		get
-		{
-			return null;
-		}
-		set
-		{
-		}
-	}
-
-	public static GameObject controllerNavigationObject
-	{
-		get
-		{
-			return null;
-		}
-		set
-		{
-		}
-	}
-
-	public static GameObject selectedObject
-	{
-		get
-		{
-			return null;
-		}
-		set
-		{
-		}
-	}
-
-	[Obsolete]
-	public static int touchCount
-	{
-		get
-		{
-			return 0;
-		}
-	}
-
-	public static int dragCount
-	{
-		get
-		{
-			return 0;
-		}
-	}
-
-	public static Camera mainCamera
-	{
-		get
-		{
-			return null;
-		}
-	}
-
-	public static UICamera eventHandler
-	{
-		get
-		{
-			return null;
-		}
-	}
-
-	public static bool IsPartOfUI(GameObject go)
-	{
-		return false;
-	}
-
-	public static bool IsPressed(GameObject go)
-	{
-		return false;
-	}
-
-	public static int CountInputSources()
-	{
-		return 0;
-	}
-
-	private static int CompareFunc(UICamera a, UICamera b)
-	{
-		return 0;
-	}
-
-	private static Rigidbody FindRootRigidbody(Transform trans)
-	{
-		return null;
-	}
-
-	private static Rigidbody2D FindRootRigidbody2D(Transform trans)
-	{
-		return null;
-	}
-
-	public static void Raycast(MouseOrTouch touch)
-	{
-	}
-
-	public static bool Raycast(Vector3 inPos)
-	{
-		return false;
-	}
-
-	private static bool IsVisible(Vector3 worldPoint, GameObject go)
-	{
-		return false;
-	}
-
-	private static bool IsVisible(ref DepthEntry de)
-	{
-		return false;
-	}
-
-	public static bool IsHighlighted(GameObject go)
-	{
-		return false;
-	}
-
-	public static UICamera FindCameraForLayer(int layer)
-	{
-		return null;
-	}
-
-	private static int GetDirection(KeyCode up, KeyCode down)
-	{
-		return 0;
-	}
-
-	private static int GetDirection(KeyCode up0, KeyCode up1, KeyCode down0, KeyCode down1)
-	{
-		return 0;
-	}
-
-	private static int GetDirection(string axis)
-	{
-		return 0;
-	}
-
-	public static void Notify(GameObject go, string funcName, object obj)
-	{
-	}
-
-	private void Awake()
-	{
-	}
-
-	private void OnEnable()
-	{
-	}
-
-	private void OnDisable()
-	{
-	}
-
-	private void Start()
-	{
-	}
-
-	private void StartIgnoring()
-	{
-	}
-
-	private void StopIgnoring()
-	{
-	}
-
-	private void Update()
-	{
-	}
-
-	private void LateUpdate()
-	{
-	}
-
-	private void ProcessEvents()
-	{
-	}
-
-	public void ProcessMouse()
-	{
-	}
-
-	public void ProcessTouches()
-	{
-	}
-
-	private void ProcessFakeTouches()
-	{
-	}
-
-	public void ProcessOthers()
-	{
-	}
-
-	private void ProcessPress(bool pressed, float click, float drag)
-	{
-	}
-
-	private void ProcessRelease(bool isMouse, float drag)
-	{
-	}
-
-	private bool HasCollider(GameObject go)
-	{
-		return false;
-	}
-
-	public void ProcessTouch(bool pressed, bool released)
-	{
-	}
-
-	public static void CancelNextTooltip()
-	{
-	}
-
-	public static bool ShowTooltip(GameObject go)
-	{
-		return false;
-	}
-
-	public static bool HideTooltip()
-	{
-		return false;
-	}
-
-	public static void ResetTooltip(float delay = 0.5f)
-	{
-	}
+    public static void CancelNextTooltip() { }
+    public static bool ShowTooltip(GameObject go) { return false; }
+    public static bool HideTooltip() { return false; }
+    public static void ResetTooltip(float delay = 0.5f) { }
 }
