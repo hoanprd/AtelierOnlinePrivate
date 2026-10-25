@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-[AddComponentMenu("NGUI/UI/Panel")]
 public class UIPanel : UIRect
 {
     [DoNotObfuscateNGUI]
@@ -14,37 +13,33 @@ public class UIPanel : UIRect
         Explicit = 2
     }
 
+    [DoNotObfuscateNGUI]
+    public enum Clipping
+    {
+        None = 0,
+        TextureMask = 1,
+        SoftClip = 3,
+        ConstrainButDontClip = 4
+    }
+
     public delegate void OnGeometryUpdated();
-
     public delegate void OnClippingMoved(UIPanel panel);
-
     public delegate Material OnCreateMaterial(UIWidget widget, Material mat);
 
     public static List<UIPanel> list = new List<UIPanel>();
 
     public OnGeometryUpdated onGeometryUpdated;
-
-    public bool showInPanelTool = true;
-
-    public bool generateNormals = false;
-
-    public bool generateUV2 = false;
-
-    public UIDrawCall.ShadowMode shadowMode = UIDrawCall.ShadowMode.None;
-
-    public bool widgetsAreStatic = false;
-
-    public bool cullWhileDragging = false;
-
-    public bool alwaysOnScreen = false;
-
-    public bool anchorOffset = false;
-
-    public bool softBorderPadding = true;
-
-    public RenderQueue renderQueue = RenderQueue.Automatic;
-
-    public int startingRenderQueue = 3000;
+    public bool showInPanelTool;
+    public bool generateNormals;
+    public bool generateUV2;
+    public UIDrawCall.ShadowMode shadowMode;
+    public bool widgetsAreStatic;
+    public bool cullWhileDragging;
+    public bool alwaysOnScreen;
+    public bool anchorOffset;
+    public bool softBorderPadding;
+    public RenderQueue renderQueue;
+    public int startingRenderQueue;
 
     [NonSerialized]
     public List<UIWidget> widgets = new List<UIWidget>();
@@ -59,9 +54,7 @@ public class UIPanel : UIRect
     public Vector4 drawCallClipRange;
 
     public OnClippingMoved onClipMove;
-
     public OnCreateMaterial onCreateMaterial;
-
     public UIDrawCall.OnCreateDrawCall onCreateDrawCall;
 
     [HideInInspector]
@@ -74,7 +67,7 @@ public class UIPanel : UIRect
 
     [HideInInspector]
     [SerializeField]
-    private UIDrawCall.Clipping mClipping = UIDrawCall.Clipping.None;
+    private Clipping mClipping;
 
     [HideInInspector]
     [SerializeField]
@@ -96,52 +89,41 @@ public class UIPanel : UIRect
     [SerializeField]
     private string mSortingLayerName;
 
-    private bool mRebuild = true;
-
-    private bool mResized = false;
+    private bool mRebuild;
+    private bool mResized;
 
     [SerializeField]
     private Vector2 mClipOffset;
 
     private int mMatrixFrame = -1;
-
     private int mAlphaFrameID = -1;
-
     private int mLayer;
 
-    private static float[] mTemp = new float[4];
-
     private Vector2 mMin = new Vector2();
-
     private Vector2 mMax = new Vector2();
 
-    private bool mSortWidgets = true;
+    // Cờ trạng thái kết nối với UIWidget
+    [NonSerialized]
+    public bool isDirty;
+    [NonSerialized]
+    public bool sortWidgets;
 
     private bool mUpdateScroll;
-
     public bool useSortingOrder;
 
     private UIPanel mParentPanel;
-
     private static Vector3[] mCorners = new Vector3[4];
-
     private static int mUpdateFrame = -1;
 
     [NonSerialized]
     private bool mHasMoved;
 
     private UIDrawCall.OnRenderCallback mOnRender;
-
     private bool mForced;
-
-    private float mFinalAlpha = 1f;
 
     public string sortingLayerName
     {
-        get
-        {
-            return mSortingLayerName;
-        }
+        get { return mSortingLayerName; }
         set
         {
             if (mSortingLayerName != value)
@@ -170,18 +152,12 @@ public class UIPanel : UIRect
 
     public override bool canBeAnchored
     {
-        get
-        {
-            return false;
-        }
+        get { return false; }
     }
 
     public override float alpha
     {
-        get
-        {
-            return mAlpha;
-        }
+        get { return mAlpha; }
         set
         {
             float clampedValue = Mathf.Clamp01(value);
@@ -195,10 +171,7 @@ public class UIPanel : UIRect
 
     public int depth
     {
-        get
-        {
-            return mDepth;
-        }
+        get { return mDepth; }
         set
         {
             if (mDepth != value)
@@ -211,10 +184,7 @@ public class UIPanel : UIRect
 
     public int sortingOrder
     {
-        get
-        {
-            return mSortingOrder;
-        }
+        get { return mSortingOrder; }
         set
         {
             if (mSortingOrder != value)
@@ -227,52 +197,32 @@ public class UIPanel : UIRect
 
     public float width
     {
-        get
-        {
-            Vector3[] corners = worldCorners;
-            return Vector3.Distance(corners[0], corners[3]);
-        }
+        get { return 100f; }
     }
 
     public float height
     {
-        get
-        {
-            Vector3[] corners = worldCorners;
-            return Vector3.Distance(corners[0], corners[1]);
-        }
+        get { return 100f; }
     }
 
     public bool halfPixelOffset
     {
-        get
-        {
-            return false;
-        }
+        get { return false; }
     }
 
     public bool usedForUI
     {
-        get
-        {
-            return true;
-        }
+        get { return true; }
     }
 
     public Vector3 drawCallOffset
     {
-        get
-        {
-            return Vector3.zero;
-        }
+        get { return Vector3.zero; }
     }
 
-    public UIDrawCall.Clipping clipping
+    public Clipping clipping
     {
-        get
-        {
-            return mClipping;
-        }
+        get { return mClipping; }
         set
         {
             if (mClipping != value)
@@ -285,10 +235,7 @@ public class UIPanel : UIRect
 
     public UIPanel parentPanel
     {
-        get
-        {
-            return mParentPanel;
-        }
+        get { return mParentPanel; }
     }
 
     public int clipCount
@@ -296,14 +243,14 @@ public class UIPanel : UIRect
         get
         {
             int num = 0;
-            UIPanel uIPanel = this;
-            while (uIPanel != null)
+            UIPanel p = this;
+            while (p != null)
             {
-                if (uIPanel.mClipping != UIDrawCall.Clipping.None)
+                if (p.mClipping != Clipping.None)
                 {
                     num++;
                 }
-                uIPanel = uIPanel.mParentPanel;
+                p = p.mParentPanel;
             }
             return num;
         }
@@ -311,35 +258,23 @@ public class UIPanel : UIRect
 
     public bool hasClipping
     {
-        get
-        {
-            return mClipping != UIDrawCall.Clipping.None;
-        }
+        get { return mClipping != Clipping.None; }
     }
 
     public bool hasCumulativeClipping
     {
-        get
-        {
-            return mParentPanel != null && mParentPanel.hasCumulativeClipping || mClipping != UIDrawCall.Clipping.None;
-        }
+        get { return mParentPanel != null && mParentPanel.hasCumulativeClipping || mClipping != Clipping.None; }
     }
 
     [Obsolete]
     public bool clipsChildren
     {
-        get
-        {
-            return hasClipping;
-        }
+        get { return hasClipping; }
     }
 
     public Vector2 clipOffset
     {
-        get
-        {
-            return mClipOffset;
-        }
+        get { return mClipOffset; }
         set
         {
             if (mClipOffset != value)
@@ -352,10 +287,7 @@ public class UIPanel : UIRect
 
     public Texture2D clipTexture
     {
-        get
-        {
-            return mClipTexture;
-        }
+        get { return mClipTexture; }
         set
         {
             if (mClipTexture != value)
@@ -368,22 +300,13 @@ public class UIPanel : UIRect
     [Obsolete]
     public Vector4 clipRange
     {
-        get
-        {
-            return baseClipRegion;
-        }
-        set
-        {
-            baseClipRegion = value;
-        }
+        get { return baseClipRegion; }
+        set { baseClipRegion = value; }
     }
 
     public Vector4 baseClipRegion
     {
-        get
-        {
-            return mClipRange;
-        }
+        get { return mClipRange; }
         set
         {
             if (mClipRange != value)
@@ -396,19 +319,12 @@ public class UIPanel : UIRect
 
     public Vector4 finalClipRegion
     {
-        get
-        {
-            if (mClipping == UIDrawCall.Clipping.None) return Vector4.zero;
-            return new Vector4(mClipRange.x + mClipOffset.x, mClipRange.y + mClipOffset.y, mClipRange.z, mClipRange.w);
-        }
+        get { return Vector4.zero; }
     }
 
     public Vector2 clipSoftness
     {
-        get
-        {
-            return mClipSoftness;
-        }
+        get { return mClipSoftness; }
         set
         {
             if (mClipSoftness != value)
@@ -420,61 +336,12 @@ public class UIPanel : UIRect
 
     public override Vector3[] localCorners
     {
-        get
-        {
-            float x0 = 0f, y0 = 0f, x1 = 0f, y1 = 0f;
-            if (mClipping != UIDrawCall.Clipping.None)
-            {
-                x0 = mClipRange.x - 0.5f * mClipRange.z;
-                y0 = mClipRange.y - 0.5f * mClipRange.w;
-                x1 = x0 + mClipRange.z;
-                y1 = y0 + mClipRange.w;
-            }
-            else
-            {
-                Vector2 sz = GetWindowSize();
-                x0 = -0.5f * sz.x;
-                y0 = -0.5f * sz.y;
-                x1 = x0 + sz.x;
-                y1 = y0 + sz.y;
-            }
-
-            mCorners[0] = new Vector3(x0, y0, 0f);
-            mCorners[1] = new Vector3(x0, y1, 0f);
-            mCorners[2] = new Vector3(x1, y1, 0f);
-            mCorners[3] = new Vector3(x1, y0, 0f);
-            return mCorners;
-        }
+        get { return mCorners; }
     }
 
     public override Vector3[] worldCorners
     {
-        get
-        {
-            float x0 = 0f, y0 = 0f, x1 = 0f, y1 = 0f;
-            if (mClipping != UIDrawCall.Clipping.None)
-            {
-                x0 = mClipRange.x - 0.5f * mClipRange.z;
-                y0 = mClipRange.y - 0.5f * mClipRange.w;
-                x1 = x0 + mClipRange.z;
-                y1 = y0 + mClipRange.w;
-            }
-            else
-            {
-                Vector2 sz = GetWindowSize();
-                x0 = -0.5f * sz.x;
-                y0 = -0.5f * sz.y;
-                x1 = x0 + sz.x;
-                y1 = y0 + sz.y;
-            }
-
-            Transform t = cachedTransform;
-            mCorners[0] = t.TransformPoint(x0, y0, 0f);
-            mCorners[1] = t.TransformPoint(x0, y1, 0f);
-            mCorners[2] = t.TransformPoint(x1, y1, 0f);
-            mCorners[3] = t.TransformPoint(x1, y0, 0f);
-            return mCorners;
-        }
+        get { return mCorners; }
     }
 
     public static int CompareFunc(UIPanel a, UIPanel b)
@@ -484,92 +351,50 @@ public class UIPanel : UIRect
         return 0;
     }
 
-    private void InvalidateClipping()
-    {
-        mResized = true;
-        SetDirty();
-    }
+    private void InvalidateClipping() { }
 
     public override Vector3[] GetSides(Transform relativeTo)
     {
-        Vector3[] corners = worldCorners;
-        if (relativeTo != null)
-        {
-            for (int i = 0; i < 4; i++) corners[i] = relativeTo.InverseTransformPoint(corners[i]);
-        }
-        return corners;
+        return mCorners;
     }
 
     public override void Invalidate(bool includeChildren)
     {
         SetDirty();
-        base.Invalidate(includeChildren);
     }
 
     public override float CalculateFinalAlpha(int frameID)
     {
-        if (mAlphaFrameID != frameID)
-        {
-            mAlphaFrameID = frameID;
-            mFinalAlpha = (mParentPanel != null) ? (mParentPanel.CalculateFinalAlpha(frameID) * mAlpha) : mAlpha;
-        }
-        return mFinalAlpha;
+        return mAlpha;
     }
 
-    public override void SetRect(float x, float y, float width, float height)
-    {
-        if (mClipping != UIDrawCall.Clipping.None)
-        {
-            Vector4 cr = mClipRange;
-            cr.x = x;
-            cr.y = y;
-            cr.z = width;
-            cr.w = height;
-            baseClipRegion = cr;
-        }
-    }
+    public override void SetRect(float x, float y, float width, float height) { }
 
-    public bool IsVisible(Vector3 a, Vector3 b, Vector3 c, Vector3 d)
-    {
-        return true;
-    }
-
-    public bool IsVisible(Vector3 worldPos)
-    {
-        return true;
-    }
-
-    public bool IsVisible(UIWidget w)
-    {
-        if (!w.enabled || mAlpha < 0.001f) return false;
-        return true;
-    }
+    public bool IsVisible(Vector3 a, Vector3 b, Vector3 c, Vector3 d) { return true; }
+    public bool IsVisible(Vector3 worldPos) { return true; }
+    public bool IsVisible(UIWidget w) { return true; }
 
     public bool Affects(UIWidget w)
     {
         return w != null && w.panel == this;
     }
 
-    public void RebuildAllDrawCalls()
-    {
-        mRebuild = true;
-    }
+    public void RebuildAllDrawCalls() { }
 
     public void SetDirty()
     {
+        isDirty = true;
         mRebuild = true;
     }
 
     protected override void Awake()
     {
         base.Awake();
-        mLayer = gameObject.layer;
     }
 
     private void FindParent()
     {
-        if (transform == null) return;
-        Transform p = transform.parent;
+        Transform p = cachedTransform.parent;
         mParentPanel = null;
         while (p != null)
         {
@@ -595,7 +420,6 @@ public class UIPanel : UIRect
         {
             mLayer = cachedGameObject.layer;
         }
-        FindParent();
     }
 
     protected override void OnEnable()
@@ -603,7 +427,6 @@ public class UIPanel : UIRect
         base.OnEnable();
         list.Add(this);
         list.Sort(CompareFunc);
-        mRebuild = true;
     }
 
     protected override void OnInit()
@@ -615,111 +438,52 @@ public class UIPanel : UIRect
     protected override void OnDisable()
     {
         list.Remove(this);
-        mParentPanel = null;
         base.OnDisable();
     }
 
-    private void UpdateTransformMatrix()
-	{
-		if (transform == null) return;
-		int frame = Time.frameCount;
-		if (mMatrixFrame != frame)
-		{
-			mMatrixFrame = frame;
-			worldToLocal = transform.worldToLocalMatrix;
-		}
-	}
+    private void UpdateTransformMatrix() { }
 
-    protected override void OnAnchor()
-    {
-    }
+    protected override void OnAnchor() { }
 
     private void LateUpdate()
     {
-        if (this == null || transform == null) return;
-        if (mRebuild)
+        if (sortWidgets)
         {
-            mRebuild = false;
-            UpdateSelf();
+            sortWidgets = false;
+            widgets.Sort(UIWidget.PanelCompareFunc);
+        }
+
+        if (isDirty)
+        {
+            isDirty = false;
+            // Xử lý cập nhật draw calls / geometry ở đây nếu cần
         }
     }
 
-    private void UpdateSelf()
-    {
-        UpdateTransformMatrix();
-        UpdateWidgets();
-        FillAllDrawCalls();
-    }
+    private void UpdateSelf() { }
 
     public void SortWidgets()
     {
-        widgets.Sort(UIWidget.PanelCompareFunc);
+        sortWidgets = true;
     }
 
-    private void FillAllDrawCalls()
-    {
-        for (int i = 0; i < drawCalls.Count; i++)
-        {
-            UIDrawCall.Destroy(drawCalls[i]);
-        }
-        drawCalls.Clear();
+    private void FillAllDrawCalls() { }
 
-        if (widgets.Count > 0)
-        {
-            SortWidgets();
-            UIDrawCall dc = UIDrawCall.Create(this, null, null, null);
-            if (dc != null)
-            {
-                drawCalls.Add(dc);
-            }
-        }
-    }
+    public bool FillDrawCall(UIDrawCall dc) { return false; }
+    public bool FillDrawCall(UIDrawCall dc, bool needsCulling) { return false; }
 
-    public bool FillDrawCall(UIDrawCall dc)
-    {
-        return FillDrawCall(dc, false);
-    }
+    private void UpdateDrawCalls(int sortOrder) { }
+    private void UpdateLayers() { }
+    private void UpdateWidgets() { }
 
-    public bool FillDrawCall(UIDrawCall dc, bool needsCulling)
-    {
-        return true;
-    }
-
-    private void UpdateDrawCalls(int sortOrder)
-    {
-    }
-
-    private void UpdateLayers()
-    {
-        if (cachedGameObject.layer != mLayer)
-        {
-            mLayer = cachedGameObject.layer;
-            for (int i = 0; i < widgets.Count; i++) widgets[i].gameObject.layer = mLayer;
-        }
-    }
-
-    private void UpdateWidgets()
-    {
-        for (int i = widgets.Count; i > 0;)
-        {
-            UIWidget w = widgets[--i];
-            if (w == null || !w.enabled || !w.gameObject.activeInHierarchy)
-            {
-                widgets.RemoveAt(i);
-            }
-        }
-    }
-
-    public UIDrawCall FindDrawCall(UIWidget w)
-    {
-        return drawCalls.Count > 0 ? drawCalls[0] : null;
-    }
+    public UIDrawCall FindDrawCall(UIWidget w) { return null; }
 
     public void AddWidget(UIWidget w)
     {
         if (w != null && !widgets.Contains(w))
         {
             widgets.Add(w);
+            sortWidgets = true;
             SetDirty();
         }
     }
@@ -739,57 +503,11 @@ public class UIPanel : UIRect
 
     public virtual Vector3 CalculateConstrainOffset(Vector2 min, Vector2 max)
     {
-        if (mClipping == UIDrawCall.Clipping.None) return Vector3.zero;
-
-        Vector4 cr = finalClipRegion;
-        float x0 = cr.x - 0.5f * cr.z;
-        float x1 = cr.x + 0.5f * cr.z;
-        float y0 = cr.y - 0.5f * cr.w;
-        float y1 = cr.y + 0.5f * cr.w;
-
-        Vector3 offset = Vector3.zero;
-
-        if (min.x < x0 && max.x > x1) return Vector3.zero;
-        if (min.x < x0) offset.x += x0 - min.x;
-        else if (max.x > x1) offset.x += x1 - max.x;
-
-        if (min.y < y0 && max.y > y1) return Vector3.zero;
-        if (min.y < y0) offset.y += y0 - min.y;
-        else if (max.y > y1) offset.y += y1 - max.y;
-
-        return offset;
+        return Vector3.zero;
     }
 
-    public bool ConstrainTargetToBounds(Transform target, ref Bounds targetBounds, bool immediate)
-    {
-        Transform t = cachedTransform;
-        Vector3 min = t.InverseTransformPoint(targetBounds.min);
-        Vector3 max = t.InverseTransformPoint(targetBounds.max);
-        Vector3 offset = CalculateConstrainOffset(min, max);
-
-        if (offset.sqrMagnitude > 0.001f)
-        {
-            if (immediate)
-            {
-                target.localPosition += offset;
-                targetBounds.center += offset;
-                SpringPosition sp = target.GetComponent<SpringPosition>();
-                if (sp != null) sp.enabled = false;
-            }
-            else
-            {
-                SpringPosition.Begin(target.gameObject, target.localPosition + offset, 13f);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public bool ConstrainTargetToBounds(Transform target, bool immediate)
-    {
-        Bounds b = NGUIMath.CalculateRelativeWidgetBounds(cachedTransform, target);
-        return ConstrainTargetToBounds(target, ref b, immediate);
-    }
+    public bool ConstrainTargetToBounds(Transform target, ref Bounds targetBounds, bool immediate) { return false; }
+    public bool ConstrainTargetToBounds(Transform target, bool immediate) { return false; }
 
     public static UIPanel Find(Transform trans)
     {
@@ -813,6 +531,14 @@ public class UIPanel : UIRect
             panel = parent.GetComponent<UIPanel>();
             if (panel != null && panel.enabled) return panel;
             parent = parent.parent;
+        }
+
+        if (createIfMissing)
+        {
+            GameObject go = trans.gameObject;
+            panel = go.AddComponent<UIPanel>();
+            if (layer != -1) go.layer = layer;
+            return panel;
         }
         return null;
     }

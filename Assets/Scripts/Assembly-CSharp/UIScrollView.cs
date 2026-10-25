@@ -168,7 +168,7 @@ public class UIScrollView : MonoBehaviour
         get
         {
             float width = bounds.size.x;
-            if (mPanel != null && mPanel.clipping != UIDrawCall.Clipping.None)
+            if (mPanel != null && mPanel.clipping != UIPanel.Clipping.None)
             {
                 Vector4 cr = mPanel.finalClipRegion;
                 width = Mathf.Max(width, cr.z);
@@ -182,7 +182,7 @@ public class UIScrollView : MonoBehaviour
         get
         {
             float height = bounds.size.y;
-            if (mPanel != null && mPanel.clipping != UIDrawCall.Clipping.None)
+            if (mPanel != null && mPanel.clipping != UIPanel.Clipping.None)
             {
                 Vector4 cr = mPanel.finalClipRegion;
                 height = Mathf.Max(height, cr.w);
@@ -265,7 +265,7 @@ public class UIScrollView : MonoBehaviour
         Vector3 min = new Vector3(cr.x - 0.5f * cr.z, cr.y - 0.5f * cr.w, 0f);
         Vector3 max = new Vector3(cr.x + 0.5f * cr.z, cr.y + 0.5f * cr.w, 0f);
 
-        if (mPanel.clipping != UIDrawCall.Clipping.None)
+        if (mPanel != null && mPanel.clipping != UIPanel.Clipping.None)
         {
             min.x += mPanel.clipSoftness.x;
             max.x -= mPanel.clipSoftness.x;
