@@ -1,71 +1,132 @@
 using System;
 using UnityEngine;
 
+[AddComponentMenu("NGUI/Tween/Tween Color")]
 public class TweenColor : UITweener
 {
-	public Color from;
+    public Color from = Color.white;
 
-	public Color to;
+    public Color to = Color.white;
 
-	private bool mCached;
+    private bool mCached;
 
-	private UIWidget mWidget;
+    private UIWidget mWidget;
 
-	private Material mMat;
+    private Material mMat;
 
-	private Light mLight;
+    private Light mLight;
 
-	private SpriteRenderer mSr;
+    private SpriteRenderer mSr;
 
-	[Obsolete]
-	public Color color
-	{
-		get
-		{
-			return default(Color);
-		}
-		set
-		{
-		}
-	}
+    [Obsolete("Use 'value' instead")]
+    public Color color
+    {
+        get
+        {
+            return value;
+        }
+        set
+        {
+            this.value = value;
+        }
+    }
 
-	public Color value
-	{
-		get
-		{
-			return default(Color);
-		}
-		set
-		{
-		}
-	}
+    public Color value
+    {
+        get
+        {
+            if (!mCached) Cache();
+            if (mWidget != null) return mWidget.color;
+            if (mMat != null) return mMat.color;
+            if (mSr != null) return mSr.color;
+            if (mLight != null) return mLight.color;
+            return Color.white;
+        }
+        set
+        {
+            if (!mCached) Cache();
+            if (mWidget != null)
+            {
+                mWidget.color = value;
+            }
+            else if (mMat != null)
+            {
+                mMat.color = value;
+            }
+            else if (mSr != null)
+            {
+                mSr.color = value;
+            }
+            else if (mLight != null)
+            {
+                mLight.color = value;
+                mLight.enabled = (value.r + value.g + value.b) > 0.01f;
+            }
+        }
+    }
 
-	private void Cache()
-	{
-	}
+    private void Cache()
+    {
+        mCached = true;
+        mWidget = GetComponent<UIWidget>();
+        if (mWidget == null)
+        {
+            mSr = GetComponent<SpriteRenderer>();
+            if (mSr == null)
+            {
+                mLight = GetComponent<Light>();
+                if (mLight == null)
+                {
+                    Renderer ren = GetComponent<Renderer>();
+                    if (ren != null)
+                    {
+                        mMat = ren.material;
+                    }
+                }
+            }
+        }
+    }
 
-	protected override void OnUpdate(float factor, bool isFinished)
-	{
-	}
+    protected override void OnUpdate(float factor, bool isFinished)
+    {
+        value = Color.Lerp(from, to, factor);
+    }
 
-	public static TweenColor Begin(GameObject go, float duration, Color color)
-	{
-		return null;
-	}
+    public static TweenColor Begin(GameObject go, float duration, Color color)
+    {
+        TweenColor comp = UITweener.Begin<TweenColor>(go, duration);
+        comp.from = comp.value;
+        comp.to = color;
 
-	public override void SetStartToCurrentValue()
-	{
-	}
+        if (duration <= 0f)
+        {
+            comp.Sample(1f, true);
+            comp.enabled = false;
+        }
+        return comp;
+    }
 
-	public override void SetEndToCurrentValue()
-	{
-	}
+    [ContextMenu("Set 'From' to current value")]
+    public override void SetStartToCurrentValue()
+    {
+        from = value;
+    }
 
-	private void SetCurrentValueToStart()
-	{
-	}
+    [ContextMenu("Set 'To' to current value")]
+    public override void SetEndToCurrentValue()
+    {
+        to = value;
+    }
 
-	private void SetCurrentValueToEnd()
-	{
-	}
+    [ContextMenu("Assume value of 'From'")]
+    private void SetCurrentValueToStart()
+    {
+        value = from;
+    }
+
+    [ContextMenu("Assume value of 'To'")]
+    private void SetCurrentValueToEnd()
+    {
+        value = to;
+    }
 }
