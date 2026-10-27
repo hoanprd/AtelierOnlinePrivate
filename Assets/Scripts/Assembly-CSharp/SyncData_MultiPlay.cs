@@ -96,6 +96,8 @@ public class SyncData_MultiPlay : MonoBehaviour
 
         if (m_gimmickList == null) m_gimmickList = new Dictionary<long, MultiPlay_GimmickData>();
         else m_gimmickList.Clear();
+
+        ClearMemberState();
     }
 
     public static void Clear()
@@ -121,24 +123,79 @@ public class SyncData_MultiPlay : MonoBehaviour
 
     public static int GetMemberState(eMemberSaveState state, int index)
     {
+        if (m_saveState != null && index >= 0 && index < m_saveState.Length && m_saveState[index] != null)
+        {
+            int key = (int)state;
+            if (m_saveState[index].ContainsKey(key))
+            {
+                return m_saveState[index][key];
+            }
+        }
         return 0;
     }
 
     public static void SetMemberState(eMemberSaveState state, int index, int value)
     {
+        if (m_saveState == null)
+        {
+            m_saveState = new Dictionary<int, int>[16];
+        }
+        if (index >= 0)
+        {
+            if (index >= m_saveState.Length)
+            {
+                System.Array.Resize(ref m_saveState, index + 4);
+            }
+            if (m_saveState[index] == null)
+            {
+                m_saveState[index] = new Dictionary<int, int>();
+            }
+            m_saveState[index][(int)state] = value;
+        }
     }
 
     public static int GetMemberState(EAbnormalState state, int index)
     {
+        if (m_saveAbnormalState != null && m_saveAbnormalState.ContainsKey(state))
+        {
+            var dict = m_saveAbnormalState[state];
+            if (dict != null && dict.ContainsKey(index))
+            {
+                return dict[index];
+            }
+        }
         return 0;
     }
 
     public static void SetMemberState(EAbnormalState state, int index, int value)
     {
+        if (m_saveAbnormalState == null)
+        {
+            m_saveAbnormalState = new Dictionary<EAbnormalState, Dictionary<int, int>>();
+        }
+        if (!m_saveAbnormalState.ContainsKey(state))
+        {
+            m_saveAbnormalState[state] = new Dictionary<int, int>();
+        }
+        m_saveAbnormalState[state][index] = value;
     }
 
     public static void ClearMemberState()
     {
+        if (m_saveState != null)
+        {
+            for (int i = 0; i < m_saveState.Length; i++)
+            {
+                if (m_saveState[i] != null)
+                {
+                    m_saveState[i].Clear();
+                }
+            }
+        }
+        if (m_saveAbnormalState != null)
+        {
+            m_saveAbnormalState.Clear();
+        }
     }
 
     public static MultiPlay_CharaData GetMpCharaData(long userid)
@@ -147,7 +204,10 @@ public class SyncData_MultiPlay : MonoBehaviour
         {
             foreach (var kvp in m_charaList)
             {
-                // Kiểm tra tương ứng với dữ liệu nhân vật nếu có
+                if (kvp.Value != null && kvp.Value.UserID == userid) // Sửa UserId thành UserID
+                {
+                    return kvp.Value;
+                }
             }
         }
         return null;
@@ -155,6 +215,11 @@ public class SyncData_MultiPlay : MonoBehaviour
 
     public static string GetUserDispName(long userid)
     {
-        return null;
+        MultiPlay_CharaData charaData = GetMpCharaData(userid);
+        if (charaData != null)
+        {
+            return charaData.DispName;
+        }
+        return string.Empty;
     }
 }
