@@ -8,6 +8,32 @@ using UnityEngine.Purchasing.Extension;
 
 namespace Google.Play.Billing
 {
+	public interface IStoreCallback
+	{
+		ProductCollection products { get; }
+
+		bool useTransactionLog { get; set; }
+
+		void OnSetupFailed(InitializationFailureReason reason);
+
+		void OnProductsRetrieved(List<ProductDescription> products);
+
+		void OnPurchaseSucceeded(string storeSpecificId, string receipt, string transactionIdentifier);
+
+		void OnAllPurchasesRetrieved(List<Product> purchasedProducts);
+	}
+
+	public interface IStore
+	{
+		void Initialize(IStoreCallback callback);
+
+		void RetrieveProducts(ReadOnlyCollection<ProductDefinition> products);
+
+		void Purchase(ProductDefinition product, string developerPayload);
+
+		void FinishTransaction(ProductDefinition product, string transactionId);
+	}
+
 	public class GooglePlayStoreImpl : IStore, IGooglePlayStoreExtensions, IGooglePlayConfiguration, IStoreExtension, IStoreConfiguration
 	{
 		private enum AsyncRequestStatus

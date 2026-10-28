@@ -2,8 +2,8 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!1045 &1
 EditorBuildSettings:
-  serializedVersion: 2
   m_ObjectHideFlags: 0
+  serializedVersion: 2
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Main.unity
@@ -32,3 +32,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ExQuest_Result.unity
     guid: e8082edf2f9f55240b7bd1c05c966b47
+  m_configObjects:
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}

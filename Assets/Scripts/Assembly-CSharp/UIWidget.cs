@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -544,7 +544,7 @@ public class UIWidget : UIRect
     {
         if (left.mDepth != right.mDepth)
             return left.mDepth.CompareTo(right.mDepth);
-        return left.GetInstanceID().CompareTo(right.GetInstanceID());
+        return left.GetEntityId().CompareTo(right.GetEntityId());
     }
 
     [System.Diagnostics.DebuggerHidden]
@@ -555,7 +555,7 @@ public class UIWidget : UIRect
             return left.panel.depth.CompareTo(right.panel.depth);
         if (left.mDepth != right.mDepth)
             return left.mDepth.CompareTo(right.mDepth);
-        return left.GetInstanceID().CompareTo(right.GetInstanceID());
+        return left.GetEntityId().CompareTo(right.GetEntityId());
     }
 
     public Bounds CalculateBounds()

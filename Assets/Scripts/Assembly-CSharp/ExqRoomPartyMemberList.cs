@@ -66,7 +66,6 @@ public class ExqRoomPartyMemberList : MonoBehaviour
 		}
 	}
 
-	[SerializeField]
 	private List<MultiPlay_CharaData> m_CheckMpCharaDataList
 	{
 		get
