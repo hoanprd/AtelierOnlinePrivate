@@ -79,7 +79,7 @@ public class PhotonManager : MonoBehaviour
             return;
         }
         s_scrInstance = this;
-        DontDestroyOnLoad(gameObject);
+        if (transform.parent == null) DontDestroyOnLoad(gameObject);
     }
 
     private void OnDestroy()

@@ -16,6 +16,16 @@ public class Menu_Base : MonoBehaviour
 
 	private void Update()
 	{
+		if (SessionOutCheck())
+		{
+			SetSessionOut();
+			return;
+		}
+		if (ExtraQuestManager.Instance != null && ExtraQuestManager.Instance.IsExtraQuestMode())
+		{
+			ExtraQuestManager.Instance.ConfirmNotExistsOwner();
+		}
+		MenuUpdate();
 	}
 
 	protected virtual bool SessionOutCheck()
@@ -33,29 +43,35 @@ public class Menu_Base : MonoBehaviour
 
 	protected float GetDeltaTime()
 	{
-		return 0f;
+		return Time.deltaTime;
 	}
 
 	protected virtual void SetSystemFadeIn()
 	{
+		LoadingManager.Disable(0.5f);
 	}
 
 	protected virtual bool IsSystemFadeInEnd()
 	{
-		return false;
+		return LoadingManager.IsEnd;
 	}
 
 	protected virtual void SetSystemBlackOut(System_MenuManager.eSystemMenuKind eKind = System_MenuManager.eSystemMenuKind.None)
 	{
+		LoadingManager.Enable(0.5f);
 	}
 
 	protected virtual bool IsSystemBlackOutEnd()
 	{
-		return false;
+		return LoadingManager.IsBlackOut;
 	}
 
 	protected virtual void SetSystemCover(bool bEnable)
 	{
+		if (System_MenuManager.GetInst() != null)
+		{
+			System_MenuManager.GetInst().SetCover(bEnable);
+		}
 	}
 
 	protected virtual void SetCover(bool bEnable)

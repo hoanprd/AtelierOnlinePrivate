@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -182,7 +182,7 @@ public class GameStateManager : MonoBehaviour
         }
 
         sInstance = this;
-        DontDestroyOnLoad(gameObject);
+        if (transform.parent == null) DontDestroyOnLoad(gameObject);
 
         iScreenWidth = Screen.width;
         iScreenHeight = Screen.height;

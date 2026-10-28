@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 public class LRUCache<K, V> : IDisposable
 {
@@ -11,6 +12,8 @@ public class LRUCache<K, V> : IDisposable
 
 		public CacheItem(TypeKI k, TypeVI v)
 		{
+			Key = k;
+			Value = v;
 		}
 	}
 
@@ -24,7 +27,7 @@ public class LRUCache<K, V> : IDisposable
 	{
 		get
 		{
-			return 0;
+			return cacheMap != null ? cacheMap.Count : 0;
 		}
 	}
 
@@ -32,7 +35,16 @@ public class LRUCache<K, V> : IDisposable
 	{
 		get
 		{
-			return null;
+			if (lruList == null)
+			{
+				return new V[0];
+			}
+			V[] arr = new V[lruList.Count];
+			for (int i = 0; i < lruList.Count; i++)
+			{
+				arr[i] = lruList[i].Value;
+			}
+			return arr;
 		}
 	}
 
@@ -40,60 +52,128 @@ public class LRUCache<K, V> : IDisposable
 	{
 		get
 		{
-			return null;
+			if (lruList == null)
+			{
+				return new K[0];
+			}
+			K[] arr = new K[lruList.Count];
+			for (int i = 0; i < lruList.Count; i++)
+			{
+				arr[i] = lruList[i].Key;
+			}
+			return arr;
 		}
 	}
 
-	// C# has no syntax for parameterized property 'Item'.
-	public V get_Item(K key)
+	public V this[K key]
 	{
-		return default(V);
-	}
-
-	public void set_Item(K key, V value)
-	{
+		get
+		{
+			return Get(key);
+		}
+		set
+		{
+			Add(key, value);
+		}
 	}
 
 	public LRUCache(uint capacity)
 	{
+		this.capacity = capacity;
+		cacheMap = new Dictionary<K, CacheItem<K, V>>();
+		lruList = new List<CacheItem<K, V>>();
 	}
 
 	protected LRUCache()
+		: this(64u)
 	{
 	}
 
 	~LRUCache()
 	{
+		Dispose();
 	}
 
 	public void Dispose()
 	{
+		Clear();
+		GC.SuppressFinalize(this);
 	}
 
 	public void Clear()
 	{
+		if (lruList != null)
+		{
+			for (int i = 0; i < lruList.Count; i++)
+			{
+				DisposeItem(lruList[i]);
+			}
+			lruList.Clear();
+		}
+		if (cacheMap != null)
+		{
+			cacheMap.Clear();
+		}
 	}
 
 	public bool Exist(K key)
 	{
-		return false;
+		return key != null && cacheMap != null && cacheMap.ContainsKey(key);
 	}
 
 	public V Get(K key)
 	{
+		if (key != null && cacheMap != null && cacheMap.TryGetValue(key, out CacheItem<K, V> item))
+		{
+			lruList.Remove(item);
+			lruList.Add(item);
+			return item.Value;
+		}
 		return default(V);
 	}
 
 	public void Add(K key, V val)
 	{
+		if (key == null)
+		{
+			return;
+		}
+		if (cacheMap.TryGetValue(key, out CacheItem<K, V> existing))
+		{
+			lruList.Remove(existing);
+			cacheMap.Remove(key);
+		}
+		else if (capacity > 0 && cacheMap.Count >= capacity)
+		{
+			RemoveFirstItem();
+		}
+		CacheItem<K, V> cacheItem = new CacheItem<K, V>(key, val);
+		lruList.Add(cacheItem);
+		cacheMap.Add(key, cacheItem);
 	}
 
 	private void RemoveFirstItem()
 	{
+		if (lruList != null && lruList.Count > 0)
+		{
+			CacheItem<K, V> first = lruList[0];
+			lruList.RemoveAt(0);
+			cacheMap.Remove(first.Key);
+			DisposeItem(first);
+		}
 	}
 
 	public void Remove(K key, bool bDestroy = true)
 	{
+		if (key != null && cacheMap != null && cacheMap.TryGetValue(key, out CacheItem<K, V> item))
+		{
+			lruList.Remove(item);
+			cacheMap.Remove(key);
+			if (bDestroy)
+			{
+				DisposeItem(item);
+			}
+		}
 	}
 
 	protected virtual void DisposeItem(CacheItem<K, V> item)
@@ -102,6 +182,14 @@ public class LRUCache<K, V> : IDisposable
 
 	public string Dump()
 	{
-		return null;
+		StringBuilder sb = new StringBuilder();
+		if (lruList != null)
+		{
+			for (int i = 0; i < lruList.Count; i++)
+			{
+				sb.AppendLine(lruList[i].Key?.ToString());
+			}
+		}
+		return sb.ToString();
 	}
 }

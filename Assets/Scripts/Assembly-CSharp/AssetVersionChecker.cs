@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Diagnostics;
+using UnityEngine;
 
 public class AssetVersionChecker : AssetDownloaderBase
 {
@@ -24,7 +25,17 @@ public class AssetVersionChecker : AssetDownloaderBase
 	{
 		get
 		{
-			return null;
+			if (_instance == null)
+			{
+				_instance = Object.FindAnyObjectByType<AssetVersionChecker>();
+				if (_instance == null)
+				{
+					GameObject go = new GameObject("AssetVersionChecker");
+					Object.DontDestroyOnLoad(go);
+					_instance = go.AddComponent<AssetVersionChecker>();
+				}
+			}
+			return _instance;
 		}
 	}
 
@@ -32,7 +43,7 @@ public class AssetVersionChecker : AssetDownloaderBase
 	{
 		get
 		{
-			return EDownloadResult.eSUCCESS;
+			return (_instance != null) ? ((AssetDownloaderBase)_instance).Result : EDownloadResult.eSUCCESS;
 		}
 	}
 
@@ -40,28 +51,46 @@ public class AssetVersionChecker : AssetDownloaderBase
 	{
 		get
 		{
-			return false;
+			return _instance == null || ((AssetDownloaderBase)_instance).IsEnd;
 		}
 	}
 
 	protected override void Init()
 	{
+		base.Init();
+		m_bExecute = false;
+		m_bUpdateFileVersion = false;
+		m_bUpdateFileList = false;
 	}
 
 	public override void Execute()
 	{
+		Init();
+		m_bExecute = true;
+		StartCoroutine(Download());
 	}
 
 	[DebuggerHidden]
 	private IEnumerator Download()
 	{
-		return null;
+		// Offline Client Mode: bypass remote CDN version check and use local assets
+		yield return null;
+		m_fProgress = 1f;
+		SetResult(EDownloadResult.eSUCCESS);
+		m_bExecute = false;
 	}
 
 	[DebuggerHidden]
 	private IEnumerator ExecLoader(AssetDownloaderBase loader)
 	{
-		return null;
+		if (loader != null)
+		{
+			loader.Execute();
+			while (!loader.IsEnd)
+			{
+				yield return null;
+			}
+		}
 	}
 
 	private void UpdateFileVersion()
@@ -70,13 +99,23 @@ public class AssetVersionChecker : AssetDownloaderBase
 
 	private void Awake()
 	{
+		if (_instance == null)
+		{
+			_instance = this;
+			if (base.transform.parent == null)
+			{
+				Object.DontDestroyOnLoad(base.gameObject);
+			}
+		}
 	}
 
 	public static void Request()
 	{
+		Instance.Execute();
 	}
 
 	public static void UpdateRequest()
 	{
+		Instance.Execute();
 	}
 }

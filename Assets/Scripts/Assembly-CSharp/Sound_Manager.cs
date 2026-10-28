@@ -1,14 +1,15 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using UnityEngine;
 
 public class Sound_Manager : MonoBehaviour
 {
     private static Sound_Manager g_scrInst;
 
-    public static readonly eMusicID sc_eMusicID_None;
+    public static readonly eMusicID sc_eMusicID_None = eMusicID.None;
 
     private Dictionary<int, AudioClip> m_acMusicClip = new Dictionary<int, AudioClip>();
     private Dictionary<int, AudioClip> m_acSoundClip = new Dictionary<int, AudioClip>();
@@ -25,13 +26,13 @@ public class Sound_Manager : MonoBehaviour
 
     private Sound_Music m_scrMusicMain;
     private float m_fPrevMusicTime;
-    private eMusicID m_ePrevMusicID;
-    private eMusicID m_eRecentMusicID;
+    private eMusicID m_ePrevMusicID = eMusicID.None;
+    private eMusicID m_eRecentMusicID = eMusicID.None;
     private bool m_bPlayADVMusic;
     private bool m_bReverbFlag;
     private GameObject m_goADVVoice;
     private Coroutine m_sLoadADVVoice;
-    private float m_fBGMVolumeNow;
+    private float m_fBGMVolumeNow = 1f;
 
     private const string BGM_VOLUME_KEY = "BGMVOLUME";
     private const string SE_VOLUME_KEY = "SEVOLUME";
@@ -52,7 +53,14 @@ public class Sound_Manager : MonoBehaviour
     public static float SEVolume
     {
         get => PlayerPrefs.GetFloat(SE_VOLUME_KEY, 1f);
-        set => PlayerPrefs.SetFloat(SE_VOLUME_KEY, value);
+        set
+        {
+            PlayerPrefs.SetFloat(SE_VOLUME_KEY, value);
+            if (g_scrInst != null)
+            {
+                g_scrInst.UpdateVolume();
+            }
+        }
     }
 
     private void Awake()
@@ -63,7 +71,10 @@ public class Sound_Manager : MonoBehaviour
             return;
         }
         g_scrInst = this;
-        DontDestroyOnLoad(gameObject);
+        if (transform.parent == null)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
         Initialize();
     }
 
@@ -79,7 +90,58 @@ public class Sound_Manager : MonoBehaviour
 
     private void Initialize()
     {
-        // Khởi tạo các thành phần cơ bản nếu cần
+        System_GlobalValue.GetUserInfo().stOptionData.Initialize();
+        m_scrMusicMain = gameObject.GetComponent<Sound_Music>();
+        if (m_scrMusicMain == null)
+        {
+            m_scrMusicMain = gameObject.AddComponent<Sound_Music>();
+        }
+        m_acMusicClip = new Dictionary<int, AudioClip>();
+        m_acSoundClip = new Dictionary<int, AudioClip>();
+
+        if (m_sSoundList != null)
+        {
+            if (m_sSoundList.BGM != null)
+            {
+                for (int i = 0; i < m_sSoundList.BGM.Count; i++)
+                {
+                    SoundData data = m_sSoundList.BGM[i];
+                    if (data != null && !string.IsNullOrEmpty(data.sFilePath))
+                    {
+                        string cleanName = Path.GetFileNameWithoutExtension(data.sFilePath);
+                        AudioClip clip = Resources.Load<AudioClip>("sound/music/" + cleanName);
+                        if (clip == null)
+                        {
+                            clip = Resources.Load<AudioClip>("Sound/Music/" + data.sFilePath);
+                        }
+                        if (clip != null)
+                        {
+                            m_acMusicClip[data.iID] = clip;
+                        }
+                    }
+                }
+            }
+            if (m_sSoundList.SE != null)
+            {
+                for (int i = 0; i < m_sSoundList.SE.Count; i++)
+                {
+                    SoundData data = m_sSoundList.SE[i];
+                    if (data != null && !string.IsNullOrEmpty(data.sFilePath))
+                    {
+                        string cleanName = Path.GetFileNameWithoutExtension(data.sFilePath);
+                        AudioClip clip = Resources.Load<AudioClip>("sound/sound/" + cleanName);
+                        if (clip == null)
+                        {
+                            clip = Resources.Load<AudioClip>("Sound/Sound/" + data.sFilePath);
+                        }
+                        if (clip != null)
+                        {
+                            m_acSoundClip[data.iID] = clip;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public static string BattleVoiceAssetPath(int chara) => $"Voice/Battle/{chara}";
@@ -87,27 +149,62 @@ public class Sound_Manager : MonoBehaviour
 
     public string GetAssetBundlePath(eMusicID musicID)
     {
-        return $"Audio/BGM/{musicID.ToString()}";
+        string assetName = GetMusicAssetName(musicID);
+        return string.IsNullOrEmpty(assetName) ? $"sound/music/{musicID}" : $"sound/music/{assetName}";
     }
 
     public static void SetBGMVolumeLocal(float val)
     {
-        BGMVolume = val;
+        if (g_scrInst != null)
+        {
+            g_scrInst.m_fBGMVolumeNow = val;
+            g_scrInst.UpdateVolume();
+        }
     }
 
     public string GetMusicAssetName(eMusicID eID)
     {
+        if (m_sSoundList != null && m_sSoundList.BGM != null)
+        {
+            SoundData found = m_sSoundList.BGM.Find(x => x != null && x.iID == (int)eID);
+            if (found != null)
+            {
+                return found.sFilePath;
+            }
+        }
         return eID.ToString();
     }
 
     [DebuggerHidden]
-    private IEnumerator DownloadBGM(string path, bool bLoop = true, float sample = 0f)
+    private IEnumerator DownloadBGM(string fileName, bool bLoop = true, float sample = 0f)
     {
-        // Xử lý tải AssetBundle hoặc AudioClip từ path
-        yield return null;
+        if (!string.IsNullOrEmpty(fileName))
+        {
+            string cleanName = Path.GetFileNameWithoutExtension(fileName);
+            AudioClip clip = Resources.Load<AudioClip>("sound/music/" + cleanName);
+            if (clip == null)
+            {
+                string abPath = "Sound/Music/" + cleanName;
+                AssetBundleManager.Load(abPath);
+                while (!AssetBundleManager.IsLoad(abPath))
+                {
+                    yield return null;
+                }
+                UnityEngine.Object[] abObjs = AssetBundleManager.Get(abPath);
+                if (abObjs != null && abObjs.Length > 0)
+                {
+                    clip = abObjs[0] as AudioClip;
+                }
+            }
+            if (clip != null && m_scrMusicMain != null)
+            {
+                m_scrMusicMain.PlayStart(clip, bLoop, sample);
+            }
+        }
+        m_sLoadBGM = null;
     }
 
-    public bool IsOK_MusicReq() => true;
+    public bool IsOK_MusicReq() => m_scrMusicMain != null && m_scrMusicMain.IsOK_MusicReq();
 
     public void PlayPrevMusic(bool bLoop = true)
     {
@@ -124,24 +221,53 @@ public class Sound_Manager : MonoBehaviour
 
     public void PlayMusic(eMusicID eID, bool bLoop = true, float sample = 0f, bool isADV = false)
     {
-        m_ePrevMusicID = m_eRecentMusicID;
-        m_eRecentMusicID = eID;
-        m_bPlayADVMusic = isADV;
-
-        // Logic gọi phát nhạc chính thông qua m_scrMusicMain
         if (m_sLoadBGM != null)
         {
             StopCoroutine(m_sLoadBGM);
+            m_sLoadBGM = null;
         }
-        m_sLoadBGM = StartCoroutine(DownloadBGM(GetAssetBundlePath(eID), bLoop, sample));
+        UnityEngine.Debug.Log("♪♪♪ BGM再生リクエスト : " + eID + " ♪♪♪");
+        m_bPlayADVMusic = isADV;
+
+        if (m_eRecentMusicID != eID)
+        {
+            if (m_scrMusicMain != null)
+            {
+                m_fPrevMusicTime = m_scrMusicMain.GetTime();
+            }
+            m_ePrevMusicID = m_eRecentMusicID;
+            StopMusic(true);
+            m_eRecentMusicID = eID;
+
+            if (eID != sc_eMusicID_None && m_sSoundList != null && m_sSoundList.BGM != null)
+            {
+                SoundData found = m_sSoundList.BGM.Find(x => x != null && x.iID == (int)eID);
+                if (found == null)
+                {
+                    UnityEngine.Debug.LogWarning("まだファイルのないBGM" + eID);
+                }
+                else if (m_acMusicClip.TryGetValue(found.iID, out AudioClip localClip) && localClip != null)
+                {
+                    if (m_scrMusicMain != null)
+                    {
+                        m_scrMusicMain.PlayStart(localClip, bLoop, sample);
+                    }
+                }
+                else
+                {
+                    m_sLoadBGM = StartCoroutine(DownloadBGM(found.sFilePath, bLoop, sample));
+                }
+            }
+        }
     }
 
     public void PlayMusic_AudioClip(AudioClip acClip, bool bLoop = true, float sample = 0f)
     {
-        StopMusic(true);
         if (m_scrMusicMain != null)
         {
-            // Cài đặt phát trực tiếp AudioClip
+            m_fPrevMusicTime = m_scrMusicMain.GetTime();
+            StopMusic(true);
+            m_scrMusicMain.PlayStart(acClip, bLoop, sample);
         }
     }
 
@@ -149,47 +275,91 @@ public class Sound_Manager : MonoBehaviour
     {
         if (m_scrMusicMain != null)
         {
-            if (m_scrMusicMain.gameObject != null)
+            if ((int)m_eRecentMusicID > (int)sc_eMusicID_None && bFade)
             {
-                Destroy(m_scrMusicMain.gameObject);
+                m_scrMusicMain.SetFadeout();
             }
-            m_scrMusicMain = null;
+            else
+            {
+                m_scrMusicMain.Stop();
+            }
         }
+        m_eRecentMusicID = sc_eMusicID_None;
     }
 
     public eMusicID GetPlayMusicID() => m_eRecentMusicID;
-    public float GetNowMusicTime() => m_scrMusicMain != null ? 0f : 0f; // Lấy thời gian hiện tại từ AudioSource nếu có
+    public float GetNowMusicTime() => m_scrMusicMain != null ? m_scrMusicMain.GetTime() : 0f;
     public float GetPrevMusicTime() => m_fPrevMusicTime;
     public eMusicID GetPrevMusicID() => m_ePrevMusicID;
     public bool IsPlayADVMusic() => m_bPlayADVMusic;
 
     public void StopSoundAll()
     {
-        if (m_goSound_OneShot != null)
+        for (int i = transform.childCount - 1; i >= 0; i--)
         {
-            foreach (Transform child in m_goSound_OneShot.transform)
+            Transform child = transform.GetChild(i);
+            if (child != null)
             {
-                if (child != null) Destroy(child.gameObject);
-            }
-        }
-        if (m_goSound_Loop != null)
-        {
-            foreach (Transform child in m_goSound_Loop.transform)
-            {
-                if (child != null) Destroy(child.gameObject);
+                Destroy(child.gameObject);
             }
         }
     }
 
     public Sound_OneShot PlaySound(string fileName, float fWaitSec = 0f, Transform trTemp = null, float fVolume = 1f, bool bTimeScale = false)
     {
-        // Tải và phát SE từ tên file
+        if (string.IsNullOrEmpty(fileName))
+        {
+            return null;
+        }
+        if (m_sSoundList != null && m_sSoundList.SE != null)
+        {
+            SoundData found = m_sSoundList.SE.Find(x => x != null && x.sFilePath == fileName);
+            if (found != null && m_acSoundClip.TryGetValue(found.iID, out AudioClip clip) && clip != null)
+            {
+                return PlaySound_AudioClip(clip, fWaitSec, trTemp, fVolume, bTimeScale);
+            }
+        }
+        AudioClip resClip = Resources.Load<AudioClip>("sound/sound/" + Path.GetFileNameWithoutExtension(fileName));
+        if (resClip != null)
+        {
+            return PlaySound_AudioClip(resClip, fWaitSec, trTemp, fVolume, bTimeScale);
+        }
+        UnityEngine.Debug.LogWarning("存在しないSE : " + fileName);
         return null;
     }
 
     public Sound_OneShot PlaySound(eSoundID eID, float fWaitSec = 0f, Transform trTemp = null, float fVolume = 1f, bool bTimeScale = false)
     {
-        return PlaySound(eID.ToString(), fWaitSec, trTemp, fVolume, bTimeScale);
+        if (eID == eSoundID.None)
+        {
+            return null;
+        }
+        if (m_acSoundClip.TryGetValue((int)eID, out AudioClip cached) && cached != null)
+        {
+            return PlaySound_AudioClip(cached, fWaitSec, trTemp, fVolume, bTimeScale);
+        }
+        if (m_sSoundList != null && m_sSoundList.SE != null)
+        {
+            SoundData found = m_sSoundList.SE.Find(x => x != null && x.iID == (int)eID);
+            if (found != null)
+            {
+                if (m_acSoundClip.TryGetValue(found.iID, out AudioClip clip) && clip != null)
+                {
+                    return PlaySound_AudioClip(clip, fWaitSec, trTemp, fVolume, bTimeScale);
+                }
+                if (!string.IsNullOrEmpty(found.sFilePath))
+                {
+                    AudioClip resClip = Resources.Load<AudioClip>("sound/sound/" + Path.GetFileNameWithoutExtension(found.sFilePath));
+                    if (resClip != null)
+                    {
+                        m_acSoundClip[found.iID] = resClip;
+                        return PlaySound_AudioClip(resClip, fWaitSec, trTemp, fVolume, bTimeScale);
+                    }
+                }
+            }
+        }
+        UnityEngine.Debug.LogWarning("存在しないSE : " + eID);
+        return null;
     }
 
     public Sound_OneShot PlaySound_AudioClip(AudioClip acOrigin, float fWaitSec = 0f, Transform trTemp = null, float fVolume = 1f, bool bTimeScale = false)
@@ -197,13 +367,29 @@ public class Sound_Manager : MonoBehaviour
         if (acOrigin == null || m_goSound_OneShot == null) return null;
 
         GameObject obj = MakeAudioObject(false, m_goSound_OneShot, acOrigin, fWaitSec, trTemp, fVolume, bTimeScale);
-        return obj != null ? obj.GetComponent<Sound_OneShot>() : null;
+        if (obj == null) return null;
+
+        Sound_OneShot oneShot = obj.GetComponent<Sound_OneShot>();
+        if (oneShot != null)
+        {
+            oneShot.Initialize();
+            oneShot.SetPlayTiming(fWaitSec);
+            oneShot.SetTimeScale(bTimeScale);
+            if (m_bReverbFlag)
+            {
+                oneShot.SetReverb(true);
+            }
+        }
+        return oneShot;
     }
 
     public Sound_Loop PlayLoopSound(eSoundID eID, float fWaitSec = 0f, Transform trTemp = null, float fVolume = 1f, bool bTimeScale = false)
     {
-        if (m_goSound_Loop == null) return null;
-        // Logic phát loop sound tương tự
+        if (eID == eSoundID.None || m_goSound_Loop == null) return null;
+        if (m_acSoundClip.TryGetValue((int)eID, out AudioClip clip) && clip != null)
+        {
+            return PlayLoopSound_AudioClip(clip, fWaitSec, trTemp, fVolume, bTimeScale);
+        }
         return null;
     }
 
@@ -217,19 +403,21 @@ public class Sound_Manager : MonoBehaviour
 
     private GameObject MakeAudioObject(bool loopFlag, GameObject goPrefab, AudioClip acOrigin, float fWaitSec = 0f, Transform trTemp = null, float fVolume = 1f, bool bTimeScale = false)
     {
-        if (goPrefab == null) return null;
-        GameObject soundObj = Instantiate(goPrefab, trTemp != null ? trTemp.position : Vector3.zero, Quaternion.identity);
-        soundObj.transform.SetParent(goPrefab.transform);
+        if (acOrigin == null || goPrefab == null) return null;
 
+        Transform refTr = trTemp != null ? trTemp : transform;
+        GameObject soundObj = Instantiate(goPrefab, refTr.position, refTr.rotation);
         AudioSource source = soundObj.GetComponent<AudioSource>();
-        if (source != null)
+        if (source == null)
         {
-            source.clip = acOrigin;
-            source.loop = loopFlag;
-            source.volume = fVolume * SEVolume;
-            if (fWaitSec > 0f) source.PlayDelayed(fWaitSec);
-            else source.Play();
+            Destroy(soundObj);
+            return null;
         }
+        source.clip = acOrigin;
+        source.loop = loopFlag;
+        float optVol = System_GlobalValue.GetUserInfo().stOptionData.GetSound_Volume(DB_OptionData.eSoundKind.Sound);
+        source.volume = Mathf.Clamp01(fVolume * optVol) * SEVolume;
+        soundObj.transform.SetParent(transform);
         return soundObj;
     }
 
@@ -244,7 +432,7 @@ public class Sound_Manager : MonoBehaviour
     public void LoadSystemVoice(List<int> charaList) { }
     public void LoadSystemVoice(int chara) { }
     public bool IsLoadingSystemVoice() => false;
-    public bool IsLoadedSystemVoice(int chara) => false;
+    public bool IsLoadedSystemVoice(int chara) => true;
     public void ReleaseSystemVoice() { }
     public void ReleaseSystemVoice(int chara) { }
     public bool IsExistVoice(int chara, ESystemVoiceID eID) => false;
@@ -267,12 +455,36 @@ public class Sound_Manager : MonoBehaviour
         yield return null;
     }
 
-    public void StopADVVoice(bool stopCoroutine = true) { }
-    public bool IsPlayADVVoice() => false;
+    public void StopADVVoice(bool stopCoroutine = true)
+    {
+        if (stopCoroutine && m_sLoadADVVoice != null)
+        {
+            StopCoroutine(m_sLoadADVVoice);
+            m_sLoadADVVoice = null;
+        }
+        if (m_goADVVoice != null)
+        {
+            Destroy(m_goADVVoice);
+            m_goADVVoice = null;
+        }
+    }
+
+    public bool IsPlayADVVoice() => m_goADVVoice != null;
 
     public void UpdateVolume()
     {
-        // Cập nhật âm lượng cho các AudioSource đang chạy
+        if (m_scrMusicMain != null)
+        {
+            m_scrMusicMain.UpdateVolume();
+        }
+        Sound_OneShot[] oneShots = GetComponentsInChildren<Sound_OneShot>(true);
+        for (int i = 0; i < oneShots.Length; i++)
+        {
+            if (oneShots[i] != null)
+            {
+                oneShots[i].UpdateVolume();
+            }
+        }
     }
 
     public void SetReverb(bool enabled)

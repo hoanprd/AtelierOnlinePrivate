@@ -37,11 +37,11 @@ public class UIDrawCall : MonoBehaviour
 
     [NonSerialized]
     [HideInInspector]
-    public int depthStart;
+    public int depthStart = int.MaxValue;
 
     [NonSerialized]
     [HideInInspector]
-    public int depthEnd;
+    public int depthEnd = int.MinValue;
 
     [NonSerialized]
     [HideInInspector]
@@ -117,7 +117,7 @@ public class UIDrawCall : MonoBehaviour
     private ShadowMode mShadowMode;
 
     [NonSerialized]
-    private bool mRebuildMat;
+    private bool mRebuildMat = true;
 
     [NonSerialized]
     private bool mLegacyShader;
@@ -197,7 +197,6 @@ public class UIDrawCall : MonoBehaviour
             if (mRenderQueue != value)
             {
                 mRenderQueue = value;
-                if (mMaterial != null) mMaterial.renderQueue = value;
                 if (mDynamicMat != null) mDynamicMat.renderQueue = value;
             }
         }
@@ -273,7 +272,9 @@ public class UIDrawCall : MonoBehaviour
             if (mTexture != value)
             {
                 mTexture = value;
-                mRebuildMat = true;
+                if (mBlock == null) mBlock = new MaterialPropertyBlock();
+                if (value != null) mBlock.SetTexture("_MainTex", value);
+                if (mDynamicMat != null) mDynamicMat.mainTexture = value;
             }
         }
     }
@@ -299,218 +300,250 @@ public class UIDrawCall : MonoBehaviour
             if (mShadowMode != value)
             {
                 mShadowMode = value;
-                mRebuildMat = true;
+                if (mRenderer != null)
+                {
+                    if (mShadowMode == ShadowMode.None)
+                    {
+                        mRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                        mRenderer.receiveShadows = false;
+                    }
+                    else if (mShadowMode == ShadowMode.Receive)
+                    {
+                        mRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                        mRenderer.receiveShadows = true;
+                    }
+                    else
+                    {
+                        mRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+                        mRenderer.receiveShadows = true;
+                    }
+                }
             }
         }
     }
 
     public int triangles
     {
-        get { return mTriangles; }
+        get { return (mMesh != null) ? mTriangles : 0; }
     }
 
     public bool isClipped
     {
-        get { return mClipCount > 0; }
+        get { return mClipCount != 0; }
     }
 
     private void CreateMaterial()
     {
-        mClipCount = 0;
         mTextureClip = false;
+        mLegacyShader = false;
+        mClipCount = (panel != null) ? panel.clipCount : 0;
 
-        Shader s = mShader;
-        if (s == null && mMaterial != null) s = mMaterial.shader;
+        string shaderName = (mShader != null) ? mShader.name : ((mMaterial != null && mMaterial.shader != null) ? mMaterial.shader.name : "Unlit/Transparent Colored");
+        shaderName = shaderName.Replace("GUI/Text Shader", "Unlit/Text");
 
-        if (panel != null)
+        if (shaderName.Length > 2 && shaderName[shaderName.Length - 2] == ' ')
         {
-            mClipCount = panel.clipCount;
-            mTextureClip = (panel.clipping == UIPanel.Clipping.TextureMask);
+            int idx = shaderName[shaderName.Length - 1];
+            if (idx > '0' && idx <= '9') shaderName = shaderName.Substring(0, shaderName.Length - 2);
         }
+        if (shaderName.StartsWith("Hidden/"))
+            shaderName = shaderName.Substring(7);
 
-        string shaderName = (s != null) ? s.name : "Unlit/Transparent Colored";
+        shaderName = shaderName.Replace(" (SoftClip)", "");
+        shaderName = shaderName.Replace(" (TextureClip)", "");
+        shaderName = shaderName.Replace(" [Clip]", "");
 
-        if (mClipCount > 0)
+        if (panel != null && panel.clipping == UIPanel.Clipping.TextureMask)
         {
-            if (mTextureClip)
-            {
-                shaderName = shaderName.Replace(" (SoftClip)", "");
-                shaderName = shaderName.Replace(" [Clip]", "");
-                shaderName += " (TextureClip)";
-            }
-            else
-            {
-                shaderName = shaderName.Replace(" (TextureClip)", "");
-                shaderName = shaderName.Replace(" [Clip]", "");
-                shaderName += " (SoftClip)";
-            }
+            mTextureClip = true;
+            mShader = Shader.Find("Hidden/" + shaderName + " (TextureClip)");
+            if (mShader == null) mShader = Shader.Find(shaderName + " (TextureClip)");
         }
-        else
+        else if (mClipCount != 0)
         {
-            shaderName = shaderName.Replace(" (SoftClip)", "");
-            shaderName = shaderName.Replace(" (TextureClip)", "");
-        }
-
-        Shader shaderToUse = Shader.Find(shaderName);
-        if (shaderToUse == null && s != null) shaderToUse = s;
-
-        if (mMaterial != null)
-        {
-            if (shaderToUse != null && shaderToUse != mMaterial.shader)
+            mShader = Shader.Find("Hidden/" + shaderName + " " + mClipCount);
+            if (mShader == null)
             {
-                if (mDynamicMat != null)
+                mShader = Shader.Find(shaderName + " " + mClipCount);
+                if (mShader == null)
                 {
-                    NGUITools.Destroy(mDynamicMat);
-                    mDynamicMat = null;
+                    mLegacyShader = true;
+                    mShader = Shader.Find(shaderName + " (SoftClip)");
                 }
-                mDynamicMat = new Material(mMaterial);
-                mDynamicMat.name = "[NGUI] Dynamic - " + mMaterial.name;
-                mDynamicMat.shader = shaderToUse;
-                mDynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
-                mDynamicMat.renderQueue = mRenderQueue;
-                mRenderer.sharedMaterials = new Material[] { mDynamicMat };
-                return;
             }
-        }
-
-        if (mDynamicMat != null)
-        {
-            NGUITools.Destroy(mDynamicMat);
-            mDynamicMat = null;
-        }
-
-        if (mMaterial != null)
-        {
-            mMaterial.renderQueue = mRenderQueue;
-            mRenderer.sharedMaterials = new Material[] { mMaterial };
-        }
-        else if (shaderToUse != null)
-        {
-            if (mDynamicMat == null)
-            {
-                mDynamicMat = new Material(shaderToUse);
-                mDynamicMat.name = "[NGUI] 3rdParty - " + shaderToUse.name;
-                mDynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
-                mDynamicMat.renderQueue = mRenderQueue;
-            }
-            mDynamicMat.shader = shaderToUse;
-            if (mTexture != null) mDynamicMat.mainTexture = mTexture;
-            mRenderer.sharedMaterials = new Material[] { mDynamicMat };
         }
         else
         {
-            mRenderer.sharedMaterials = new Material[0];
+            mShader = Shader.Find(shaderName);
+        }
+
+        if (mShader == null)
+            mShader = Shader.Find("Unlit/Transparent Colored");
+
+        if (mMaterial != null)
+        {
+            mDynamicMat = new Material(mMaterial);
+            mDynamicMat.name = "[NGUI] " + mMaterial.name;
+            mDynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
+            mDynamicMat.CopyPropertiesFromMaterial(mMaterial);
+            string[] keywords = mMaterial.shaderKeywords;
+            for (int i = 0; i < keywords.Length; i++)
+                mDynamicMat.EnableKeyword(keywords[i]);
+
+            if (mShader != null)
+            {
+                mDynamicMat.shader = mShader;
+            }
+            mDynamicMat.renderQueue = mRenderQueue;
+            if (mTexture != null) mDynamicMat.mainTexture = mTexture;
+        }
+        else
+        {
+            mDynamicMat = new Material(mShader);
+            mDynamicMat.name = "[NGUI] " + mShader.name;
+            mDynamicMat.hideFlags = HideFlags.DontSave | HideFlags.NotEditable;
+            mDynamicMat.renderQueue = mRenderQueue;
+            if (mTexture != null) mDynamicMat.mainTexture = mTexture;
         }
     }
 
     private Material RebuildMaterial()
     {
+        NGUITools.DestroyImmediate(mDynamicMat);
         CreateMaterial();
-        return mDynamicMat != null ? mDynamicMat : mMaterial;
+        mDynamicMat.renderQueue = mRenderQueue;
+        if (mRenderer != null)
+        {
+            mRenderer.sharedMaterials = new Material[] { mDynamicMat };
+            mRenderer.sortingLayerName = mSortingLayerName;
+            mRenderer.sortingOrder = mSortingOrder;
+        }
+        return mDynamicMat;
     }
 
-    public void UpdateMaterials()
+    private void UpdateMaterials()
     {
-        if (mMaterial == null && mDynamicMat == null)
+        if (panel == null) return;
+        if (mRebuildMat || mDynamicMat == null || mClipCount != panel.clipCount || mTextureClip != (panel.clipping == UIPanel.Clipping.TextureMask))
         {
-            CreateMaterial();
-        }
-        else if (panel != null)
-        {
-            int clipCount = panel.clipCount;
-            if (mClipCount != clipCount || mRebuildMat)
-            {
-                mRebuildMat = false;
-                CreateMaterial();
-            }
+            RebuildMaterial();
+            mRebuildMat = false;
         }
     }
 
     public void UpdateGeometry(int widgetCount, bool needsBounds)
     {
         this.widgetCount = widgetCount;
+        int count = verts.Count;
 
-        if (verts.Count == 0)
+        if (count > 0 && (count == uvs.Count && count == cols.Count) && (count % 4) == 0)
         {
-            if (mMesh != null)
+            if (mFilter == null) mFilter = gameObject.GetComponent<MeshFilter>();
+            if (mFilter == null) mFilter = gameObject.AddComponent<MeshFilter>();
+
+            if (count < 65000)
             {
-                mMesh.Clear();
-                mTriangles = 0;
+                int indexCount = (count >> 1) * 3;
+                bool setIndices = (mIndices == null || mIndices.Length != indexCount);
+
+                if (mMesh == null)
+                {
+                    mMesh = new Mesh();
+                    mMesh.hideFlags = HideFlags.DontSave;
+                    mMesh.name = (mMaterial != null) ? "[NGUI] " + mMaterial.name : "[NGUI] Mesh";
+                    mMesh.MarkDynamic();
+                    setIndices = true;
+                }
+
+                bool trim = uvs.Count != count || cols.Count != count || uv2.Count != count || norms.Count != count || tans.Count != count;
+                if (!trim && mMesh.vertexCount != count)
+                {
+                    mMesh.Clear();
+                    setIndices = true;
+                }
+
+                mMesh.SetVertices(verts);
+                mMesh.SetUVs(0, uvs);
+                mMesh.SetColors(cols);
+                mMesh.SetUVs(1, (uv2.Count == count) ? uv2 : null);
+                mMesh.SetNormals((norms.Count == count) ? norms : null);
+                mMesh.SetTangents((tans.Count == count) ? tans : null);
+
+                if (setIndices)
+                {
+                    mIndices = GenerateCachedIndexBuffer(count, indexCount);
+                    mMesh.SetTriangles(mIndices, 0, needsBounds);
+                }
+
+                if (needsBounds && !alwaysOnScreen)
+                    mMesh.RecalculateBounds();
+
+                mFilter.mesh = mMesh;
             }
-            return;
-        }
+            else
+            {
+                mTriangles = 0;
+                if (mMesh != null) mMesh.Clear();
+            }
 
-        if (mMesh == null)
+            if (mRenderer == null) mRenderer = gameObject.GetComponent<MeshRenderer>();
+            if (mRenderer == null)
+            {
+                mRenderer = gameObject.AddComponent<MeshRenderer>();
+                if (mShadowMode == ShadowMode.None)
+                {
+                    mRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                    mRenderer.receiveShadows = false;
+                }
+            }
+
+            if (mIsNew)
+            {
+                mIsNew = false;
+                if (onCreateDrawCall != null)
+                    onCreateDrawCall(this, mFilter, mRenderer);
+            }
+
+            UpdateMaterials();
+        }
+        else
         {
-            mMesh = new Mesh();
-            mMesh.hideFlags = HideFlags.DontSave;
+            if (mFilter != null && mFilter.mesh != null) mFilter.mesh.Clear();
         }
 
-        if (mFilter == null) mFilter = GetComponent<MeshFilter>();
-        if (mFilter == null) mFilter = gameObject.AddComponent<MeshFilter>();
-
-        if (mRenderer == null) mRenderer = GetComponent<MeshRenderer>();
-        if (mRenderer == null) mRenderer = gameObject.AddComponent<MeshRenderer>();
-
-        mMesh.SetVertices(verts);
-        mMesh.SetUVs(0, uvs);
-        if (uv2.Count > 0) mMesh.SetUVs(1, uv2);
-        mMesh.SetColors(cols);
-        if (norms.Count > 0) mMesh.SetNormals(norms);
-        if (tans.Count > 0) mMesh.SetTangents(tans);
-
-        int vertexCount = verts.Count;
-        int indexCount = (vertexCount >> 1) * 3;
-
-        if (mIndices == null || mIndices.Length != indexCount)
-        {
-            mIndices = GenerateCachedIndexBuffer(vertexCount, indexCount);
-        }
-
-        mMesh.triangles = mIndices;
-
-        if (needsBounds)
-        {
-            mMesh.RecalculateBounds();
-        }
-
-        mFilter.mesh = mMesh;
-        mTriangles = mMesh.triangles.Length >> 1;
-
-        if (mIsNew)
-        {
-            mIsNew = false;
-            if (onCreateDrawCall != null)
-                onCreateDrawCall(this, mFilter, mRenderer);
-        }
+        verts.Clear();
+        uvs.Clear();
+        uv2.Clear();
+        cols.Clear();
+        norms.Clear();
+        tans.Clear();
     }
 
     private int[] GenerateCachedIndexBuffer(int vertexCount, int indexCount)
     {
         for (int i = 0, imax = mCache.Count; i < imax; ++i)
         {
-            int[] cache = mCache[i];
-            if (cache.Length == indexCount)
-                return cache;
+            int[] ids = mCache[i];
+            if (ids != null && ids.Length == indexCount)
+                return ids;
         }
 
-        int[] indices = new int[indexCount];
-        for (int i = 0, v = 0; i < indexCount; i += 6, v += 4)
+        int[] rv = new int[indexCount];
+        int index = 0;
+        for (int i = 0; i < vertexCount; i += 4)
         {
-            indices[i] = v;
-            indices[i + 1] = v + 1;
-            indices[i + 2] = v + 2;
+            rv[index++] = i;
+            rv[index++] = i + 1;
+            rv[index++] = i + 2;
 
-            indices[i + 3] = v + 2;
-            indices[i + 4] = v + 3;
-            indices[i + 5] = v;
+            rv[index++] = i + 2;
+            rv[index++] = i + 3;
+            rv[index++] = i;
         }
 
-        if (mCache.Count < maxIndexBufferCache)
-        {
-            mCache.Add(indices);
-        }
-        return indices;
+        if (mCache.Count > maxIndexBufferCache) mCache.RemoveAt(0);
+        mCache.Add(rv);
+        return rv;
     }
 
     private void OnWillRenderObject()
@@ -518,42 +551,67 @@ public class UIDrawCall : MonoBehaviour
         UpdateMaterials();
 
         if (mBlock != null && mRenderer != null)
-        {
             mRenderer.SetPropertyBlock(mBlock);
-        }
 
         if (onRender != null)
-        {
-            Material mat = (mDynamicMat != null) ? mDynamicMat : mMaterial;
-            onRender(mat);
-        }
+            onRender(mDynamicMat != null ? mDynamicMat : mMaterial);
 
-        if (mClipCount != 0 && panel != null)
+        if (mDynamicMat == null || mClipCount == 0) return;
+
+        if (mTextureClip)
         {
-            Material mat = (mDynamicMat != null) ? mDynamicMat : mMaterial;
-            if (mat != null)
+            Vector4 cr = panel.drawCallClipRange;
+            Vector2 soft = panel.clipSoftness;
+            Vector2 sharpness = new Vector2(1000f, 1000f);
+            if (soft.x > 0f) sharpness.x = cr.z / soft.x;
+            if (soft.y > 0f) sharpness.y = cr.w / soft.y;
+
+            mDynamicMat.SetVector(ClipRange[0], new Vector4(-cr.x / cr.z, -cr.y / cr.w, 1f / cr.z, 1f / cr.w));
+            mDynamicMat.SetTexture("_ClipTex", clipTexture);
+        }
+        else if (!mLegacyShader)
+        {
+            UIPanel currentPanel = panel;
+            for (int i = 0; currentPanel != null;)
             {
-                UIPanel p = panel;
-                int index = 0;
-                while (p != null)
+                if (currentPanel.hasClipping)
                 {
-                    if (p.hasClipping)
+                    float angle = 0f;
+                    Vector4 cr = currentPanel.drawCallClipRange;
+                    if (currentPanel != panel)
                     {
-                        Vector4 cr = p.drawCallClipRange;
-                        mat.SetVector(ClipRange[index], cr);
-                        Vector2 soft = p.clipSoftness;
-                        mat.SetVector(ClipArgs[index], new Vector4(1f / soft.x, 1f / soft.y, p.alpha, 0f));
-                        ++index;
-                        if (index >= ClipRange.Length) break;
+                        Vector3 pos = currentPanel.cachedTransform.InverseTransformPoint(panel.cachedTransform.position);
+                        cr.x -= pos.x;
+                        cr.y -= pos.y;
+
+                        Vector3 v0 = panel.cachedTransform.rotation.eulerAngles;
+                        Vector3 v1 = currentPanel.cachedTransform.rotation.eulerAngles;
+                        Vector3 diff = v1 - v0;
+                        diff.x = NGUIMath.WrapAngle(diff.x);
+                        diff.y = NGUIMath.WrapAngle(diff.y);
+                        diff.z = NGUIMath.WrapAngle(diff.z);
+                        angle = diff.z;
                     }
-                    p = p.parentPanel;
+                    SetClipping(i++, cr, currentPanel.clipSoftness, angle);
+                    if (i >= ClipRange.Length) break;
                 }
+                currentPanel = currentPanel.parentPanel;
             }
         }
     }
 
     private void SetClipping(int index, Vector4 cr, Vector2 soft, float angle)
     {
+        angle *= -Mathf.Deg2Rad;
+        Vector2 sharpness = new Vector2(1000f, 1000f);
+        if (soft.x > 0f) sharpness.x = cr.z / soft.x;
+        if (soft.y > 0f) sharpness.y = cr.w / soft.y;
+
+        if (index < ClipRange.Length)
+        {
+            mDynamicMat.SetVector(ClipRange[index], new Vector4(-cr.x / cr.z, -cr.y / cr.w, 1f / cr.z, 1f / cr.w));
+            mDynamicMat.SetVector(ClipArgs[index], new Vector4(sharpness.x, sharpness.y, Mathf.Sin(angle), Mathf.Cos(angle)));
+        }
     }
 
     private void Awake()
@@ -563,94 +621,98 @@ public class UIDrawCall : MonoBehaviour
 
     private void OnEnable()
     {
-        mIsNew = true;
+        mRebuildMat = true;
     }
 
     private void OnDisable()
     {
-        baseMaterial = null;
-        mainTexture = null;
-        shader = null;
-
-        if (mRenderer != null) mRenderer.sharedMaterials = new Material[0];
-        if (mDynamicMat != null)
-        {
-            NGUITools.Destroy(mDynamicMat);
-            mDynamicMat = null;
-        }
+        depthStart = int.MaxValue;
+        depthEnd = int.MinValue;
+        panel = null;
+        manager = null;
         mMaterial = null;
+        mTexture = null;
+        clipTexture = null;
+
+        if (mRenderer != null)
+            mRenderer.sharedMaterials = new Material[] { };
+
+        NGUITools.DestroyImmediate(mDynamicMat);
+        mDynamicMat = null;
     }
 
     private void OnDestroy()
     {
-        if (mMesh != null)
-        {
-            NGUITools.Destroy(mMesh);
-            mMesh = null;
-        }
+        NGUITools.DestroyImmediate(mMesh);
+        mMesh = null;
     }
 
     public static UIDrawCall Create(UIPanel panel, Material mat, Texture tex, Shader shader)
     {
-        return Create(panel != null ? panel.name + " DrawCall" : "DrawCall", panel, mat, tex, shader);
+        return Create(null, panel, mat, tex, shader);
     }
 
     private static UIDrawCall Create(string name, UIPanel pan, Material mat, Texture tex, Shader shader)
     {
-        GameObject go = null;
-        UIDrawCall dc = null;
-
-        if (mInactiveList.size > 0)
-        {
-            int last = mInactiveList.size - 1;
-            dc = mInactiveList.buffer[last];
-            mInactiveList.RemoveAt(last);
-            go = dc.gameObject;
-            go.SetActive(true);
-        }
-        else
-        {
-            go = new GameObject(name);
-            go.hideFlags = HideFlags.DontSave;
-            dc = go.AddComponent<UIDrawCall>();
-        }
-
-        dc.panel = pan;
+        UIDrawCall dc = Create(name);
+        dc.gameObject.layer = pan.cachedGameObject.layer;
         dc.baseMaterial = mat;
         dc.mainTexture = tex;
         dc.shader = shader;
-        dc.mRenderQueue = pan.startingRenderQueue;
-        dc.mSortingLayerName = pan.sortingLayerName;
-        dc.mSortingOrder = pan.sortingOrder;
-        dc.UpdateMaterials();
-
-        mActiveList.Add(dc);
+        dc.renderQueue = pan.startingRenderQueue;
+        dc.sortingOrder = pan.sortingOrder;
+        dc.manager = pan;
+        dc.panel = pan;
+        if (pan.cachedTransform != null)
+        {
+            dc.cachedTransform.SetParent(pan.cachedTransform, false);
+            dc.cachedTransform.localPosition = Vector3.zero;
+            dc.cachedTransform.localRotation = Quaternion.identity;
+            dc.cachedTransform.localScale = Vector3.one;
+        }
         return dc;
+    }
+
+    private static UIDrawCall Create(string name)
+    {
+        while (mInactiveList.size > 0)
+        {
+            UIDrawCall dc = mInactiveList.Pop();
+            if (dc != null)
+            {
+                mActiveList.Add(dc);
+                if (name != null) dc.name = name;
+                NGUITools.SetActive(dc.gameObject, true);
+                return dc;
+            }
+        }
+
+        GameObject go = new GameObject(name != null ? name : "_UIDrawCall");
+        go.hideFlags = HideFlags.DontSave;
+        UIDrawCall newDC = go.AddComponent<UIDrawCall>();
+        mActiveList.Add(newDC);
+        return newDC;
     }
 
     public static void ClearAll()
     {
+        bool playing = Application.isPlaying;
         for (int i = mActiveList.size; i > 0;)
         {
             UIDrawCall dc = mActiveList.buffer[--i];
-            if (dc != null) Destroy(dc);
-        }
-        mActiveList.Clear();
-
-        for (int i = mInactiveList.size; i > 0;)
-        {
-            UIDrawCall dc = mInactiveList.buffer[--i];
-            if (dc != null && dc.gameObject != null)
+            if (dc != null)
             {
-                NGUITools.Destroy(dc.gameObject);
+                if (playing) NGUITools.SetActive(dc.gameObject, false);
+                else NGUITools.DestroyImmediate(dc.gameObject);
             }
         }
-        mInactiveList.Clear();
+        mActiveList.Clear();
     }
 
     public static void ReleaseAll()
     {
         ClearAll();
+        ReleaseInactive();
     }
 
     public static void ReleaseInactive()
@@ -658,10 +720,7 @@ public class UIDrawCall : MonoBehaviour
         for (int i = mInactiveList.size; i > 0;)
         {
             UIDrawCall dc = mInactiveList.buffer[--i];
-            if (dc != null && dc.gameObject != null)
-            {
-                NGUITools.Destroy(dc.gameObject);
-            }
+            if (dc != null) NGUITools.DestroyImmediate(dc.gameObject);
         }
         mInactiveList.Clear();
     }
@@ -670,9 +729,7 @@ public class UIDrawCall : MonoBehaviour
     {
         int count = 0;
         for (int i = 0; i < mActiveList.size; ++i)
-        {
-            if (mActiveList.buffer[i].panel == panel) ++count;
-        }
+            if (mActiveList.buffer[i].manager == panel) ++count;
         return count;
     }
 
@@ -680,24 +737,37 @@ public class UIDrawCall : MonoBehaviour
     {
         if (dc != null)
         {
-            dc.gameObject.SetActive(false);
-            mActiveList.Remove(dc);
-            if (!mInactiveList.Contains(dc))
+            dc.onRender = null;
+            if (Application.isPlaying)
             {
-                mInactiveList.Add(dc);
+                if (mActiveList.Remove(dc))
+                {
+                    if (dc.cachedTransform != null)
+                        dc.cachedTransform.SetParent(null, false);
+                    NGUITools.SetActive(dc.gameObject, false);
+                    mInactiveList.Add(dc);
+                    dc.mIsNew = true;
+                }
+            }
+            else
+            {
+                mActiveList.Remove(dc);
+                NGUITools.DestroyImmediate(dc.gameObject);
             }
         }
     }
 
     public static void MoveToScene(Scene scene)
     {
-        for (int i = 0; i < mActiveList.size; ++i)
+        foreach (UIDrawCall dc in activeList)
         {
-            SceneManager.MoveGameObjectToScene(mActiveList.buffer[i].gameObject, scene);
+            if (dc != null && dc.transform.parent == null)
+                SceneManager.MoveGameObjectToScene(dc.gameObject, scene);
         }
-        for (int i = 0; i < mInactiveList.size; ++i)
+        foreach (UIDrawCall dc in inactiveList)
         {
-            SceneManager.MoveGameObjectToScene(mInactiveList.buffer[i].gameObject, scene);
+            if (dc != null && dc.transform.parent == null)
+                SceneManager.MoveGameObjectToScene(dc.gameObject, scene);
         }
     }
 }

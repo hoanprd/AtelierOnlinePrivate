@@ -6,11 +6,11 @@ public abstract class AssetDownloaderBase : MonoBehaviour
 {
 	protected const float cfTIMEOUT = 60f;
 
-	protected string m_sError;
+	protected string m_sError = string.Empty;
 
 	protected EDownloadStatus m_eStatus;
 
-	protected EDownloadResult m_eResult;
+	protected EDownloadResult m_eResult = EDownloadResult.eNONE;
 
 	protected bool m_bEnd;
 
@@ -24,7 +24,7 @@ public abstract class AssetDownloaderBase : MonoBehaviour
 	{
 		get
 		{
-			return 0f;
+			return m_fProgress;
 		}
 	}
 
@@ -32,7 +32,7 @@ public abstract class AssetDownloaderBase : MonoBehaviour
 	{
 		get
 		{
-			return false;
+			return m_bEnd;
 		}
 	}
 
@@ -40,7 +40,7 @@ public abstract class AssetDownloaderBase : MonoBehaviour
 	{
 		get
 		{
-			return false;
+			return m_bCancel;
 		}
 	}
 
@@ -48,7 +48,7 @@ public abstract class AssetDownloaderBase : MonoBehaviour
 	{
 		get
 		{
-			return EDownloadResult.eSUCCESS;
+			return m_eResult;
 		}
 	}
 
@@ -56,34 +56,51 @@ public abstract class AssetDownloaderBase : MonoBehaviour
 	{
 		get
 		{
-			return null;
+			return m_sError;
 		}
 	}
 
 	public void Cancel()
 	{
+		m_bCancel = true;
+		SetResult(EDownloadResult.eCANCEL);
 	}
 
 	[DebuggerHidden]
 	public IEnumerator DispErrorDialog()
 	{
-		return null;
+		yield break;
 	}
 
 	private void SetError(EDownloadResult result)
 	{
+		m_eResult = result;
+		m_bEnd = true;
 	}
 
 	protected virtual void Init()
 	{
+		m_sError = string.Empty;
+		m_eStatus = EDownloadStatus.eWAIT;
+		m_eResult = EDownloadResult.eNONE;
+		m_bEnd = false;
+		m_bCancel = false;
+		m_fProgress = 0f;
 	}
 
 	protected void SetErrorText(string content)
 	{
+		m_sError = content ?? string.Empty;
 	}
 
 	protected virtual void SetResult(EDownloadResult result)
 	{
+		m_eResult = result;
+		m_bEnd = true;
+		if (result == EDownloadResult.eSUCCESS || result == EDownloadResult.eNONE)
+		{
+			m_fProgress = 1f;
+		}
 	}
 
 	public abstract void Execute();

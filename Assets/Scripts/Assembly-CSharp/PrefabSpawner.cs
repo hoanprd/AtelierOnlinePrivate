@@ -16,5 +16,14 @@ public class PrefabSpawner : MonoBehaviour
 
 	private void Awake()
 	{
+		if (m_goPrefab != null)
+		{
+			GameObject go = Util.InstantiateInChildren(m_goPrefab, m_trRoot, m_bOriginalSize, m_bOriginalPosition, m_bChangeLayer);
+			if (go != null)
+			{
+				go.SetActive(m_bActive);
+			}
+		}
+		Destroy(this);
 	}
 }

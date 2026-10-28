@@ -10,75 +10,149 @@ public static class GameUtil
 
 	public static IDictionary<int, int> QualityStarMap;
 
+	static GameUtil()
+	{
+		aiQUALITY_THRESHOLD = new int[] { 20, 40, 60, 80 };
+		aiQUALITY_THRESHOLD2 = new int[] { 101, 105, 110, 115, 120 };
+		QualityStarMap = new Dictionary<int, int>
+		{
+			{ 0, 1 },
+			{ 1, 2 },
+			{ 2, 3 },
+			{ 3, 4 },
+			{ 4, 5 }
+		};
+	}
+
 	public static string MakeUserName()
 	{
-		return null;
+		string[] names = new string[]
+		{
+			"ガレット",
+			"ジスト",
+			"アクア",
+			"ダイア",
+			"エル",
+			"パル",
+			"ルビ",
+			"ドット",
+			"サイファ",
+			"パオル",
+			"パーズ",
+			"コイズ",
+			"パウド",
+			"タルト",
+			"エクア",
+			"マカル",
+			"ムース",
+			"スフレ",
+			"プッツェル",
+			"ドロップ",
+			"タフィー",
+			"ドラジェ",
+			"チョコ",
+			"アイス"
+		};
+		return Util.ArrayRand(names);
 	}
 
 	public static EQuality GetQualityRank(int quarity)
 	{
-		return EQuality.eNONE;
+		for (int i = aiQUALITY_THRESHOLD.Length - 1; i >= 0; i--)
+		{
+			if (quarity >= aiQUALITY_THRESHOLD[i])
+			{
+				return (EQuality)(i + 2);
+			}
+		}
+		return EQuality.eD;
 	}
 
 	public static int GetLimitBreakQualityRank(int quarity)
 	{
-		return 0;
+		int rank = 0;
+		for (int i = 0; i < aiQUALITY_THRESHOLD2.Length; i++)
+		{
+			if (quarity >= aiQUALITY_THRESHOLD2[i])
+			{
+				rank = i + 1;
+			}
+		}
+		return rank;
 	}
 
 	public static int GetQualityStarNum(EQuality quality)
 	{
-		return 0;
+		int key = Mathf.Clamp((int)quality - 1, 0, 4);
+		int stars;
+		if (QualityStarMap != null && QualityStarMap.TryGetValue(key, out stars))
+		{
+			return stars;
+		}
+		return 1;
 	}
 
 	public static int GetQualityStarNum(int quality)
 	{
-		return 0;
+		return GetQualityStarNum(GetQualityRank(quality));
 	}
 
 	public static string GetCharacterName(int df)
 	{
-		return null;
+		if (df == 1 || df == 2)
+		{
+			return PlayerPrefs.GetString("USERNAME", MakeUserName());
+		}
+		if (MasterData.Chara != null)
+		{
+			MasterChara chara = MasterData.Chara.Load(df);
+			if (chara != null && !string.IsNullOrEmpty(chara.NAME))
+			{
+				return chara.NAME;
+			}
+		}
+		return string.Empty;
 	}
 
 	public static CharaDetail RemoveCannotEquip(CharaDetail detail, List<InventoryInfo> inventories, out bool cannot)
 	{
-		cannot = default(bool);
-		return null;
+		cannot = false;
+		return detail;
 	}
 
 	public static MultiPlay_CharaMemberData ConvertFromMakeCharaData(MultiPlay_CharaMemberData multiplay, MakeCharaData data)
 	{
-		return null;
+		return multiplay;
 	}
 
 	public static MakeCharaData ConvertFromMuliplayChara(MultiPlay_CharaMemberData multiplay)
 	{
-		return null;
+		return new MakeCharaData();
 	}
 
 	public static MakeCharaData ConvertFromEquipData(int[] equip)
 	{
-		return null;
+		return new MakeCharaData();
 	}
 
 	public static AppearanceInfo ConvertFromMakeCaraData(MakeCharaData mk)
 	{
-		return null;
+		return new AppearanceInfo();
 	}
 
 	public static MakeCharaData ConvertFromCharaDetail(CharaDetail detail, List<InventoryInfo> inventory)
 	{
-		return null;
+		return new MakeCharaData();
 	}
 
 	public static MakeCharaData ConvertFromCharaDetail(PartyMember member, List<InventoryInfo> inventory)
 	{
-		return null;
+		return new MakeCharaData();
 	}
 
 	public static MakeCharaData ConvertFromEquipData(EquipData equip, EquipData visual, int[] disp, List<InventoryInfo> inventory)
 	{
-		return null;
+		return new MakeCharaData();
 	}
 
 	public static int GetAccessoryModelID(ESubCategory categ, int[] ids)
@@ -113,67 +187,91 @@ public static class GameUtil
 
 	public static bool IsEquip(ECategory categ)
 	{
-		return false;
+		return categ == ECategory.eWEAPON || categ == ECategory.eSHIELD || categ == ECategory.eHELM || categ == ECategory.eARMOR || categ == ECategory.eACCESSORY;
 	}
 
 	public static bool IsMaterial(ECategory categ)
 	{
-		return false;
+		return categ == ECategory.eMATERIAL;
 	}
 
 	public static List<ActiveSkill> GetCharaSkillList(int charaDF, int charaLV)
 	{
-		return null;
+		return new List<ActiveSkill>();
 	}
 
 	public static List<ActiveSkill> GetCharaBlazeArtsSkillList(CharaDetail charaDetail)
 	{
-		return null;
+		return new List<ActiveSkill>();
 	}
 
 	public static List<ActiveSkill> GetSkillList(int charaDF, int charaLV, EquipData equip, List<InventoryInfo> invList)
 	{
-		return null;
+		return new List<ActiveSkill>();
 	}
 
 	public static List<ActiveSkill> GetEquipSkillList(EquipData equip, List<InventoryInfo> invList)
 	{
-		return null;
+		return new List<ActiveSkill>();
 	}
 
 	public static IEnumerable<MultiPlay_InventoryInfo> GetLowQualityItemList(IEnumerable<InventoryInfo> invList, int itemDF, int num)
 	{
-		return null;
+		return new List<MultiPlay_InventoryInfo>();
 	}
 
 	public static ResponseData<T> GetDummyResponse<T>(string path)
 	{
-		return null;
+		TextAsset textAsset = Resources.Load<TextAsset>(path);
+		if (textAsset != null && !string.IsNullOrEmpty(textAsset.text))
+		{
+			return JsonUtility.FromJson<ResponseData<T>>(textAsset.text);
+		}
+		return new ResponseData<T>();
 	}
 
 	public static T GetDummyResponse2<T>(string path)
 	{
-		return default(T);
+		TextAsset textAsset = Resources.Load<TextAsset>(path);
+		if (textAsset != null && !string.IsNullOrEmpty(textAsset.text))
+		{
+			return JsonUtility.FromJson<T>(textAsset.text);
+		}
+		return Activator.CreateInstance<T>();
 	}
 
 	public static ResponseDataCommon GetDummyResponse(string path)
 	{
-		return null;
+		TextAsset textAsset = Resources.Load<TextAsset>(path);
+		if (textAsset != null && !string.IsNullOrEmpty(textAsset.text))
+		{
+			return JsonUtility.FromJson<ResponseDataCommon>(textAsset.text);
+		}
+		return new ResponseDataCommon();
 	}
 
 	public static string GetConvertString(string org)
 	{
-		return null;
+		if (string.IsNullOrEmpty(org))
+		{
+			return string.Empty;
+		}
+		return org.Replace("{USERNAME}", PlayerPrefs.GetString("USERNAME", "レスナ"));
 	}
 
 	public static bool IsMultiplayRoom(string roomID)
 	{
-		return false;
+		return !string.IsNullOrEmpty(roomID);
 	}
 
 	public static bool IsLayer_NGUI(int layerId)
 	{
-		return false;
+		string layerName = LayerMask.LayerToName(layerId);
+		if (string.IsNullOrEmpty(layerName))
+		{
+			return false;
+		}
+		return layerName.StartsWith("GUI") || layerName.Contains("UI") || layerName == "System";
 	}
 
 	public static GameObject GetADVTarget(int objKind, int objNo)
@@ -187,12 +285,12 @@ public static class GameUtil
 
 	public static List<VersionData> GetDownloadItemAssetList(int df)
 	{
-		return null;
+		return new List<VersionData>();
 	}
 
 	public static List<VersionData> GetDownloadCharaAssetList(int df)
 	{
-		return null;
+		return new List<VersionData>();
 	}
 
 	public static void SetWealthIcon(int wealth, UITexture icon, UITexture face)
@@ -215,7 +313,7 @@ public static class GameUtil
 
 	public static string GetLimitBreakSpriteName(int limitBreakNum, int index)
 	{
-		return null;
+		return string.Empty;
 	}
 
 	public static int GetNeedLimitBreakCount(int charaDF, int grd)
@@ -255,7 +353,13 @@ public static class GameUtil
 
 	public static GameObject CreateTouchBlockCollision()
 	{
-		return null;
+		UnityEngine.Object prefab = Resources.Load("UI/Common/Collision_TouchBlock");
+		if (prefab != null)
+		{
+			return UnityEngine.Object.Instantiate(prefab) as GameObject;
+		}
+		GameObject fallback = new GameObject("TouchBlockCollision");
+		return fallback;
 	}
 
 	public static int GetTotalPower(long[] items)
@@ -270,7 +374,7 @@ public static class GameUtil
 
 	public static List<int> GetHaveInventoryKind()
 	{
-		return null;
+		return new List<int>();
 	}
 
 	public static void LoadInventoryIcon(List<int> kindList)
@@ -283,6 +387,10 @@ public static class GameUtil
 
 	public static void CreateQuestOrderLimitConfirm(int questDF, Action<EButtonKind> onResult)
 	{
+		if (onResult != null)
+		{
+			onResult(EButtonKind.eDECIDE);
+		}
 	}
 
 	public static void SetResolution(EResolutionLevel level)
@@ -295,67 +403,114 @@ public static class GameUtil
 
 	public static void Shoot(GameObject goShootObj, Vector3 v3Target, float fAngle, Vector3? v3Gravity = null)
 	{
+		if (goShootObj == null)
+		{
+			return;
+		}
+		Vector3 gravity = v3Gravity.HasValue ? v3Gravity.Value : Physics.gravity;
+		Vector3 velocity = CalculateVelocity(goShootObj, v3Target, fAngle, gravity);
+		AddForce(goShootObj, velocity);
 	}
 
 	private static Vector3 CalculateVelocity(GameObject goShootObj, Vector3 v3Target, float fAngle, Vector3 v3Gravity)
 	{
-		return default(Vector3);
+		if (goShootObj == null)
+		{
+			return Vector3.zero;
+		}
+		Vector3 dir = v3Target - goShootObj.transform.position;
+		return dir;
 	}
 
 	private static void AddForce(GameObject goShootObj, Vector3 v3AddPower)
 	{
+		if (goShootObj == null)
+		{
+			return;
+		}
+		Rigidbody rb = goShootObj.GetComponent<Rigidbody>();
+		if (rb != null)
+		{
+			rb.AddForce(v3AddPower, ForceMode.VelocityChange);
+		}
 	}
 
 	public static void InitToggle(List<UIToggle> toggleList, int status)
 	{
+		if (toggleList == null)
+		{
+			return;
+		}
+		for (int i = 0; i < toggleList.Count; i++)
+		{
+			if (toggleList[i] != null)
+			{
+				toggleList[i].value = (i == status);
+			}
+		}
 	}
 
 	public static void InitBitFieldToggle(List<UIToggle> toggleList, int status)
 	{
+		if (toggleList == null)
+		{
+			return;
+		}
+		for (int i = 0; i < toggleList.Count; i++)
+		{
+			if (toggleList[i] != null)
+			{
+				toggleList[i].value = ((status & (1 << i)) != 0);
+			}
+		}
 	}
 
 	public static int SearchToggleOrder(List<UIToggle> toggleList, UIToggle target)
 	{
-		return 0;
+		if (toggleList == null || target == null)
+		{
+			return -1;
+		}
+		return toggleList.IndexOf(target);
 	}
 
 	public static CharaSpec GetTotalParam(CharaDetail chara, EquipData equip, List<SubEquip> sub, List<InventoryInfo> invList)
 	{
-		return null;
+		return new CharaSpec();
 	}
 
 	public static CharaSpec GetCharaParamRow(CharaDetail chara)
 	{
-		return null;
+		return new CharaSpec();
 	}
 
 	public static EquipRate GetCharaSkillParamRate(CharaDetail chara, EquipData equip, List<InventoryInfo> inv)
 	{
-		return null;
+		return new EquipRate();
 	}
 
 	public static EquipParam GetCharaSkillParam(CharaDetail chara, EquipData equip, List<InventoryInfo> inv)
 	{
-		return null;
+		return new EquipParam();
 	}
 
 	public static EquipParam GetEquipParamRow(EquipData equip, List<InventoryInfo> invList)
 	{
-		return null;
+		return new EquipParam();
 	}
 
 	public static EquipParam GetEquipSubParamRow(List<SubEquip> sub, List<InventoryInfo> invList)
 	{
-		return null;
+		return new EquipParam();
 	}
 
 	public static EquipParam GetSkillParam(EquipData equip, List<InventoryInfo> invList)
 	{
-		return null;
+		return new EquipParam();
 	}
 
 	public static EquipRate GetSkillParamRate(EquipData equip, List<InventoryInfo> invList)
 	{
-		return null;
+		return new EquipRate();
 	}
 }

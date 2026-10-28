@@ -6,7 +6,7 @@ public class RealTime : MonoBehaviour
 	{
 		get
 		{
-			return 0f;
+			return Time.unscaledTime;
 		}
 	}
 
@@ -14,7 +14,7 @@ public class RealTime : MonoBehaviour
 	{
 		get
 		{
-			return 0f;
+			return Time.unscaledDeltaTime;
 		}
 	}
 }

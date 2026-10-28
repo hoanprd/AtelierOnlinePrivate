@@ -7,7 +7,7 @@ public class BMFont
 {
 	[HideInInspector]
 	[SerializeField]
-	private int mSize;
+	private int mSize = 16;
 
 	[HideInInspector]
 	[SerializeField]
@@ -27,104 +27,124 @@ public class BMFont
 
 	[HideInInspector]
 	[SerializeField]
-	private List<BMGlyph> mSaved;
+	private List<BMGlyph> mSaved = new List<BMGlyph>();
 
-	private Dictionary<int, BMGlyph> mDict;
+	private Dictionary<int, BMGlyph> mDict = new Dictionary<int, BMGlyph>();
 
 	public bool isValid
 	{
 		get
 		{
-			return false;
+			return (mSaved != null && mSaved.Count > 0) || LegacyCheck();
 		}
 	}
 
 	public int charSize
 	{
-		get
-		{
-			return 0;
-		}
-		set
-		{
-		}
+		get { return mSize; }
+		set { mSize = value; }
 	}
 
 	public int baseOffset
 	{
-		get
-		{
-			return 0;
-		}
-		set
-		{
-		}
+		get { return mBase; }
+		set { mBase = value; }
 	}
 
 	public int texWidth
 	{
-		get
-		{
-			return 0;
-		}
-		set
-		{
-		}
+		get { return mWidth; }
+		set { mWidth = value; }
 	}
 
 	public int texHeight
 	{
-		get
-		{
-			return 0;
-		}
-		set
-		{
-		}
+		get { return mHeight; }
+		set { mHeight = value; }
 	}
 
 	public int glyphCount
 	{
-		get
-		{
-			return 0;
-		}
+		get { return isValid ? mSaved.Count : 0; }
 	}
 
 	public string spriteName
 	{
-		get
-		{
-			return null;
-		}
-		set
-		{
-		}
+		get { return mSpriteName; }
+		set { mSpriteName = value; }
 	}
 
 	public List<BMGlyph> glyphs
 	{
-		get
-		{
-			return null;
-		}
+		get { return mSaved; }
+	}
+
+	private bool LegacyCheck()
+	{
+		return false;
 	}
 
 	public BMGlyph GetGlyph(int index, bool createIfMissing)
 	{
-		return null;
+		BMGlyph glyph = null;
+		if (mDict == null)
+		{
+			mDict = new Dictionary<int, BMGlyph>();
+		}
+		if (mDict.Count == 0 && mSaved != null && mSaved.Count > 0)
+		{
+			for (int i = 0; i < mSaved.Count; i++)
+			{
+				BMGlyph bmg = mSaved[i];
+				if (bmg != null)
+				{
+					mDict[bmg.index] = bmg;
+				}
+			}
+		}
+		if (!mDict.TryGetValue(index, out glyph) && createIfMissing)
+		{
+			glyph = new BMGlyph();
+			glyph.index = index;
+			if (mSaved == null)
+			{
+				mSaved = new List<BMGlyph>();
+			}
+			mSaved.Add(glyph);
+			mDict.Add(index, glyph);
+		}
+		return glyph;
 	}
 
 	public BMGlyph GetGlyph(int index)
 	{
-		return null;
+		return GetGlyph(index, false);
 	}
 
 	public void Clear()
 	{
+		if (mDict != null)
+		{
+			mDict.Clear();
+		}
+		if (mSaved != null)
+		{
+			mSaved.Clear();
+		}
 	}
 
 	public void Trim(int xMin, int yMin, int xMax, int yMax)
 	{
+		if (isValid)
+		{
+			for (int i = 0; i < mSaved.Count; i++)
+			{
+				BMGlyph glyph = mSaved[i];
+				if (glyph != null)
+				{
+					glyph.Trim(xMin, yMin, xMax, yMax);
+				}
+			}
+		}
 	}
 }

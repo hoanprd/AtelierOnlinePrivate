@@ -1,8 +1,9 @@
-﻿using ADV;
+using ADV;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class System_MenuManager : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class System_MenuManager : MonoBehaviour
     public bool IsDone { get; set; }
 
     [SerializeField]
-    private eSystemMenuKind m_eSystemMenuKind_Now;
+    private eSystemMenuKind m_eSystemMenuKind_Now = eSystemMenuKind.None;
 
     public eSystemMenuKind m_eSystemMenuKind_Req;
 
@@ -45,9 +46,13 @@ public class System_MenuManager : MonoBehaviour
         }
 
         g_scrInst = this;
-        DontDestroyOnLoad(gameObject);
+        if (transform.parent == null)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
         IsDone = false;
+        m_eSystemMenuKind_Now = eSystemMenuKind.None;
         Application.targetFrameRate = 30;
         QualitySettings.vSyncCount = 0;
 
@@ -105,10 +110,9 @@ public class System_MenuManager : MonoBehaviour
     [DebuggerHidden]
     private IEnumerator Start()
     {
-        yield return null;
-        if (m_eSystemMenuKind_Now == eSystemMenuKind.Title)
+        while (!IsDone)
         {
-            TitleInit();
+            yield return null;
         }
         SetMenuRequest(m_eSystemMenuKind_Req, true, true, true);
     }
@@ -116,9 +120,8 @@ public class System_MenuManager : MonoBehaviour
     public void SetMenuRequest(eSystemMenuKind eKind, bool force = false, bool fadein = false, bool fadeout = false)
     {
         UnityEngine.Debug.Log("SetMenuRequest: " + eKind);
-        if (eKind != eSystemMenuKind.None && (m_eSystemMenuKind_Req != eKind || force))
+        if (eKind != eSystemMenuKind.None && (m_eSystemMenuKind_Now != eKind || force))
         {
-            m_eSystemMenuKind_Req = eKind;
             StartCoroutine(ChangeScene(eKind, fadein, fadeout));
         }
     }
@@ -126,58 +129,111 @@ public class System_MenuManager : MonoBehaviour
     [DebuggerHidden]
     private IEnumerator ChangeScene(eSystemMenuKind next, bool fadein, bool fadeout)
     {
-        if (fadein && m_goCoverFrontPrefab != null)
+        m_eSystemMenuKind_Req = next;
+
+        if (fadein && LoadingManager.IsExist)
         {
-            Instantiate(m_goCoverFrontPrefab);
+            LoadingManager.Enable(0.5f);
+            while (!LoadingManager.IsBlackOut)
+            {
+                yield return null;
+            }
         }
 
-        m_eSystemMenuKind_Now = next;
-        yield return new WaitForSeconds(0.3f);
+        if (PhotonManager.Instance != null && PhotonManager.Instance.IsInRoom())
+        {
+            PhotonManager.Instance.LeaveRoom(null);
+            while (PhotonManager.Instance.IsInRoom())
+            {
+                yield return null;
+            }
+        }
+
+        SyncData_MultiPlay.ClearMemberState();
+        SyncData_MultiPlay.Clear();
+        PhotonMatching.ClearIgnoreRoom();
+
+        SceneManager.LoadScene("Empty");
+        System_TimeManager.SetTimeScale_Default();
+
+        if (Game_UI_Common.IsExist)
+        {
+            Game_UI_Common.Instance.DispDisable();
+        }
+        if (InformationManager.IsExist)
+        {
+            InformationManager.Instance.Clear(true);
+        }
 
         if (next == eSystemMenuKind.Title)
         {
             TitleInit();
         }
 
-        if (fadeout && m_goCoverFrontPrefab != null)
+        yield return StartCoroutine(AssetBundleManager.UnloadForce());
+        yield return StartCoroutine(Util.UnusedAssets());
+
+        string sceneName = "Title";
+        switch (next)
         {
-            // Xử lý hiệu ứng che/mở màn hình
+            case eSystemMenuKind.Title:
+                sceneName = "Title";
+                break;
+            case eSystemMenuKind.Academy:
+                sceneName = "Academy";
+                break;
+            case eSystemMenuKind.Field:
+                sceneName = "Field";
+                break;
+            case eSystemMenuKind.Opening:
+                sceneName = "Opening";
+                break;
         }
 
-        IsDone = true;
+        AsyncOperation asyncOp = SceneManager.LoadSceneAsync(sceneName);
+        if (asyncOp != null)
+        {
+            while (!asyncOp.isDone)
+            {
+                yield return null;
+            }
+        }
+
+        m_eSystemMenuKind_Now = next;
+
+        if (fadeout && LoadingManager.IsExist)
+        {
+            LoadingManager.Disable(0.5f);
+            while (!LoadingManager.IsEnd)
+            {
+                yield return null;
+            }
+        }
     }
 
     private void TitleInit()
     {
-        // 1. Khởi tạo lại GameState
         var gameState = GameStateManager.Instance;
         if (gameState != null)
         {
             gameState.Init();
         }
 
-        // 2. Xử lý Background UI nếu cần
-        var uiBg = UIBackgroundManager.Instance;
-        if (uiBg != null)
+        if (Game_UI_Common.IsExist)
         {
-            // Thêm các thao tác với uiBg nếu cần thiết tại đây
+            Game_UI_Common.Instance.CreateInstance();
         }
 
-        // 3. Buộc kết thúc Tutorial (Gọi qua Instance vì ForceEnd() là phương thức non-static)
-        var tutorialMgr = TutorialManager.Instance;
-        if (tutorialMgr != null)
+        if (TutorialManager.IsExist)
         {
-            tutorialMgr.ForceEnd();
+            TutorialManager.Instance.ForceEnd();
         }
 
-        // 4. Kết thúc ADV Manager
-        var advMgr = ADVManager.Instance;
-        if (advMgr != null)
+        if (ADVManager.IsInstance && ADVManager.Instance != null)
         {
-            advMgr.SetEnd();
+            ADVManager.Instance.SetEnd();
         }
 
-        // 5. Reset trạng thái Photon / Mạng
         PhotonManager.IsTimeOut = false;
         PhotonManager.IsTimeOut_Log = false;
 
@@ -187,10 +243,8 @@ public class System_MenuManager : MonoBehaviour
             photon.Disconnect();
         }
 
-        // 6. Xóa dữ liệu Multiplayer tạm thời
         SyncData_MultiPlay.Clear();
 
-        // 7. Dừng toàn bộ âm thanh và nhạc nền
         var sound = Sound_Manager.GetInst();
         if (sound != null)
         {
@@ -201,9 +255,18 @@ public class System_MenuManager : MonoBehaviour
 
     public void SetCover(bool bFlag)
     {
-        if (m_goCoverFrontPrefab != null)
+        if (bFlag)
         {
-            m_goCoverFrontPrefab.SetActive(bFlag);
+            if (m_goTouchBlockCollision == null && m_goCoverFrontPrefab != null)
+            {
+                m_goTouchBlockCollision = Instantiate(m_goCoverFrontPrefab);
+                DontDestroyOnLoad(m_goTouchBlockCollision);
+            }
+        }
+        else if (m_goTouchBlockCollision != null)
+        {
+            Destroy(m_goTouchBlockCollision);
+            m_goTouchBlockCollision = null;
         }
     }
 
@@ -218,6 +281,5 @@ public class System_MenuManager : MonoBehaviour
 
     private void OnApplicationPause(bool isPaused)
     {
-        // Xử lý trạng thái khi ứng dụng tạm dừng
     }
 }
