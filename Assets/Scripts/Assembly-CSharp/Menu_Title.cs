@@ -70,7 +70,7 @@ public class Menu_Title : Menu_Base
 		}
 	}
 
-	private enum eMainStep
+	public enum eMainStep
 	{
 		First_Init = 0,
 		First_Wait = 1,
@@ -195,7 +195,7 @@ public class Menu_Title : Menu_Base
 	[SerializeField]
 	private List<AudioClip> m_vTitleCall;
 
-	private eMainStep m_eMainStep;
+	public eMainStep m_eMainStep;
 
 	private eRaceKind m_eRaceKind;
 
@@ -469,7 +469,6 @@ public class Menu_Title : Menu_Base
 			if (string.IsNullOrEmpty(PlayerPrefs.GetString(GameDefine.sKEY_USERID, string.Empty)))
 			{
 				m_eMainStep = eMainStep.HSPLogin_Wait;
-				nextStep = eMainStep.HSPLogin_Wait;
 				AuthenticationManager.Authenticate(delegate(bool is_success)
 				{
 					if (is_success)
@@ -500,7 +499,6 @@ public class Menu_Title : Menu_Base
 			else
 			{
 				m_eMainStep = eMainStep.HSPLogin_Wait;
-				nextStep = eMainStep.HSPLogin_Wait;
 				if (AuthenticationManager.IsLatestAuthVersion())
 				{
 					AuthenticationManager.Authenticate(delegate(bool is_success)
@@ -524,6 +522,7 @@ public class Menu_Title : Menu_Base
 					});
 				}
 			}
+			nextStep = m_eMainStep;
 			break;
 		case eMainStep.AuthError:
 			DialogCommon.CreateOKDialog("ログインに失敗しました。\r\n再接続します。", delegate

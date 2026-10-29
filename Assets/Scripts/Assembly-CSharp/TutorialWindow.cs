@@ -73,8 +73,15 @@ public class TutorialWindow : SingletonBase<TutorialWindow>
 		}
 	}
 
+	protected override void Awake()
+	{
+		base.Awake();
+		base.gameObject.SetActive(false);
+	}
+
 	private void Start()
 	{
+		base.gameObject.SetActive(false);
 	}
 
 	private void LateUpdate()

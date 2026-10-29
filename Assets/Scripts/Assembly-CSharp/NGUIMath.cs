@@ -153,14 +153,17 @@ public static class NGUIMath
 
     public static Rect ConvertToTexCoords(Rect rect, int width, int height)
     {
+        Rect res = rect;
         if (width != 0 && height != 0)
         {
-            rect.xMin /= width;
-            rect.xMax /= width;
-            rect.yMin /= height;
-            rect.yMax /= height;
+            float fWidth = width;
+            float fHeight = height;
+            res.xMin = rect.xMin / fWidth;
+            res.xMax = rect.xMax / fWidth;
+            res.yMin = 1f - rect.yMax / fHeight;
+            res.yMax = 1f - rect.yMin / fHeight;
         }
-        return rect;
+        return res;
     }
 
     public static Rect ConvertToPixels(Rect rect, int width, int height, bool round)

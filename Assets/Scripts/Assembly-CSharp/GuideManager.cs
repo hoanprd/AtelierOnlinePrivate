@@ -15,10 +15,14 @@ public class GuideManager : SingletonBase<GuideManager>
 
 		public Guide(string mes, eSoundID se = eSoundID.None)
 		{
+			this.mes = mes;
+			this.se = se;
 		}
 
 		public Guide(string mes, int chara)
 		{
+			this.mes = mes;
+			this.voice = chara;
 		}
 	}
 
@@ -38,7 +42,7 @@ public class GuideManager : SingletonBase<GuideManager>
 
 	private EStep m_eStep;
 
-	private List<Guide> m_vContentList;
+	private List<Guide> m_vContentList = new List<Guide>();
 
 	private GuideInfo m_sInfo;
 
@@ -46,8 +50,22 @@ public class GuideManager : SingletonBase<GuideManager>
 	{
 		get
 		{
-			return false;
+			if (m_vContentList == null || m_vContentList.Count < 1)
+			{
+				return false;
+			}
+			return gameObject.activeSelf;
 		}
+	}
+
+	protected override void Awake()
+	{
+		base.Awake();
+		if (m_vContentList == null)
+		{
+			m_vContentList = new List<Guide>();
+		}
+		gameObject.SetActive(false);
 	}
 
 	private void Reset()
@@ -61,6 +79,12 @@ public class GuideManager : SingletonBase<GuideManager>
 
 	public void Init(string msg, eSoundID sound = eSoundID.system_011)
 	{
+		if (m_vContentList == null)
+		{
+			m_vContentList = new List<Guide>();
+		}
+		m_vContentList.Add(new Guide(msg, sound));
+		gameObject.SetActive(true);
 	}
 
 	public void InitRecipe(int leader)
@@ -69,6 +93,13 @@ public class GuideManager : SingletonBase<GuideManager>
 
 	public void Init(string[] msg, eSoundID sound = eSoundID.system_011)
 	{
+		if (msg != null)
+		{
+			for (int i = 0; i < msg.Length; i++)
+			{
+				Init(msg[i], sound);
+			}
+		}
 	}
 
 	public void Init(QuestComplete[] clear)
@@ -77,6 +108,13 @@ public class GuideManager : SingletonBase<GuideManager>
 
 	public void Init(string[] clear)
 	{
+		if (clear != null)
+		{
+			for (int i = 0; i < clear.Length; i++)
+			{
+				Init(clear[i]);
+			}
+		}
 	}
 
 	public void Init(QuestComplete clear, QuestDetail detail = null)
@@ -93,5 +131,13 @@ public class GuideManager : SingletonBase<GuideManager>
 
 	private void Update()
 	{
+		if (m_eStep == EStep.eWAIT)
+		{
+			if (m_vContentList == null || m_vContentList.Count < 1)
+			{
+				gameObject.SetActive(false);
+				return;
+			}
+		}
 	}
 }

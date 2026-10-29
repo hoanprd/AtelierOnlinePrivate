@@ -454,9 +454,7 @@ public class UIDrawCall : MonoBehaviour
                     mMesh.MarkDynamic();
                     setIndices = true;
                 }
-
-                bool trim = uvs.Count != count || cols.Count != count || uv2.Count != count || norms.Count != count || tans.Count != count;
-                if (!trim && mMesh.vertexCount != count)
+                else if (mMesh.vertexCount != count || setIndices)
                 {
                     mMesh.Clear();
                     setIndices = true;
@@ -738,20 +736,14 @@ public class UIDrawCall : MonoBehaviour
         if (dc != null)
         {
             dc.onRender = null;
+            mActiveList.Remove(dc);
+            mInactiveList.Remove(dc);
             if (Application.isPlaying)
             {
-                if (mActiveList.Remove(dc))
-                {
-                    if (dc.cachedTransform != null)
-                        dc.cachedTransform.SetParent(null, false);
-                    NGUITools.SetActive(dc.gameObject, false);
-                    mInactiveList.Add(dc);
-                    dc.mIsNew = true;
-                }
+                NGUITools.Destroy(dc.gameObject);
             }
             else
             {
-                mActiveList.Remove(dc);
                 NGUITools.DestroyImmediate(dc.gameObject);
             }
         }

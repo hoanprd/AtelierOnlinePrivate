@@ -1,57 +1,78 @@
-Shader "Hidden/Unlit/Text 2" {
-	Properties {
+Shader "Hidden/Unlit/Text 2"
+{
+	Properties
+	{
 		_MainTex ("Alpha (A)", 2D) = "white" {}
 	}
-	//DummyShaderTextExporter
-	SubShader{
-		Tags { "RenderType"="Opaque" }
+
+	SubShader
+	{
 		LOD 200
+
+		Tags
+		{
+			"Queue" = "Transparent"
+			"IgnoreProjector" = "True"
+			"RenderType" = "Transparent"
+		}
+		
+		Cull Off
+		Lighting Off
+		ZWrite Off
+		Fog { Mode Off }
+		Offset -1, -1
+		Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass
 		{
-			HLSLPROGRAM
+			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
+			#include "UnityCG.cginc"
 
-			float4x4 unity_ObjectToWorld;
-			float4x4 unity_MatrixVP;
+			struct appdata_t
+			{
+				float4 vertex : POSITION;
+				fixed4 color : COLOR;
+				float2 texcoord : TEXCOORD0;
+			};
+
+			struct v2f
+			{
+				float4 vertex : SV_POSITION;
+				fixed4 color : COLOR;
+				float2 texcoord : TEXCOORD0;
+				float4 worldPos : TEXCOORD1;
+			};
+
+			sampler2D _MainTex;
 			float4 _MainTex_ST;
+			float4 _ClipRange0 = float4(0.0, 0.0, 1.0, 1.0);
+			float4 _ClipArgs0 = float4(1000.0, 1000.0, 0.0, 1.0);
+			float4 _ClipRange1 = float4(0.0, 0.0, 1.0, 1.0);
+			float4 _ClipArgs1 = float4(1000.0, 1000.0, 0.0, 1.0);
 
-			struct Vertex_Stage_Input
+			v2f vert (appdata_t v)
 			{
-				float4 pos : POSITION;
-				float2 uv : TEXCOORD0;
-			};
-
-			struct Vertex_Stage_Output
-			{
-				float2 uv : TEXCOORD0;
-				float4 pos : SV_POSITION;
-			};
-
-			Vertex_Stage_Output vert(Vertex_Stage_Input input)
-			{
-				Vertex_Stage_Output output;
-				output.uv = (input.uv.xy * _MainTex_ST.xy) + _MainTex_ST.zw;
-				output.pos = mul(unity_MatrixVP, mul(unity_ObjectToWorld, input.pos));
-				return output;
+				v2f o;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.color = v.color;
+				o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
+				o.worldPos.xy = v.vertex.xy * _ClipRange0.zw + _ClipRange0.xy;
+				o.worldPos.zw = v.vertex.xy * _ClipRange1.zw + _ClipRange1.xy;
+				return o;
 			}
 
-			Texture2D<float4> _MainTex;
-			SamplerState sampler_MainTex;
-
-			struct Fragment_Stage_Input
+			fixed4 frag (v2f i) : SV_Target
 			{
-				float2 uv : TEXCOORD0;
-			};
-
-			float4 frag(Fragment_Stage_Input input) : SV_TARGET
-			{
-				return _MainTex.Sample(sampler_MainTex, input.uv.xy);
+				float2 factor0 = (float2(1.0, 1.0) - abs(i.worldPos.xy)) * _ClipArgs0.xy;
+				float2 factor1 = (float2(1.0, 1.0) - abs(i.worldPos.zw)) * _ClipArgs1.xy;
+				float f = clamp(min(min(factor0.x, factor0.y), min(factor1.x, factor1.y)), 0.0, 1.0);
+				fixed4 col = i.color;
+				col.a *= tex2D(_MainTex, i.texcoord).a * f;
+				return col;
 			}
-
-			ENDHLSL
+			ENDCG
 		}
 	}
-	Fallback "Unlit/Text"
 }

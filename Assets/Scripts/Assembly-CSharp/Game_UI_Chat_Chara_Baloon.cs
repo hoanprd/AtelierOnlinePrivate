@@ -112,6 +112,10 @@ public class Game_UI_Chat_Chara_Baloon : Game_UI_Chat_Baloon_Base
 
 	private void Awake()
 	{
+		if (m_goOffsetObj != null && m_goOffsetObj.activeSelf)
+		{
+			m_goOffsetObj.SetActive(false);
+		}
 	}
 
 	private void Update()

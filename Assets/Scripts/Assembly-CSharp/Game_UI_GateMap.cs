@@ -279,14 +279,28 @@ public class Game_UI_GateMap : SingletonBase<Game_UI_GateMap>
 
 	protected override void Awake()
 	{
+		base.Awake();
+		SetActive(false);
 	}
 
 	protected override void OnDestroySub()
 	{
+		base.OnDestroySub();
 	}
 
 	private void SetActive(bool bActive)
 	{
+		if (m_goActiveRootList != null)
+		{
+			for (int i = 0; i < m_goActiveRootList.Length; i++)
+			{
+				if (m_goActiveRootList[i] != null)
+				{
+					m_goActiveRootList[i].SetActive(bActive);
+				}
+			}
+		}
+		base.gameObject.SetActive(bActive);
 	}
 
 	private void Update()
@@ -615,6 +629,7 @@ public class Game_UI_GateMap : SingletonBase<Game_UI_GateMap>
 
 	public void ForceExit()
 	{
+		SetActive(false);
 	}
 
 	public void ClickedButton(eButton eKind, int iArea = 0, int iStage = 0, int iSpawnNo = 0, string strGateName = "")

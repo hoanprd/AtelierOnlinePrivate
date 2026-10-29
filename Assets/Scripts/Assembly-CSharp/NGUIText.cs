@@ -946,10 +946,6 @@ public static class NGUIText
 		for (; offset < textLength; offset++)
 		{
 			char ch = text[offset];
-			if (ch > '\u2fff')
-			{
-				start = offset;
-			}
 			if (ch == '\n')
 			{
 				if (lineCount == maxLineCount)

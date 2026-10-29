@@ -138,12 +138,14 @@ public class UIPanel : UIRect
         get
         {
             int num = int.MinValue;
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count;)
             {
+                if (list[i] == null) { list.RemoveAt(i); continue; }
                 if (list[i].mDepth > num)
                 {
                     num = list[i].mDepth;
                 }
+                i++;
             }
             return (num == int.MinValue) ? 0 : (num + 1);
         }
@@ -429,26 +431,27 @@ public class UIPanel : UIRect
 
     public static int CompareFunc(UIPanel a, UIPanel b)
     {
-        if (a != b && a != null && b != null)
-        {
-            if (a.mDepth < b.mDepth) return -1;
-            if (a.mDepth > b.mDepth) return 1;
-            return (a.GetEntityId().CompareTo(b.GetEntityId()));
-        }
-        return 0;
+        if (a == b) return 0;
+        if (a == null) return -1;
+        if (b == null) return 1;
+        if (a.mDepth < b.mDepth) return -1;
+        if (a.mDepth > b.mDepth) return 1;
+        return (a.GetEntityId().CompareTo(b.GetEntityId()));
     }
 
     private void InvalidateClipping()
     {
         mResized = true;
         mMatrixFrame = -1;
-        for (int i = 0; i < list.Count; i++)
+        for (int i = 0; i < list.Count;)
         {
+            if (list[i] == null) { list.RemoveAt(i); continue; }
             UIPanel p = list[i];
             if (p != this && p.parentPanel == this)
             {
                 p.InvalidateClipping();
             }
+            i++;
         }
     }
 
@@ -499,7 +502,6 @@ public class UIPanel : UIRect
     public override void Invalidate(bool includeChildren)
     {
         mAlphaFrameID = -1;
-        SetDirty();
         base.Invalidate(includeChildren);
     }
 
@@ -612,9 +614,8 @@ public class UIPanel : UIRect
         mRebuild = true;
         for (int i = 0; i < drawCalls.Count; i++)
         {
-            drawCalls[i].isDirty = true;
+            if (drawCalls[i] != null) drawCalls[i].isDirty = true;
         }
-        Invalidate(true);
     }
 
     protected override void Awake()
@@ -688,6 +689,11 @@ public class UIPanel : UIRect
             mUpdateFrame = -1;
         }
         base.OnDisable();
+    }
+
+    protected void OnDestroy()
+    {
+        list.Remove(this);
     }
 
     private void UpdateTransformMatrix()
@@ -784,13 +790,24 @@ public class UIPanel : UIRect
         if (mUpdateFrame != Time.frameCount || !Application.isPlaying)
         {
             mUpdateFrame = Time.frameCount;
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < list.Count;)
             {
+                if (list[i] == null)
+                {
+                    list.RemoveAt(i);
+                    continue;
+                }
                 list[i].UpdateSelf();
+                i++;
             }
             int rq = 3000;
-            for (int j = 0; j < list.Count; j++)
+            for (int j = 0; j < list.Count;)
             {
+                if (list[j] == null)
+                {
+                    list.RemoveAt(j);
+                    continue;
+                }
                 UIPanel p = list[j];
                 if (p.renderQueue == RenderQueue.Automatic)
                 {
@@ -810,6 +827,7 @@ public class UIPanel : UIRect
                     if (p.drawCalls.Count != 0)
                         rq = Mathf.Max(rq, p.startingRenderQueue + 1);
                 }
+                j++;
             }
         }
     }
@@ -1036,15 +1054,17 @@ public class UIPanel : UIRect
             pos += drawCallOffset;
         }
 
-        Quaternion rot = trans.rotation;
-        Vector3 scale = trans.lossyScale;
         for (int i = 0; i < drawCalls.Count; i++)
         {
             UIDrawCall dc = drawCalls[i];
             Transform t = dc.cachedTransform;
-            t.position = pos;
-            t.rotation = rot;
-            t.localScale = scale;
+            if (t.parent != trans)
+            {
+                t.SetParent(trans, false);
+            }
+            t.localPosition = Vector3.zero;
+            t.localRotation = Quaternion.identity;
+            t.localScale = Vector3.one;
             dc.renderQueue = ((renderQueue == RenderQueue.Explicit) ? startingRenderQueue : (startingRenderQueue + i));
             dc.alwaysOnScreen = alwaysOnScreen && (mClipping == Clipping.None || mClipping == Clipping.ConstrainButDontClip);
             dc.sortingOrder = (useSortingOrder ? ((mSortingOrder == 0 && renderQueue == RenderQueue.Automatic) ? sortOrder : mSortingOrder) : 0);
@@ -1206,7 +1226,14 @@ public class UIPanel : UIRect
     {
         mRebuild = true;
         mUpdateFrame = -1;
-        if (list.Count > 0) list[0].LateUpdate();
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i] != null)
+            {
+                list[i].LateUpdate();
+                break;
+            }
+        }
     }
 
     public virtual Vector3 CalculateConstrainOffset(Vector2 min, Vector2 max)

@@ -371,7 +371,21 @@ public class UISprite : UIBasicSprite
         {
             return;
         }
-        base.OnFill(verts, uvs, cols);
+
+        Rect outer = new Rect(mSprite.x, mSprite.y, mSprite.width, mSprite.height);
+        Rect inner = new Rect(mSprite.x + mSprite.borderLeft, mSprite.y + mSprite.borderTop,
+            mSprite.width - mSprite.borderLeft - mSprite.borderRight,
+            mSprite.height - mSprite.borderBottom - mSprite.borderTop);
+
+        outer = NGUIMath.ConvertToTexCoords(outer, tex.width, tex.height);
+        inner = NGUIMath.ConvertToTexCoords(inner, tex.width, tex.height);
+
+        int count = verts.Count;
+        Fill(verts, uvs, cols, outer, inner);
+        if (onPostFill != null)
+        {
+            onPostFill(this, count, verts, uvs, cols);
+        }
     }
 
     private void UIAtlasFindAtlas(Transform tr)

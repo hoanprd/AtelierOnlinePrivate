@@ -81,8 +81,8 @@ public class UITweenReset : MonoBehaviour
 
     public void SetStart(bool callOnFinish = false)
     {
-        if (m_tween == null) FindTweener();
-        if (m_tween == null) return;
+        if (m_tween == null || m_tween.Length == 0) FindTweener();
+        if (m_tween == null || m_tween.Length == 0) return;
 
         for (int i = 0; i < m_tween.Length; i++)
         {
@@ -101,8 +101,8 @@ public class UITweenReset : MonoBehaviour
 
     public void SetFinish(bool callOnFinish = false)
     {
-        if (m_tween == null) FindTweener();
-        if (m_tween == null) return;
+        if (m_tween == null || m_tween.Length == 0) FindTweener();
+        if (m_tween == null || m_tween.Length == 0) return;
 
         for (int i = 0; i < m_tween.Length; i++)
         {
@@ -122,8 +122,13 @@ public class UITweenReset : MonoBehaviour
     public void ResetTween(bool forward = true, bool reset = true)
     {
         m_forward = forward;
-        if (m_tween == null) FindTweener();
-        if (m_tween == null) return;
+        if (m_tween == null || m_tween.Length == 0) FindTweener();
+        if (m_tween == null || m_tween.Length == 0)
+        {
+            m_tweenCount = 0;
+            OnFinish();
+            return;
+        }
 
         Clear();
 
@@ -136,6 +141,8 @@ public class UITweenReset : MonoBehaviour
             UITweener tw = m_tween[i];
             if (tw != null && tw.tweenGroup == m_tweenGroup)
             {
+                tw.enabled = true;
+                tw.Play(forward);
                 if (reset)
                 {
                     tw.ResetToBeginning();
@@ -146,19 +153,22 @@ public class UITweenReset : MonoBehaviour
                     m_fWaitTime = tw.duration;
                 }
 
-                tw.enabled = true;
-                tw.Play(forward);
                 tw.AddOnFinished(FinishCallback);
                 m_tweenCount++;
             }
+        }
+
+        if (m_tweenCount == 0)
+        {
+            OnFinish();
         }
     }
 
     public void Reset()
     {
         m_tweenCount = 0;
-        if (m_tween == null) FindTweener();
-        if (m_tween == null) return;
+        if (m_tween == null || m_tween.Length == 0) FindTweener();
+        if (m_tween == null || m_tween.Length == 0) return;
 
         for (int i = 0; i < m_tween.Length; i++)
         {
@@ -231,7 +241,7 @@ public class UITweenReset : MonoBehaviour
 
     public void Clear()
     {
-        if (m_tween == null) return;
+        if (m_tween == null || m_tween.Length == 0) return;
         EventDelegate cb = FinishCallback;
         for (int i = 0; i < m_tween.Length; i++)
         {
@@ -248,7 +258,7 @@ public class UITweenReset : MonoBehaviour
         return Mathf.Clamp01(m_fPassedTime / m_fWaitTime);
     }
 
-    private void OnFinish()
+    public void OnFinish()
     {
         m_tweenCount--;
         if (m_tweenCount <= 0)

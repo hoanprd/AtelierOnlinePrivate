@@ -326,6 +326,29 @@ public abstract class UIBasicSprite : UIWidget
 
     protected void Fill(List<Vector3> verts, List<Vector2> uvs, List<Color> cols, Rect outer, Rect inner)
     {
+        mOuterUV = outer;
+        mInnerUV = inner;
+        Vector4 v = drawingDimensions;
+        Vector4 u = drawingUVs;
+        Color c = drawingColor;
+        switch (mType)
+        {
+            case Type.Simple:
+                SimpleFill(verts, uvs, cols, ref v, ref u, ref c);
+                break;
+            case Type.Sliced:
+                SlicedFill(verts, uvs, cols, ref v, ref u, ref c);
+                break;
+            case Type.Tiled:
+                TiledFill(verts, uvs, cols, ref v, ref c);
+                break;
+            case Type.Filled:
+                FilledFill(verts, uvs, cols, ref v, ref u, ref c);
+                break;
+            case Type.Advanced:
+                AdvancedFill(verts, uvs, cols, ref v, ref u, ref c);
+                break;
+        }
     }
 
     protected void SimpleFill(List<Vector3> verts, List<Vector2> uvs, List<Color> cols, ref Vector4 v, ref Vector4 u, ref Color c)
@@ -335,9 +358,89 @@ public abstract class UIBasicSprite : UIWidget
 
     protected void SlicedFill(List<Vector3> verts, List<Vector2> uvs, List<Color> cols, ref Vector4 v, ref Vector4 u, ref Color gc)
     {
-        SimpleFill(verts, uvs, cols, ref v, ref u, ref gc);
-    }
+        Vector4 br = border * pixelSize;
+        if (br.x == 0f && br.y == 0f && br.z == 0f && br.w == 0f)
+        {
+            SimpleFill(verts, uvs, cols, ref v, ref u, ref gc);
+            return;
+        }
 
+        mTempPos[0].x = v.x;
+        mTempPos[0].y = v.y;
+        mTempPos[3].x = v.z;
+        mTempPos[3].y = v.w;
+
+        if (mFlip == Flip.Horizontally || mFlip == Flip.Both)
+        {
+            mTempPos[1].x = mTempPos[0].x + br.z;
+            mTempPos[2].x = mTempPos[3].x - br.x;
+
+            mTempUVs[3].x = mOuterUV.xMin;
+            mTempUVs[2].x = mInnerUV.xMin;
+            mTempUVs[1].x = mInnerUV.xMax;
+            mTempUVs[0].x = mOuterUV.xMax;
+        }
+        else
+        {
+            mTempPos[1].x = mTempPos[0].x + br.x;
+            mTempPos[2].x = mTempPos[3].x - br.z;
+
+            mTempUVs[0].x = mOuterUV.xMin;
+            mTempUVs[1].x = mInnerUV.xMin;
+            mTempUVs[2].x = mInnerUV.xMax;
+            mTempUVs[3].x = mOuterUV.xMax;
+        }
+
+        if (mFlip == Flip.Vertically || mFlip == Flip.Both)
+        {
+            mTempPos[1].y = mTempPos[0].y + br.w;
+            mTempPos[2].y = mTempPos[3].y - br.y;
+
+            mTempUVs[3].y = mOuterUV.yMin;
+            mTempUVs[2].y = mInnerUV.yMin;
+            mTempUVs[1].y = mInnerUV.yMax;
+            mTempUVs[0].y = mOuterUV.yMax;
+        }
+        else
+        {
+            mTempPos[1].y = mTempPos[0].y + br.y;
+            mTempPos[2].y = mTempPos[3].y - br.w;
+
+            mTempUVs[0].y = mOuterUV.yMin;
+            mTempUVs[1].y = mInnerUV.yMin;
+            mTempUVs[2].y = mInnerUV.yMax;
+            mTempUVs[3].y = mOuterUV.yMax;
+        }
+
+        for (int x = 0; x < 3; ++x)
+        {
+            int x2 = x + 1;
+            if (mTempPos[x].x == mTempPos[x2].x) continue;
+
+            for (int y = 0; y < 3; ++y)
+            {
+                if (centerType == AdvancedType.Invisible && x == 1 && y == 1) continue;
+
+                int y2 = y + 1;
+                if (mTempPos[y].y == mTempPos[y2].y) continue;
+
+                verts.Add(new Vector3(mTempPos[x].x, mTempPos[y].y, 0f));
+                verts.Add(new Vector3(mTempPos[x].x, mTempPos[y2].y, 0f));
+                verts.Add(new Vector3(mTempPos[x2].x, mTempPos[y2].y, 0f));
+                verts.Add(new Vector3(mTempPos[x2].x, mTempPos[y].y, 0f));
+
+                uvs.Add(new Vector2(mTempUVs[x].x, mTempUVs[y].y));
+                uvs.Add(new Vector2(mTempUVs[x].x, mTempUVs[y2].y));
+                uvs.Add(new Vector2(mTempUVs[x2].x, mTempUVs[y2].y));
+                uvs.Add(new Vector2(mTempUVs[x2].x, mTempUVs[y].y));
+
+                cols.Add(gc);
+                cols.Add(gc);
+                cols.Add(gc);
+                cols.Add(gc);
+            }
+        }
+    }
     [DebuggerHidden]
     [DebuggerStepThrough]
     private void AddVertexColours(List<Color> cols, ref Color color, int x, int y)

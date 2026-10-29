@@ -163,7 +163,7 @@ public class Sound_Music : MonoBehaviour
 
 	public float GetTime()
 	{
-		if (m_asAudio == null)
+		if (m_asAudio == null || m_asAudio.clip == null)
 		{
 			return 0f;
 		}

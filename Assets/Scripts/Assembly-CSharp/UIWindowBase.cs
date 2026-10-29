@@ -37,7 +37,7 @@ public class UIWindowBase : MonoBehaviour
 		Util.SetEnableButton(gameObject, false);
 		if (m_sAnim != null)
 		{
-			m_sAnim.SetOnFinish(new EventDelegate(this, "OnCloseEnd"));
+			m_sAnim.SetOnFinish(new EventDelegate(OnCloseEnd));
 			m_sAnim.ResetTweenReverse();
 		}
 		else if (m_sAnimCtrl != null)

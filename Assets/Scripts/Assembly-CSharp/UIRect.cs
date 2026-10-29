@@ -337,28 +337,32 @@ public abstract class UIRect : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        mStarted = false;
+        mUpdateFrame = -1;
+        if (updateAnchors == AnchorUpdate.OnEnable)
+        {
+            mAnchorsCached = false;
+            mUpdateAnchors = true;
+        }
+        if (mStarted)
+            OnInit();
+        mUpdateFrame = -1;
+    }
+
+    protected virtual void OnInit()
+    {
         mParentFound = false;
         mRootSet = false;
         mParent = null;
         mRoot = null;
-
+        mTrans = transform;
+        mGo = gameObject;
+        CacheAnchors();
         UIRect p = parent;
         if (p != null)
         {
             if (!p.mChildren.Contains(this))
                 p.mChildren.Add(this);
         }
-
-        if (updateAnchors == AnchorUpdate.OnEnable)
-            mUpdateAnchors = true;
-    }
-
-    protected virtual void OnInit()
-    {
-        mTrans = transform;
-        mGo = gameObject;
-        CacheAnchors();
         if (updateAnchors == AnchorUpdate.OnStart || updateAnchors == AnchorUpdate.OnEnable)
             mUpdateAnchors = true;
     }
@@ -371,14 +375,15 @@ public abstract class UIRect : MonoBehaviour
 
     protected virtual void Awake()
     {
-        OnInit();
+        mStarted = false;
+        mGo = gameObject;
+        mTrans = transform;
     }
 
     protected void Start()
     {
         mStarted = true;
-        if (updateAnchors == AnchorUpdate.OnStart)
-            mUpdateAnchors = true;
+        OnInit();
         OnStart();
     }
 
