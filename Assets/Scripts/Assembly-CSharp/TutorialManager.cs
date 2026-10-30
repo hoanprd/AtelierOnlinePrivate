@@ -1,18 +1,18 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Tutorial;
 using UnityEngine;
 
-// Định nghĩa bổ trợ để giải quyết lỗi CS0103 cho Tutorial_Define
+// Định nghĩa bổ trợ cho Tutorial_Define
 public static class Tutorial_Define
 {
-    public static List<eTutorial> GetSkipList(eTutorial eKind) => new List<eTutorial>();
-    public static int GetSendFlag(eTutorial eKind) => 0;
+    public static List<eTutorial> GetSkipList(eTutorial eKind) => Tutorial.Define.GetSkipList(eKind);
+    public static int GetSendFlag(eTutorial eKind) => Tutorial.Define.GetSendFlag(eKind) ? 1 : 0;
 }
 
-// Định nghĩa extension methods cho TutorialCommandBase để giải quyết lỗi CS1061
+// Định nghĩa extension methods cho TutorialCommandBase
 public static class TutorialCommandExtensions
 {
     public static int GetKind(this TutorialCommandBase cmd) => 0;
@@ -125,6 +125,14 @@ public class TutorialManager : SingletonBase<TutorialManager>
 
     private void LoadAsset_Init()
     {
+        string assetPath = Tutorial.Define.GetAssetName(m_eNowTutorial);
+        if (string.IsNullOrEmpty(assetPath))
+        {
+            assetPath = "tutorial/academy_first/Academy_First";
+        }
+        m_clsDataUnit = Resources.Load<DataUnit>(assetPath);
+        m_iNowDataIndex = 0;
+        m_clsNowData = null;
         m_eStep = eMainStep.LoadAsset_Wait;
     }
 
@@ -135,12 +143,85 @@ public class TutorialManager : SingletonBase<TutorialManager>
 
     private void Make()
     {
+        if (m_clsDataUnit == null || m_clsDataUnit.clsDataList == null || m_iNowDataIndex >= m_clsDataUnit.clsDataList.Count)
+        {
+            m_eStep = eMainStep.SendFlag_Init;
+            return;
+        }
+
+        m_clsNowData = m_clsDataUnit.clsDataList[m_iNowDataIndex];
+        m_bCommandEnd = false;
+
+        if (m_scrCommand != null)
+        {
+            Destroy(m_scrCommand);
+            m_scrCommand = null;
+        }
+
+        m_scrCommand = CreateCommand(m_clsNowData.eKind);
+        if (m_scrCommand != null)
+        {
+            m_scrCommand.Exec(m_clsNowData);
+        }
+        else
+        {
+            m_bCommandEnd = true;
+        }
         m_eStep = eMainStep.Control_Init;
+    }
+
+    private TutorialCommandBase CreateCommand(eExecKind kind)
+    {
+        switch (kind)
+        {
+            case eExecKind.ADV:
+                return gameObject.AddComponent<TutorialCommandADV>();
+            case eExecKind.Wait:
+                return gameObject.AddComponent<TutorialCommandWait>();
+            case eExecKind.WaitTouch:
+                return gameObject.AddComponent<TutorialCommandWaitTouch>();
+            case eExecKind.Popup:
+                return gameObject.AddComponent<TutorialCommandPopup>();
+            case eExecKind.Arrow:
+                return gameObject.AddComponent<TutorialCommandArrow>();
+            case eExecKind.CloseLauncher:
+                return gameObject.AddComponent<TutorialCommandCloseLauncher>();
+            case eExecKind.OpenLauncher:
+                return gameObject.AddComponent<TutorialCommandOpenLauncher>();
+            case eExecKind.ClickButton:
+                return gameObject.AddComponent<TutorialCommandClickButton>();
+            case eExecKind.JumpRequest:
+                return gameObject.AddComponent<TutorialCommandRequestJump>();
+            case eExecKind.QuestClear:
+                return gameObject.AddComponent<TutorialCommandQuestClear>();
+            case eExecKind.DispGuide:
+                return gameObject.AddComponent<TutorialCommandDispGuide>();
+            case eExecKind.TargetArrow:
+                return gameObject.AddComponent<TutorialCommandTargetArrow>();
+            case eExecKind.TargetArrowOFF:
+                return gameObject.AddComponent<TutorialCommandTargetArrowOFF>();
+            case eExecKind.ButtonStatus:
+                return gameObject.AddComponent<TutorialCommandSwitchButton>();
+            case eExecKind.SkipSelect:
+                return gameObject.AddComponent<TutorialCommandSkipSelect>();
+            case eExecKind.OnSkip:
+                return gameObject.AddComponent<TutorialCommandOnSkip>();
+            case eExecKind.QstTgtActive:
+                return gameObject.AddComponent<TutorialCommandQuestTargetActive>();
+            case eExecKind.QstTgtInfo:
+                return gameObject.AddComponent<TutorialCommandQuestTargetInfo>();
+            case eExecKind.WaitNoticce:
+                return gameObject.AddComponent<TutorialCommandWaitNotice>();
+            case eExecKind.LoginBonus:
+                return gameObject.AddComponent<TutorialCommandLoginBonus>();
+            default:
+                return null;
+        }
     }
 
     private void MakeDialog(string strTitle, string strMessage, string strButtonName = "")
     {
-        var uiBg = UIBackgroundManager.Instance; // Sửa lỗi CS0117: dùng Instance thay vì GetInst()
+        var uiBg = UIBackgroundManager.Instance;
         if (uiBg != null)
         {
         }
@@ -161,45 +242,22 @@ public class TutorialManager : SingletonBase<TutorialManager>
 
     private bool Control_Wait()
     {
-        if (m_scrCommand == null)
+        if (m_scrCommand != null)
         {
-            return m_bCommandEnd;
-        }
-
-        uint commandKind = (uint)m_scrCommand.GetKind();
-        if (commandKind > 0x2e)
-        {
-            return true;
-        }
-
-        switch (commandKind)
-        {
-            case 4:
-                if (m_scrCommand != null)
+            if (m_scrCommand.IsEnd())
+            {
+                Destroy(m_scrCommand);
+                m_scrCommand = null;
+                m_iNowDataIndex++;
+                if (m_clsDataUnit != null && m_clsDataUnit.clsDataList != null && m_iNowDataIndex < m_clsDataUnit.clsDataList.Count)
                 {
-                    return m_scrCommand.IsEnd();
+                    m_eStep = eMainStep.Make;
+                    return false;
                 }
-                break;
-            case 5:
-                var uiBg = UIBackgroundManager.Instance;
-                if (uiBg != null)
-                {
-                    return true;
-                }
-                break;
-            case 7:
-                if (!m_bCommandEnd) return false;
-                UndoCameraMask();
                 return true;
-            case 8:
-                var uiBg2 = UIBackgroundManager.Instance;
-                if (uiBg2 != null)
-                {
-                    return true;
-                }
-                break;
+            }
+            return false;
         }
-
         return m_bCommandEnd;
     }
 
@@ -220,18 +278,7 @@ public class TutorialManager : SingletonBase<TutorialManager>
 
         foreach (var tut in sendList)
         {
-            int sendFlagType = Tutorial_Define.GetSendFlag(tut);
-            if (sendFlagType == 1)
-            {
-                if (!GetFlag(tut))
-                {
-                    SetFlag(tut, true);
-                }
-            }
-            else
-            {
-                SetFlag(tut, true);
-            }
+            SetFlag(tut, true);
         }
 
         StartCoroutine(SendTutorialFlag_Private(sendList));
@@ -264,10 +311,18 @@ public class TutorialManager : SingletonBase<TutorialManager>
             m_goCollider.SetActive(false);
         }
 
+        if (m_scrCommand != null)
+        {
+            Destroy(m_scrCommand);
+            m_scrCommand = null;
+        }
+
         bool force = m_bForceEnd;
         bool skip = m_bSkip;
         eTutorial finishedTutorial = m_eNowTutorial;
 
+        m_clsDataUnit = null;
+        m_clsNowData = null;
         m_eStep = eMainStep.Wait;
         m_eNowTutorial = (eTutorial)0;
 

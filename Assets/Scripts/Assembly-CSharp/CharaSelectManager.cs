@@ -80,7 +80,7 @@ public class CharaSelectManager : MonoBehaviour
 			{
 				m_sName.label.maxLineCount = 1;
 			}
-			m_sName.characterLimit = 8;
+			m_sName.characterLimit = 7;
 			m_sName.Set(m_sAppearanceInfo.NAME, true);
 		}
 		if (m_asGenderInfo != null)
@@ -122,13 +122,11 @@ public class CharaSelectManager : MonoBehaviour
 
 	public void OnDecideConfirm()
 	{
-		string userName = (m_sName != null && !string.IsNullOrEmpty(m_sName.value)) ? m_sName.value : GameUtil.MakeUserName();
-		if (m_sAppearanceInfo != null)
-		{
-			m_sAppearanceInfo.NAME = userName;
-			m_sAppearanceInfo.GEN = m_iGender;
-		}
-		DialogCommon.CreateYesNODialog("主人公を「" + userName + "」に決定します。\r\nよろしいですか？", OnDecide);
+		UserNameLimit(true);
+		string text = (m_iGender == 1)
+			? "主人公の性別は【男性】です。\r\nゲームを開始してよろしいですか？"
+			: "主人公の性別は【女性】です。\r\nゲームを開始してよろしいですか？";
+		DialogCommon.CreateYesNODialog(text, OnDecide);
 	}
 
 	public void OnChangeName(string value)
@@ -151,9 +149,16 @@ public class CharaSelectManager : MonoBehaviour
 
 	public void UserNameLimit(bool force)
 	{
-		if (m_sName != null && !string.IsNullOrEmpty(m_sName.value) && m_sName.value.Length > 8)
+		if (m_sName != null && !string.IsNullOrEmpty(m_sName.value))
 		{
-			m_sName.value = m_sName.value.Substring(0, 8);
+			if (!force && m_sName.isSelected)
+			{
+				return;
+			}
+			if (m_sName.value.Length > 7)
+			{
+				m_sName.Set(m_sName.value.Substring(0, 7), true);
+			}
 		}
 	}
 
@@ -161,27 +166,41 @@ public class CharaSelectManager : MonoBehaviour
 	{
 		if (result == EButtonKind.eDECIDE)
 		{
-			StartCoroutine(DecideDirection());
+			UserNameLimit(true);
+			string userName = (m_sName != null && !string.IsNullOrEmpty(m_sName.value)) ? m_sName.value : GameUtil.MakeUserName();
+			if (m_sAppearanceInfo != null)
+			{
+				m_sAppearanceInfo.NAME = userName;
+				m_sAppearanceInfo.GEN = m_iGender;
+			}
+			if (m_sName != null)
+			{
+				m_sName.enabled = false;
+			}
+			Util.SetEnableButton(gameObject, false);
+
+			int charaId = (m_iGender == 1) ? 1 : 2;
+			NetworkManager.SalonChoose(charaId, m_sAppearanceInfo, delegate(SalonChooseResponse res)
+			{
+				if (GameStateManager.Instance != null)
+				{
+					GameStateManager.Instance.UserName = userName;
+				}
+				StartCoroutine(DecideDirection());
+			});
 		}
 	}
 
-	[DebuggerHidden]
 	private IEnumerator DecideDirection()
 	{
-		PlayDeicideSE();
-		PlayDecideMotion();
-		int charaId = (m_iGender == 1) ? 1 : 2;
-		bool apiDone = false;
-		NetworkManager.SalonChoose(charaId, m_sAppearanceInfo, delegate
+		if (m_sDecideAnim != null)
 		{
-			apiDone = true;
-		});
-		while (!apiDone)
-		{
-			yield return null;
+			m_sDecideAnim.enabled = true;
+			string animName = "CharaSelect_Decision" + ((m_iGender == 2) ? "_W" : "_M");
+			m_sDecideAnim.Play(animName);
 		}
-		yield return new WaitForSeconds(0.5f);
-		OnDecideFinish();
+		yield return new WaitForSeconds(1.0f);
+		PlayDecideMotion();
 	}
 
 	public void PlayDecideMotion()
@@ -197,15 +216,18 @@ public class CharaSelectManager : MonoBehaviour
 			{
 				Sound_Manager.GetInst().PlaySound_AudioClip(m_asGenderInfo[idx].sDecideVoice);
 			}
+			if (m_asGenderInfo[idx].sAnim != null)
+			{
+				m_asGenderInfo[idx].sAnim.Play("confirm");
+			}
 		}
-		if (m_sDecideAnim != null)
-		{
-			m_sDecideAnim.Play();
-		}
+		Invoke("PlayDeicideSE", 1.35f);
+		Invoke("OnDecideFinish", 2.5f);
 	}
 
 	private void OnDecideFinish()
 	{
+		UnityEngine.Debug.Log("[CharaSelectManager] OnDecideFinish -> m_bFinish = true");
 		m_bFinish = true;
 	}
 
@@ -213,7 +235,7 @@ public class CharaSelectManager : MonoBehaviour
 	{
 		if (Sound_Manager.GetInst() != null)
 		{
-			Sound_Manager.GetInst().PlaySound((eSoundID)94);
+			Sound_Manager.GetInst().PlaySound((eSoundID)77);
 		}
 	}
 

@@ -608,6 +608,13 @@ public class UIPanel : UIRect
         mRebuild = true;
     }
 
+    public void ForceUpdateNow(int sortOrder = 0)
+    {
+        mRebuild = true;
+        UpdateSelf();
+        UpdateDrawCalls(sortOrder);
+    }
+
     public void SetDirty()
     {
         isDirty = true;

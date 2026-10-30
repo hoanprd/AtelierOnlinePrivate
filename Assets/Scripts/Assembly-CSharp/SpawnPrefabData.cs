@@ -19,6 +19,17 @@ public class SpawnPrefabData
 		}
 	}
 
+	public GameObject InstantiateObject()
+	{
+		Create(true);
+		return m_goInstance;
+	}
+
+	public void DestroyObject()
+	{
+		ReleaseInstance();
+	}
+
 	public void Create(bool active = true)
 	{
 		if (m_goInstance == null && m_goPrefab != null)
@@ -40,7 +51,12 @@ public class SpawnPrefabData
 		Create(true);
 		if (m_goInstance != null)
 		{
-			return m_goInstance.GetComponent<T>();
+			T component = m_goInstance.GetComponent<T>();
+			if (component == null)
+			{
+				component = m_goInstance.GetComponentInChildren<T>(true);
+			}
+			return component;
 		}
 		return default(T);
 	}

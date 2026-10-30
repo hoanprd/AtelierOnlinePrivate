@@ -449,6 +449,11 @@ public class Sound_Manager : MonoBehaviour
 
     public void PlayVoice(string path, bool adv = true) { }
 
+    public void PlayADVVoice(string path)
+    {
+        PlayVoice(path, true);
+    }
+
     [DebuggerHidden]
     private IEnumerator DownloadVoice(string path, bool adv)
     {

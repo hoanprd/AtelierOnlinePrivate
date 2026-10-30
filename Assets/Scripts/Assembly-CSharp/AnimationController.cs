@@ -52,7 +52,7 @@ public class AnimationController : MonoBehaviour
 
 	private EAnimState animState;
 
-	private Animation anim
+	public Animation anim
 	{
 		get
 		{
@@ -62,6 +62,16 @@ public class AnimationController : MonoBehaviour
 			}
 			return animData;
 		}
+	}
+
+	public void PlayIn()
+	{
+		PlayInAnimation();
+	}
+
+	public void PlayOut()
+	{
+		PlayOutAnimation();
 	}
 
 	public string PlayAnimationName

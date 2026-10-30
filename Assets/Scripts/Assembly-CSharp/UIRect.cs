@@ -382,6 +382,11 @@ public abstract class UIRect : MonoBehaviour
 
     protected void Start()
     {
+        ForceStart();
+    }
+
+    public void ForceStart()
+    {
         mStarted = true;
         OnInit();
         OnStart();

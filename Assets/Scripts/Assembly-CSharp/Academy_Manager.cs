@@ -98,15 +98,23 @@ public class Academy_Manager : Menu_Base
 
 	public static Academy_Manager GetInst()
 	{
-		return null;
+		return g_scrInst;
 	}
 
 	protected override void Awake()
 	{
+		base.Awake();
+		g_scrInst = this;
+		m_mainStep = eMainStep.First_Init;
 	}
 
 	protected override void OnDestroy()
 	{
+		if (g_scrInst == this)
+		{
+			g_scrInst = null;
+		}
+		base.OnDestroy();
 	}
 
 	private eMusicID GetAcademyBGM()
@@ -116,6 +124,152 @@ public class Academy_Manager : Menu_Base
 
 	protected override void MenuUpdate()
 	{
+		switch (m_mainStep)
+		{
+		case eMainStep.First_Init:
+			NetworkManager.HomeEnter(delegate(HomeEnterResponse res)
+			{
+				m_uiInfo = (res != null) ? res.API : null;
+				m_mainStep = eMainStep.QuestFill_Init;
+			});
+			m_mainStep = eMainStep.First_Wait;
+			break;
+
+		case eMainStep.First_Wait:
+			break;
+
+		case eMainStep.QuestFill_Init:
+			NetworkManager.QuestFill(delegate
+			{
+				m_mainStep = eMainStep.QuestSummary_Init;
+			});
+			m_mainStep = eMainStep.QuestFill_Wait;
+			break;
+
+		case eMainStep.QuestFill_Wait:
+			break;
+
+		case eMainStep.QuestSummary_Init:
+			NetworkManager.QuestSummary(delegate
+			{
+				m_mainStep = eMainStep.TreasureStat_Init;
+			});
+			m_mainStep = eMainStep.QuestSummary_Wait;
+			break;
+
+		case eMainStep.QuestSummary_Wait:
+			break;
+
+		case eMainStep.TreasureStat_Init:
+			NetworkManager.HuntStatus(delegate(HuntStatusResponse res)
+			{
+				m_huntStat = (res != null) ? res.API : null;
+				m_mainStep = eMainStep.FadeI_Init;
+			});
+			m_mainStep = eMainStep.TreasureStat_Wait;
+			break;
+
+		case eMainStep.TreasureStat_Wait:
+			break;
+
+		case eMainStep.FadeI_Init:
+			if (m_launcher != null)
+			{
+				m_launcher.Init(m_commonInfo, m_uiInfo, m_huntStat);
+				m_launcher.Bringin();
+			}
+			SetEnableObjGroup(false, false);
+			LoadingManager.Disable(0.5f);
+			m_mainStep = eMainStep.Tutorial_Init;
+			break;
+
+		case eMainStep.Tutorial_Init:
+			if (StartTutorial())
+			{
+				m_mainStep = eMainStep.Tutorial_Wait;
+			}
+			else
+			{
+				m_mainStep = eMainStep.FrontSide_First;
+			}
+			break;
+
+		case eMainStep.Tutorial_Wait:
+			if (TutorialManager.Instance == null || TutorialManager.Instance.IsEnd())
+			{
+				m_mainStep = eMainStep.FrontSide_First;
+			}
+			break;
+
+		case eMainStep.FrontSide_First:
+			SetEnableObjGroup(true, false);
+			PlayBGM();
+			m_mainStep = eMainStep.FrontSide_Init;
+			break;
+
+		case eMainStep.FrontSide_Init:
+			m_mainStep = eMainStep.FrontSide_Wait;
+			break;
+
+		case eMainStep.FrontSide_Wait:
+			if (m_moveReqFlag)
+			{
+				m_moveReqFlag = false;
+				m_mainStep = eMainStep.BackSide_First;
+			}
+			break;
+
+		case eMainStep.BackSide_First:
+			SetMoveAnime(true);
+			m_mainStep = eMainStep.BackSide_MoveIn;
+			break;
+
+		case eMainStep.BackSide_MoveIn:
+			if (IsFinishd_MoveAnime())
+			{
+				SetEnableObjGroup(false, true);
+				m_mainStep = eMainStep.BackSide_Wait;
+			}
+			break;
+
+		case eMainStep.BackSide_Wait:
+			if (m_moveReqFlag)
+			{
+				m_moveReqFlag = false;
+				m_mainStep = eMainStep.BackSide_MoveOut;
+			}
+			break;
+
+		case eMainStep.BackSide_MoveOut:
+			SetMoveAnime(false);
+			SetEnableObjGroup(true, false);
+			m_mainStep = eMainStep.FrontSide_Wait;
+			break;
+
+		case eMainStep.FadeO_Init:
+			LoadingManager.Enable(0.5f);
+			m_mainStep = eMainStep.FadeO_Wait;
+			break;
+
+		case eMainStep.FadeO_Wait:
+			if (LoadingManager.IsBlackOut)
+			{
+				if (System_MenuManager.GetInst() != null)
+				{
+					System_MenuManager.GetInst().SetMenuRequest(m_nextMenuKind);
+				}
+				m_mainStep = eMainStep.End;
+			}
+			break;
+		}
+	}
+
+	private void PlayBGM()
+	{
+		if (Sound_Manager.GetInst() != null)
+		{
+			Sound_Manager.GetInst().PlayMusic(GetAcademyBGM(), true, 0.5f, false);
+		}
 	}
 
 	private void SetGateData()
@@ -140,23 +294,51 @@ public class Academy_Manager : Menu_Base
 
 	private void SetEnableObjGroup(bool enableFrontSide = false, bool enableBackSide = false)
 	{
+		if (m_frontSideRoot != null)
+		{
+			for (int i = 0; i < m_frontSideRoot.Count; i++)
+			{
+				if (m_frontSideRoot[i] != null)
+				{
+					m_frontSideRoot[i].SetActive(enableFrontSide);
+				}
+			}
+		}
+		if (m_backSideRoot != null)
+		{
+			for (int j = 0; j < m_backSideRoot.Count; j++)
+			{
+				if (m_backSideRoot[j] != null)
+				{
+					m_backSideRoot[j].SetActive(enableBackSide);
+				}
+			}
+		}
 	}
 
 	private void SetMoveAnime(bool front2Back)
 	{
+		if (m_targetAnim != null)
+		{
+			string clipName = front2Back ? "academystay01" : "academystay02";
+			m_targetAnim.Play(clipName);
+		}
 	}
 
 	private bool IsFinishd_MoveAnime()
 	{
-		return false;
+		return m_targetAnim == null || !m_targetAnim.isPlaying;
 	}
 
 	public void SetMove()
 	{
+		m_moveReqFlag = true;
 	}
 
 	public void SetChangeMenuRequest(System_MenuManager.eSystemMenuKind eKind)
 	{
+		m_nextMenuKind = eKind;
+		m_mainStep = eMainStep.FadeO_Init;
 	}
 
 	public void RespawnParty()
@@ -195,34 +377,51 @@ public class Academy_Manager : Menu_Base
 
 	public void CloseLauncher()
 	{
+		if (m_launcher != null)
+		{
+			m_launcher.Close();
+		}
 	}
 
 	public void OpenLauncher()
 	{
+		if (m_launcher != null)
+		{
+			m_launcher.Open();
+		}
 	}
 
 	public bool IsOpenLauncher()
 	{
-		return false;
+		return m_launcher != null;
 	}
 
 	public bool IsEndLauncherAnimation()
 	{
-		return false;
+		return true;
 	}
 
 	private void EndTutorial(eTutorial now, bool success, bool skip)
 	{
+		UnityEngine.Debug.Log("[Academy_Manager] EndTutorial: " + now + " success: " + success);
 	}
 
 	[DebuggerHidden]
 	private IEnumerator PlayTutorial()
 	{
-		return null;
+		yield return null;
 	}
 
 	private bool StartTutorial()
 	{
+		var tutMgr = TutorialManager.Instance;
+		if (tutMgr != null)
+		{
+			if (!tutMgr.GetFlag((eTutorial)0))
+			{
+				return tutMgr.ExecTutorial((eTutorial)0, EndTutorial);
+			}
+		}
 		return false;
 	}
 

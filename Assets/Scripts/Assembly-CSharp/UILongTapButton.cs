@@ -12,6 +12,18 @@ public class UILongTapButton : MonoBehaviour
 
 	public List<EventDelegate> m_sReleaseEvent;
 
+	public List<EventDelegate> onLongTap
+	{
+		get { return m_sLongEvent; }
+		set { m_sLongEvent = value; }
+	}
+
+	public List<EventDelegate> onRelease
+	{
+		get { return m_sReleaseEvent; }
+		set { m_sReleaseEvent = value; }
+	}
+
 	public UITweenReset m_sClickAnim;
 
 	private Stopwatch m_sStopWatch;

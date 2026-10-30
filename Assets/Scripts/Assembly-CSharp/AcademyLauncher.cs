@@ -80,34 +80,72 @@ public class AcademyLauncher : LauncherBase
 
 	public void Init(ResponseDataCommon common, HomeEnter res, HuntStatus hunt)
 	{
+		string name = PlayerPrefs.GetString(GameDefine.sKEY_USERNAME, "Wisteria");
+		if (m_sPlayerName != null)
+		{
+			m_sPlayerName.text = name;
+		}
+		if (m_sPlayerLevel != null)
+		{
+			m_sPlayerLevel.text = "1";
+		}
+		if (m_sAnimInOut != null)
+		{
+			m_sAnimInOut.SetOnEndMethod(gameObject, "DismissEnd");
+		}
 	}
 
 	protected override void OnDestroy()
 	{
+		base.OnDestroy();
 	}
 
 	protected void ReleaseMenu(SpawnPrefabData current)
 	{
+		if (m_sCurrentMenu != null)
+		{
+			m_sCurrentMenu.DestroyObject();
+			m_sCurrentMenu = null;
+		}
 	}
 
 	public void Bringin()
 	{
+		if (m_sAnimInOut != null)
+		{
+			m_sAnimInOut.PlayIn();
+		}
 	}
 
 	public void Dismiss()
 	{
+		if (m_sAnimInOut != null)
+		{
+			m_sAnimInOut.PlayOut();
+		}
+		else
+		{
+			DismissEnd();
+		}
 	}
 
 	private void DismissEnd()
 	{
+		if (m_bGotoShop)
+		{
+			m_bGotoShop = false;
+			OnOpenShop();
+		}
 	}
 
 	public override void Open()
 	{
+		Bringin();
 	}
 
 	public override void Close()
 	{
+		Dismiss();
 	}
 
 	public void OnFloorChange()
@@ -116,6 +154,7 @@ public class AcademyLauncher : LauncherBase
 
 	public override void ForceAllClose()
 	{
+		Dismiss();
 	}
 
 	public void OnInventory()
@@ -136,10 +175,16 @@ public class AcademyLauncher : LauncherBase
 
 	protected override void OnCloseQuest(bool update, int presentNum, bool gotoShop)
 	{
+		m_bGotoShop = gotoShop;
+		Bringin();
 	}
 
 	public override void UpdatePresentBadge()
 	{
+		if (m_sPresentNum != null)
+		{
+			m_sPresentNum.text = "0";
+		}
 	}
 
 	public override void UpdateQuestBadge()
@@ -148,10 +193,19 @@ public class AcademyLauncher : LauncherBase
 
 	public void UpdateTreasureBadge(HuntStatus stat)
 	{
+		if (m_goTreasureComplete != null)
+		{
+			m_goTreasureComplete.SetActive(false);
+		}
 	}
 
 	public void OnOpenShop()
 	{
+		if (m_sShop != null)
+		{
+			m_sCurrentMenu = m_sShop;
+			m_sShop.InstantiateObject();
+		}
 	}
 
 	public void OnOpenGacha()
@@ -164,6 +218,11 @@ public class AcademyLauncher : LauncherBase
 
 	public void OnOpenPresent()
 	{
+		if (m_sPresent != null)
+		{
+			m_sCurrentMenu = m_sPresent;
+			m_sPresent.InstantiateObject();
+		}
 	}
 
 	public void OnOpenNews()
@@ -180,12 +239,16 @@ public class AcademyLauncher : LauncherBase
 
 	public void OnGotoField()
 	{
+		if (Academy_Manager.GetInst() != null)
+		{
+			Academy_Manager.GetInst().SetChangeMenuRequest(System_MenuManager.eSystemMenuKind.Field);
+		}
 	}
 
 	[DebuggerHidden]
 	private IEnumerator API_GateInfo()
 	{
-		return null;
+		yield return null;
 	}
 
 	public void OnPartyMenu()
@@ -194,26 +257,48 @@ public class AcademyLauncher : LauncherBase
 
 	public void OnCloseParty()
 	{
+		Bringin();
 	}
 
 	public void OnOtherMenu()
 	{
+		if (m_sOtherMenu != null)
+		{
+			m_sCurrentMenu = m_sOtherMenu;
+			m_sOtherMenu.InstantiateObject();
+		}
 	}
 
 	private void OnCharaEditExit(bool update)
 	{
+		Bringin();
 	}
 
 	public void OnFairyPick(Action<InventoryList> onClose)
 	{
+		if (m_sFairyPick != null)
+		{
+			m_sCurrentMenu = m_sFairyPick;
+			m_sFairyPick.InstantiateObject();
+		}
 	}
 
 	public void OnTreasure()
 	{
+		if (m_sTreasure != null)
+		{
+			m_sCurrentMenu = m_sTreasure;
+			m_sTreasure.InstantiateObject();
+		}
 	}
 
 	public void OnContainer()
 	{
+		if (m_sContainer != null)
+		{
+			m_sCurrentMenu = m_sContainer;
+			m_sContainer.InstantiateObject();
+		}
 	}
 
 	public void OnMissionWindow()

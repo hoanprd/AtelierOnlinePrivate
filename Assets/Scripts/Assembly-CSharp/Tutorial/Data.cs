@@ -21,22 +21,45 @@ namespace Tutorial
 
 		public string GetParam(int iIndex)
 		{
-			return null;
+			if (strParamList != null && iIndex >= 0 && iIndex < strParamList.Count)
+			{
+				return strParamList[iIndex];
+			}
+			return string.Empty;
 		}
 
 		public int GetParamInt(int iIndex, int iDefault)
 		{
-			return 0;
+			string val = GetParam(iIndex);
+			if (int.TryParse(val, out int result))
+			{
+				return result;
+			}
+			return iDefault;
 		}
 
 		public float GetParamFloat(int iIndex, float fDefault)
 		{
-			return 0f;
+			string val = GetParam(iIndex);
+			if (float.TryParse(val, out float result))
+			{
+				return result;
+			}
+			return fDefault;
 		}
 
 		public bool GetParamBool(int iIndex, bool bDefault)
 		{
-			return false;
+			string val = GetParam(iIndex);
+			if (bool.TryParse(val, out bool result))
+			{
+				return result;
+			}
+			if (int.TryParse(val, out int iVal))
+			{
+				return iVal != 0;
+			}
+			return bDefault;
 		}
 	}
 }

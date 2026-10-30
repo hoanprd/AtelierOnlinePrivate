@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,10 +30,10 @@ namespace ADV
         private string m_sSpeakerName;
         private string m_sContent;
         private int m_iFaceID = -1;
-        private EFeel m_eFeel = EFeel.eDEFAULT;       // Đã chuẩn hóa theo enum gốc
+        private EFeel m_eFeel = EFeel.eDEFAULT;
         private int m_iEmoticonID = -1;
         private string m_sVoPath;
-        private EPosition m_ePos = EPosition.eCENTER; // Đã chuẩn hóa theo enum gốc
+        private EPosition m_ePos = EPosition.eCENTER;
         private float m_fWait;
         private Sound_Loop m_sSE;
         private EStep m_eStep = EStep.None;
@@ -68,12 +68,21 @@ namespace ADV
             SetParam(param);
             m_eStep = EStep.WaitInit;
 
-            if (m_sUI != null)
+            if (m_sUI != null && m_sUI.m_sTalk != null)
             {
-                // Xử lý hiển thị UI hội thoại tại đây
+                m_sUI.m_sTalk.Init(m_sSpeakerName, m_iFaceID, m_eFeel, m_ePos);
+                m_sUI.m_sTalk.Bringin();
+                m_sUI.m_sTalk.SetContent(m_sContent, skip);
             }
 
             PlaySound();
+
+            if (skip)
+            {
+                m_eStep = EStep.End;
+                return true;
+            }
+
             m_eStep = EStep.WaitTap;
             return false;
         }
@@ -82,14 +91,37 @@ namespace ADV
         {
             if (skip)
             {
+                if (m_sUI != null && m_sUI.m_sTalk != null)
+                {
+                    m_sUI.m_sTalk.SetContentSkip();
+                }
                 m_eStep = EStep.End;
                 return true;
             }
 
-            if (m_eStep == EStep.WaitTap && tap)
+            if (m_sUI != null && m_sUI.m_sTalk != null)
             {
-                m_eStep = EStep.End;
-                return true;
+                if (tap)
+                {
+                    if (m_sUI.m_sTalk.IsTextMove)
+                    {
+                        m_sUI.m_sTalk.SetContentSkip();
+                        return false;
+                    }
+                    else
+                    {
+                        m_eStep = EStep.End;
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                if (tap)
+                {
+                    m_eStep = EStep.End;
+                    return true;
+                }
             }
 
             return m_eStep == EStep.End;
@@ -99,18 +131,12 @@ namespace ADV
         {
             if (!string.IsNullOrEmpty(m_sVoPath))
             {
-                // Xử lý phát âm thanh voice
+                var soundManager = Sound_Manager.GetInst();
+                if (soundManager != null)
+                {
+                    soundManager.PlayADVVoice(m_sVoPath);
+                }
             }
-        }
-
-        public override void Skip()
-        {
-            m_eStep = EStep.End;
-        }
-
-        public override int Next(ScriptInfo all, int startIndex, bool skip)
-        {
-            return startIndex + 1;
         }
     }
 }
